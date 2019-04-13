@@ -8,6 +8,8 @@ build/
 build-lin/
 build-win/
 build-mac/
+Debug/
+Release/
 
 # XCode user specific files
 xcuserdata/
