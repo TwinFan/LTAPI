@@ -31,14 +31,15 @@ For this to work you
 - may want to do init/cleanup work in the constructor and destructor,
 - may want to override `virtual bool updateAircraft()` so that you can do some own work whenever a/c information changes,
 - must provide a callback for creating new empty objects when `LTAPIConnect::UpdateAcList()` finds a new aircraft in the sky.
+- most likely want to handle the list of removed aircrafts (before they are destroyed) similar to what `LoopCBUpdateAcListEnhanced` does.
 
 All the rest of the code deals with the example, which is: The class `EnhAircraft` also manages the line number in the output display, i.e. once it found a line it stays there. Also allows to show text "---removed---" for some time when a/c was removed.
 
 ## Building the Example
 
 - Mac: Open the XCode project `LTAPI.xcodeproj`. There might be paths you way want to check...especially the path the resulting plugin is copied to after build (Targets > Build Phases > Copy Files).
-- Windows: Open the Visual Studio solution `LTAPI.sln`. Also here you might need to check directories. There is a copy command to my X-Plane installation in the _Post Build Event_.
-- Linux: As I don't have a Linux environment myself I provide a Docker environment to build the Linux version, which I have not tested yet. Can't even say if it starts.
+- Windows: Open the Visual Studio solution `LTAPI.sln`. Also here you might need to check directories. There is a copy command to my X-Plane installation in the _Post Build Event_. (Build directories are a bit ugly at the moment, too...)
+- Linux: As I don't have a Linux environment myself I provide a Docker environment to build the Linux version based on a `CMakeList`, which I have not tested yet. Can't even say if it starts.
     - You need [Docker](https://www.docker.com/get-started)
     - `cd docker`
     - `make`
