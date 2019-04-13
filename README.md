@@ -37,7 +37,12 @@ All the rest of the code deals with the example, which is: The class `EnhAircraf
 ## Building the Example
 
 - Mac: Open the XCode project `LTAPI.xcodeproj`. There might be paths you way want to check...especially the path the resulting plugin is copied to after build (Targets > Build Phases > Copy Files).
+- Windows: Open the Visual Studio solution `LTAPI.sln`. Also here you might need to check directories. There is a copy command to my X-Plane installation in the _Post Build Event_.
 - Linux: As I don't have a Linux environment myself I provide a Docker environment to build the Linux version, which I have not tested yet. Can't even say if it starts.
     - You need [Docker](https://www.docker.com/get-started)
     - `cd docker`
     - `make`
+
+## What is looks like
+
+![LTAPI Example Screenshot](Example/LTAPIExample.png)
