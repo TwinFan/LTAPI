@@ -234,6 +234,12 @@ public:
     // How many of them right now?
     static int getLTNumAc ();
     // Does it (also) control AI planes?
+    // NOTE: If your plugin usually deals with AI/multiplayer planes,
+    //       then you don't need to check for AI/multiplayer planes if
+    //       doesLTControlAI is true: In this case the planes returned in the
+    //       AI/multiplayer dataRefs are just a subset selected by LiveTraffic
+    //       of what you get via LTAPI anyway. Avoid duplicates, just use LTAPI
+    //       if doesLTControlAI.
     static bool doesLTControlAI ();
     // What's current simulated time in LiveTraffic (usually 'now' minus buffering period)?
     static time_t getLTSimTime ();
