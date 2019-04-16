@@ -2,7 +2,7 @@
 set -e
 
 function build() {
-  local src_dir="$1"
+  local src_dir="$1/Example"
   local complete_edition="$2"
   local platform="$3"
   echo "----------------- Building for $platform -----------------"

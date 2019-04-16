@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2536422022160982000DC56F /* LTAPIExample.xpl in CopyFiles */ = {isa = PBXBuildFile; fileRef = D607B19909A556E400699BC3 /* LTAPIExample.xpl */; };
-		256A68F7225BD70F00F029EC /* LTAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256A68F6225BD70F00F029EC /* LTAPI.cpp */; };
-		25831F2B2258D020002398D2 /* LTAPIExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25831F2A2258D020002398D2 /* LTAPIExample.cpp */; };
+		254CCAB322666C2A003878B1 /* LTAPIExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 254CCAB222666C2A003878B1 /* LTAPIExample.cpp */; };
+		254CCAB522666C3A003878B1 /* LTAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 254CCAB422666C3A003878B1 /* LTAPI.cpp */; };
 		25831F2E2258D08B002398D2 /* XPWidgets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25831F2C2258D08B002398D2 /* XPWidgets.framework */; };
 		25831F2F2258D08B002398D2 /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25831F2D2258D08B002398D2 /* XPLM.framework */; };
 		D6A7BDAA16A1DEA200D1426A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A7BDA916A1DEA200D1426A /* OpenGL.framework */; };
@@ -30,10 +30,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		256A68F6225BD70F00F029EC /* LTAPI.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LTAPI.cpp; sourceTree = "<group>"; };
-		256A68F8225BD74A00F029EC /* LTAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LTAPI.h; sourceTree = "<group>"; };
-		2571DFBC226295BD008B084B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		25831F2A2258D020002398D2 /* LTAPIExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LTAPIExample.cpp; sourceTree = "<group>"; };
+		254CCAB222666C2A003878B1 /* LTAPIExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LTAPIExample.cpp; sourceTree = "<group>"; };
+		254CCAB422666C3A003878B1 /* LTAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LTAPI.cpp; path = ../LTAPI.cpp; sourceTree = "<group>"; };
+		254CCAB622666C52003878B1 /* LTAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LTAPI.h; path = ../LTAPI.h; sourceTree = "<group>"; };
 		25831F2C2258D08B002398D2 /* XPWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XPWidgets.framework; path = Lib/XPSDK301/Libraries/Mac/XPWidgets.framework; sourceTree = "<group>"; };
 		25831F2D2258D08B002398D2 /* XPLM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XPLM.framework; path = Lib/XPSDK301/Libraries/Mac/XPLM.framework; sourceTree = "<group>"; };
 		D607B19909A556E400699BC3 /* LTAPIExample.xpl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = LTAPIExample.xpl; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,21 +55,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		25831F292258D020002398D2 /* Example */ = {
-			isa = PBXGroup;
-			children = (
-				25831F2A2258D020002398D2 /* LTAPIExample.cpp */,
-			);
-			path = Example;
-			sourceTree = "<group>";
-		};
 		D607B15F09A5563000699BC3 = {
 			isa = PBXGroup;
 			children = (
-				2571DFBC226295BD008B084B /* CMakeLists.txt */,
-				256A68F8225BD74A00F029EC /* LTAPI.h */,
-				256A68F6225BD70F00F029EC /* LTAPI.cpp */,
-				25831F292258D020002398D2 /* Example */,
+				254CCAB622666C52003878B1 /* LTAPI.h */,
+				254CCAB422666C3A003878B1 /* LTAPI.cpp */,
+				254CCAB222666C2A003878B1 /* LTAPIExample.cpp */,
 				D6A7BDAD16A1DEA700D1426A /* Frameworks */,
 				D607B19A09A556E400699BC3 /* Products */,
 			);
@@ -146,8 +136,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				256A68F7225BD70F00F029EC /* LTAPI.cpp in Sources */,
-				25831F2B2258D020002398D2 /* LTAPIExample.cpp in Sources */,
+				254CCAB522666C3A003878B1 /* LTAPI.cpp in Sources */,
+				254CCAB322666C2A003878B1 /* LTAPIExample.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +195,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					..,
 					"$(XPSDK_ROOT)/CHeaders/Widgets",
 					"$(XPSDK_ROOT)/CHeaders/XPLM",
 					"$(HEADER_SEARCH_PATHS)",
@@ -279,6 +270,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					..,
 					"$(XPSDK_ROOT)/CHeaders/Widgets",
 					"$(XPSDK_ROOT)/CHeaders/XPLM",
 					"$(HEADER_SEARCH_PATHS)",

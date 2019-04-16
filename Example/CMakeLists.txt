@@ -12,8 +12,8 @@ endif ()
 set(CMAKE_CXX_STANDARD 11)
 
 # Set include directories used by our code and dependencies.
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/..")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/Example")
 include_directories("${CMAKE_SOURCE_DIR}/Lib/XPSDK301/CHeaders/Widgets")
 include_directories("${CMAKE_SOURCE_DIR}/Lib/XPSDK301/CHeaders/Wrappers")
 include_directories("${CMAKE_SOURCE_DIR}/Lib/XPSDK301/CHeaders/XPLM")
@@ -32,9 +32,9 @@ endif ()
 # message (STATUS "CMAKE_LIBRARY_PATH" = ${CMAKE_LIBRARY_PATH})
 
 # # Enable all X-Plane SDK APIs up to the newest version.
-# add_definitions(-DXPLM200=1 -DXPLM210=1 -DXPLM300=1 -DXPLM301=1)
-# Enable X-Plane 10 SDK APIs
-add_definitions(-DXPLM200=1 -DXPLM210=1)
+add_definitions(-DXPLM200=1 -DXPLM210=1 -DXPLM300=1 -DXPLM301=1)
+# Enable X-Plane 10 SDK APIs only:
+# add_definitions(-DXPLM200=1 -DXPLM210=1)
 # Define platform macros.
 add_definitions(-DAPL=$<BOOL:${APPLE}> -DIBM=$<BOOL:${WIN32}> -DLIN=$<AND:$<BOOL:${UNIX}>,$<NOT:$<BOOL:${APPLE}>>>)
 
@@ -60,12 +60,13 @@ add_compile_options(-O3 -fPIC)
 # Source groups
 ################################################################################
 set(Header_Files
+    ../LTAPI.h
 )
 source_group("Header Files" FILES ${Header_Files})
 
 set(Source_Files
-    LTAPI.cpp
-    Example/LTAPIExample.cpp
+    ../LTAPI.cpp
+    LTAPIExample.cpp
 )
 source_group("Source Files" FILES ${Source_Files})
 
@@ -172,7 +173,7 @@ elseif (APPLE)
     # Restrict set of symbols exported from the plugin. This reduces changes of
     # conflict with other plugins, in particular ones with Lua interpreter
     # embedded.
-    target_link_libraries(LT_API "-exported_symbols_list ${CMAKE_SOURCE_DIR}/Example/LTAPIExample.sym_mac")
+    target_link_libraries(LT_API "-exported_symbols_list ${CMAKE_SOURCE_DIR}/LTAPIExample.sym_mac")
 	target_link_libraries(LT_API "-framework XPLM -framework XPWidgets -ldl")
 elseif (UNIX)
     # Specify additional runtime search laths for dynamically-linked libraries.
@@ -185,16 +186,16 @@ elseif (UNIX)
 #    find_library(XPLANEMP_LIBRARY NAMES libxplanemp.a)
 #    target_link_libraries(LT_API ${XPLANEMP_LIBRARY})
 
-    target_link_libraries(LT_API -Wl,--version-script -Wl,${CMAKE_SOURCE_DIR}/Example/LTAPIExample.sym)
+    target_link_libraries(LT_API -Wl,--version-script -Wl,${CMAKE_SOURCE_DIR}/LTAPIExample.sym)
 endif ()
 
 set_target_properties(LT_API PROPERTIES PREFIX "")
 if (WIN32)
-   set_target_properties(LT_API PROPERTIES OUTPUT_NAME "win")
+   set_target_properties(LT_API PROPERTIES OUTPUT_NAME "LTAPIExample-win")
 elseif (APPLE)
-   set_target_properties(LT_API PROPERTIES OUTPUT_NAME "mac")
+   set_target_properties(LT_API PROPERTIES OUTPUT_NAME "LTAPIExample-mac")
 elseif (UNIX)
-   set_target_properties(LT_API PROPERTIES OUTPUT_NAME "lin")
+   set_target_properties(LT_API PROPERTIES OUTPUT_NAME "LTAPIExample-lin")
 endif ()
 set_target_properties(LT_API PROPERTIES SUFFIX ".xpl")
 
