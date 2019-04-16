@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Example\LTAPIExample.cpp" />
-    <ClCompile Include="LTAPI.cpp" />
+    <ClCompile Include="..\LTAPI.cpp" />
+    <ClCompile Include="LTAPIExample.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <SccProjectName />
@@ -72,14 +72,10 @@
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(ProjectDir);Lib\XPSDK301\CHeaders\Widgets;Lib\XPSDK301\CHeaders\XPLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;$(ProjectDir);Lib\XPSDK301\CHeaders\Widgets;Lib\XPSDK301\CHeaders\XPLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;IBM=1;XPLM200=1;XPLM210=1;XPLM300=1;XPLM301=1;_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Release\64\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <ObjectFileName>.\Release\64\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Release\64\</ProgramDataBaseFileName>
       <StructMemberAlignment>Default</StructMemberAlignment>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PrecompiledHeaderFile />
@@ -97,14 +93,12 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Release\Hello-World-SDK-3.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <SubSystem>Console</SubSystem>
-      <ImportLibrary>.\Release\64\Hello-World-SDK-3.lib</ImportLibrary>
-      <AdditionalLibraryDirectories>..\Libs\$(Configuration);Lib\XPSDK301\Libraries\Win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>Lib\XPSDK301\Libraries\Win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>XPLM_64.lib</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
     </Link>
@@ -126,14 +120,10 @@
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(ProjectDir);Lib\XPSDK301\CHeaders\Widgets;Lib\XPSDK301\CHeaders\XPLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;$(ProjectDir);Lib\XPSDK301\CHeaders\Widgets;Lib\XPSDK301\CHeaders\XPLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;IBM=1;XPLM200=1;XPLM210=1;XPLM300=1;XPLM301=1;_CRT_SECURE_NO_WARNINGS;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Debug\64\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <ObjectFileName>.\Debug\64\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Debug\64\</ProgramDataBaseFileName>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <StructMemberAlignment>Default</StructMemberAlignment>
       <PrecompiledHeaderFile />
@@ -158,8 +148,7 @@
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <ImportLibrary>.\Debug\64\Hello-World-SDK-3.lib</ImportLibrary>
-      <AdditionalLibraryDirectories>..\Libs\$(Configuration);Lib\XPSDK301\Libraries\Win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>Lib\XPSDK301\Libraries\Win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>XPLM_64.lib</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <Profile>true</Profile>
