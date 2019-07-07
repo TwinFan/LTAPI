@@ -1,6 +1,7 @@
 # LTAPI
 API to access LiveTraffic's aircraft information.
 Data transfer from LiveTraffic to your plugin is by dataRefs in a fast, efficient way: LiveTraffic copies data of several planes combined into defined structures. LTAPI handles all that in the background and provides you with an array of aircraft information with numerical info like position, heading, speed and textual info like type, registration, call sign, flight number.
+**Note:** This efficient bulk transfer interface is implemented with LiveTraffic v1.20 only. Earlier versions will not deliver any aircraft data.
 
 ## LTAPI files
 
