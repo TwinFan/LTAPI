@@ -34,38 +34,67 @@
 // MARK: Globals
 //
 
+/// LiveTraffic's plugin signature
 #define LT_PLUGIN_SIGNATURE     "TwinFan.plugin.LiveTraffic"
 
 // The following macros define dataRef access statically,
 // then assign its current value to the passed-in variable:
-#define ASSIGN_DR(var,dataRef,type)                             \
-static LTDataRef DR##var(dataRef);                              \
-var = DR##var.get##type();
 
+/// @brief Defines static object to access dataRef and fetches its value into `var`
+/// @param var Variable receiving current dataRef's value
+/// @param drName Name to be used for static variable, prepended with "DR"
+/// @param dataRef Name of dataRef as C string
+/// @param type Type of dataRef like Int, Float, Byte
 #define ASSIGN_DR_NAME(var,drName,dataRef,type)                 \
 static LTDataRef DR##drName(dataRef);                           \
 var = DR##drName.get##type();
 
+/// @brief Defines static object `LTDataRef` to access dataRef and `return`s its current value
+/// @param dataRef Name of dataRef as C string
+/// @param type Type of dataRef like Int, Float, Byte
 #define RETURN_DR(dataRef,type)                                 \
 static LTDataRef DR(dataRef);                                   \
 return DR.get##type();
 
+/// Set last element of array = `0`, meant to ensure zero-termination of C strings
+#define ZERO_TERM(str) str[sizeof(str)-1] = 0
+
 namespace LTAPI {
-    // kinda inverse for gmtime, i.e. convert struct tm to time_t in ZULU timezone
+    /// @brief Inverse for gmtime, i.e. converts `struct tm` to `time_t` in ZULU timezone
+    /// @param _Tm Date/time structure to convert
+    /// @return Same Date/time, converted to `time_t`in ZULU timezone
     time_t timegm(struct tm* _Tm)
     {
-        time_t t = mktime(_Tm);
+        time_t t = mktime(_Tm); 
         return t + (mktime(localtime(&t)) - mktime(gmtime(&t)));
     }
     
-    // read the current a/c key from LiveTraffic and return it
-    // both as hex string and as digital number
-    std::string readKey (unsigned& keyNum)
+    /// @brief Fairly fast conversion to hex string.
+    /// @param n The number to convert
+    /// @param minChars (optional, defaults to 6) minimum number of hex digits, pre-filled with `0
+    /// @return Upper-case hex string with at least `minDigits` characters
+    ///
+    /// Idea is taken from `std::to_chars` implementation available with C++ 17
+    std::string hexStr (uint64_t n, unsigned minChars = 6)
     {
-        ASSIGN_DR(keyNum, "livetraffic/ac/key", Int);
-        char buf[20];                   // convert to upper case hex string
-        snprintf(buf, sizeof(buf), "%06X", keyNum);
-        return buf;
+        char buf[11] = {0,0,0,0,0,0,0,0,0,0,0};
+        char* last = buf + sizeof(buf)-2;       // we keep one last zero for zero-termination!
+        while (last != buf)
+        {
+            auto c = n % 16;                    // digit to convert
+            *--last = "0123456789ABCDEF"[c];    // sets the digit and decrements the pointer
+            n /= 16;                            // remainder for next cycle
+            if (n == 0)                         // nothing left -> done
+            {
+                // some more leading zeroes needed?
+                if (minChars > sizeof(buf)-1)
+                    minChars = sizeof(buf)-1;
+                while (buf + sizeof(buf)-1 - minChars < last)
+                    *--last = '0';
+                return last;
+            }
+        }
+        return "-OVFL-";                        // overflow
     }
 }
 
@@ -81,65 +110,111 @@ LTAPIAircraft::LTAPIAircraft()
 LTAPIAircraft::~LTAPIAircraft()
 {}
 
+/// Puts together a string if at max 3 compontens:
+/// 1. an identifier (flight number, call sign, key)
+/// 2. a/c type (model ICAO, model human readble)
+/// 3. origin/destination
+/// @return Description of aircraft useful as label
+std::string LTAPIAircraft::getDescription() const
+{
+    std::string ret;
+    
+    // 1. identifier
+    if (info.flightNumber[0])
+        ret = info.flightNumber;
+    else if (info.callSign[0])
+        ret = info.callSign;
+    else
+        ret = key;
+    
+    // 2. a/c type
+    if (info.modelIcao[0]) {
+        ret += " (";
+        ret += info.modelIcao;
+        ret += ')';
+    }
+    else if (info.model[0]) {
+        ret += " (";
+        ret += info.model;
+        ret += ')';
+    }
+    
+    // 3. origin/destination
+    if (info.origin[0] || info.destination[0]) {
+        ret += info.origin[0] ? info.origin : "?";
+        ret += "-";
+        ret += info.destination[0] ? info.destination : "?";
+    }
+    
+    return ret;
+}
+
 // Main function: Updates an aircraft from LiveTraffic's dataRefs
 
-bool LTAPIAircraft::updateAircraft()
+/// Copies the provided `bulk` data and sets `bUpdated` to `true`
+/// if the provided data matches this aircraft.
+/// @note This function can _set_ this object's `key` for the first and only time.
+bool LTAPIAircraft::updateAircraft(const LTAPIBulkData& __bulk)
 {
-    int i = 0;
-    
-    // key is special: Let's first verify we want to overwrite our current values
-    unsigned currKey = 0;
-    std::string currKeyS = LTAPI::readKey(currKey);
     // first time init of this LTAPIAircraft object?
     if (key.empty()) {
         // yes, so we accept the offered aircraft as ours now:
-        keyNum = currKey;
-        key = currKeyS;
+        keyNum = (unsigned)__bulk.keyNum;
+        key = LTAPI::hexStr(__bulk.keyNum);
     } else {
         // our key isn't empty, so we continue only if the aircraft offered
         // is the same!
-        if (currKey != keyNum)
+        if (__bulk.keyNum != keyNum)
             return false;
     }
     
-    // aircraft model/operator
-    // flight data
-    // position, attitude
-    ASSIGN_DR(lat,              "livetraffic/ac/lat",           Float);
-    ASSIGN_DR(lon,              "livetraffic/ac/lon",           Float);
-    ASSIGN_DR(alt_ft,           "livetraffic/ac/alt",           Float);
-    ASSIGN_DR(heading,          "livetraffic/ac/heading",       Float);
-    track = heading;
-    ASSIGN_DR(roll,             "livetraffic/ac/roll",          Float);
-    ASSIGN_DR(pitch,            "livetraffic/ac/pitch",         Float);
-    ASSIGN_DR(speed_kn,         "livetraffic/ac/speed",         Float);
-    ASSIGN_DR(vsi_ft,           "livetraffic/ac/vsi",           Float);
-    ASSIGN_DR(terrainAlt_ft,    "livetraffic/ac/terrain_alt",   Float);
-    ASSIGN_DR(height_ft,        "livetraffic/ac/height",        Float);
-    ASSIGN_DR(onGnd,            "livetraffic/ac/on_gnd",        Bool);
-    ASSIGN_DR(i,                "livetraffic/ac/phase",         Int);
-    phase = (LTFlightPhase)i;
-    // configuration
-    ASSIGN_DR(flaps,            "livetraffic/ac/flaps",         Float);
-    ASSIGN_DR(gear,             "livetraffic/ac/gear",          Float);
-    ASSIGN_DR_NAME(lights.beacon,   LBeacon,    "livetraffic/ac/lights/beacon", Bool);
-    ASSIGN_DR_NAME(lights.strobe,   LStrobe,    "livetraffic/ac/lights/strobe", Bool);
-    ASSIGN_DR_NAME(lights.nav,      LNav,       "livetraffic/ac/lights/nav",    Bool);
-    ASSIGN_DR_NAME(lights.landing,  LLanding,   "livetraffic/ac/lights/landing",Bool);
-    lights.taxi = lights.landing;
-    // simulation
-    ASSIGN_DR(bearing,          "livetraffic/ac/bearing",       Float);
-    ASSIGN_DR(dist_nm,          "livetraffic/ac/dist",          Float);
+    // just copy the data
+    bulk = __bulk;
     
     // has been updated
     bUpdated = true;
     return true;
 }
 
-// return a human readable string for current flight phase
+/// Copies the provided `info` data and sets `bUpdated` to `true`
+/// if the provided data matches this aircraft.
+/// @note This function will never overwrite `key`!
+///       A new LTAPIAircraft object will always receive a call to
+///       the above version (with `LTAPIBulkData`) first before receiving
+///       a call to this version (with `LTAPIBulkInfoTexts`).
+bool LTAPIAircraft::updateAircraft(const LTAPIBulkInfoTexts& __info)
+{
+    // We continue only if the aircraft offered
+    // is the same as we represent!
+    if (__info.keyNum != keyNum)
+        return false;
+    
+    // just copy the data
+    info = __info;
+
+    // We don't trust nobody, so we make sure that the C strings are zero-terminated
+    ZERO_TERM(info.registration);
+    ZERO_TERM(info.modelIcao);
+    ZERO_TERM(info.acClass);
+    ZERO_TERM(info.opIcao);
+    ZERO_TERM(info.man);
+    ZERO_TERM(info.model);
+    ZERO_TERM(info.op);
+    ZERO_TERM(info.callSign);
+    ZERO_TERM(info.squawk);
+    ZERO_TERM(info.flightNumber);
+    ZERO_TERM(info.origin);
+    ZERO_TERM(info.destination);
+    
+    // has been updated
+    bUpdated = true;
+    return true;
+}
+
+/// @return Human readable string for current flight phase
 std::string LTAPIAircraft::getPhaseStr () const
 {
-    switch (phase) {
+    switch (bulk.bits.phase) {
         case FPH_UNKNOWN:           return "Unknown";
         case FPH_TAXI:              return "Taxi";
         case FPH_TAKE_OFF:          return "Take Off";
@@ -166,8 +241,13 @@ std::string LTAPIAircraft::getPhaseStr () const
 // MARK: LTAPIConnect
 //
 
-LTAPIConnect::LTAPIConnect(fCreateAcObject* _pfCreateAcObject) :
-pfCreateAcObject(_pfCreateAcObject)
+LTAPIConnect::LTAPIConnect(fCreateAcObject* _pfCreateAcObject, int numBulkAc) :
+pfCreateAcObject(_pfCreateAcObject),
+// clamp numBulkAc between 1 and 100
+iBulkAc(numBulkAc < 1 ? 1 : numBulkAc > 100 ? 100 : numBulkAc),
+// reserve memory for bulk data transfer from LiveTraffic
+vBulkNum (new LTAPIAircraft::LTAPIBulkData[iBulkAc]),
+vInfoTexts(new LTAPIAircraft::LTAPIBulkInfoTexts[iBulkAc])
 {}
 
 LTAPIConnect::~LTAPIConnect()
@@ -228,22 +308,18 @@ std::chrono::system_clock::time_point LTAPIConnect::getLTSimTimePoint ()
 }
 
 
-// Main function: updates map of aircrafts and returns reference to it.
-// If you want to know which a/c are removed during this call then pass
-// a ListLTAPIAircraft object; LTAPI will transfer otherwise removed
-// objects there and management of them is then up to you.
-// (LTAPI will only _emplace_back_ to the list, not remove anything.)
 const MapLTAPIAircraft& LTAPIConnect::UpdateAcList (ListLTAPIAircraft* plistRemovedAc)
 {
-    // this is an input/output dataRef in LiveTraffic,
-    // with which we control which aircraft we want to read.
-    static LTDataRef DRAcKey("livetraffic/ac/key");
+    // These are the bulk input/output dataRefs in LiveTraffic,
+    // with which we fetch mass data from LiveTraffic
+    static LTDataRef DRquick("livetraffic/bulk/quick");
+    static LTDataRef DRexpsv("livetraffic/bulk/expensive");
 
     // a few sanity checks...without LT displaying aircrafts
     // and access to ac/key there is nothing to do.
     // (Calling doesLTDisplayAc before calling any other dataRef
     //  makes sure we only try accessing dataRefs when they are available.)
-    int numAc = isLTAvail() && doesLTDisplayAc() && DRAcKey.isValid() ? getLTNumAc() : 0;
+    const int numAc = isLTAvail() && doesLTDisplayAc() && DRquick.isValid() && DRexpsv.isValid() ? getLTNumAc() : 0;
     if (numAc <= 0) {
         // does caller want to know about removed aircrafts?
         if (plistRemovedAc)
@@ -262,23 +338,24 @@ const MapLTAPIAircraft& LTAPIConnect::UpdateAcList (ListLTAPIAircraft* plistRemo
     for (MapLTAPIAircraft::value_type& p: mapAc)
         p.second->resetUpdated();
     
-    // Now we just loop over all aircrafts one by one
-    for (int n = 1; n <= numAc; n++) {
-        // Tell LiveTraffic which aircraft we want to read next
-        DRAcKey.set(n);
-        // read back the key, which now is a unique identifier
-        unsigned keyNum = 0;
-        std::string keyS = LTAPI::readKey(keyNum);
-        // Is there an aircraft in the map already for this key?
-        MapLTAPIAircraft::iterator iter = mapAc.find(keyS);
-        if (iter == mapAc.end())
-            // creates a new object calling the provided function to create new objects
-            iter = mapAc.emplace(keyS, pfCreateAcObject()).first;
-        // update the aircraft object with values from LiveTraffic
-        iter->second->updateAircraft();
+    // *** Read bulk info from LiveTraffic ***
+    
+    // Always do the rather fast call for numeric data
+    int sizeLTStruct = 0;                     // not yet used, will become important once different versions exist
+    if (DoBulkFetch<LTAPIAircraft::LTAPIBulkData>(numAc, DRquick, sizeLTStruct,
+                                                  vBulkNum) ||
+        // do the expensive call for textual data if the above one added new objects, OR
+        // if 3 seconds have passed since the last call
+        std::chrono::steady_clock::now() - lastExpsvFetch > sPeriodExpsv)
+    {
+        // expensive call for textual data
+        sizeLTStruct = 0;
+        DoBulkFetch<LTAPIAircraft::LTAPIBulkInfoTexts>(numAc, DRexpsv, sizeLTStruct,
+                                                       vInfoTexts);
+        lastExpsvFetch = std::chrono::steady_clock::now();
     }
-
-    // Now handle aircrafts in our map, which did _not_ get updated
+        
+    // ***  Now handle aircrafts in our map, which did _not_ get updated ***
     for (MapLTAPIAircraft::iterator iter = mapAc.begin();
          iter != mapAc.end();
          /* no loop increment*/)
@@ -302,6 +379,64 @@ const MapLTAPIAircraft& LTAPIConnect::UpdateAcList (ListLTAPIAircraft* plistRemo
 }
 
 
+
+// fetch bulk data and create/update aircraft objects
+template <class T>
+bool LTAPIConnect::DoBulkFetch (int numAc, LTDataRef& DR, int& outSizeLT,
+                                std::unique_ptr<T[]> &vBulk)
+{
+    // later return value: Did we add any new objects?
+    bool ret = false;
+    
+    // Size negotiation first (we need to do that before _every_ call
+    // because in theory there could be another plugin using a different
+    // version of LTAPI doing calls before or after us).
+    // Array element size will always be set by LTAPI.
+    // The return value (size filled by LT) will become important once
+    // size _can_ differ at all and we need to cater for LTAPI being
+    // bigger than what LT fills. Not yet possible as this is the
+    // initial version on both sides. So we don't yet use the result.
+    outSizeLT = DR.getData(NULL, 0, sizeof(T));
+    
+    // outer loop: get bulk data (iBulkAc number of a/c per request) from LT
+    for (int ac = 0;
+         ac < numAc;
+         ac += iBulkAc)
+    {
+        // get a bulk of data from LiveTraffic
+        // (std::min(...iBulkAc) makes sure we don't exceed our array)
+        const int acRcvd = std::min (DR.getData(vBulk.get(),
+                                                ac * sizeof(T),
+                                                iBulkAc * sizeof(T)) / int(sizeof(T)),
+                                     iBulkAc);
+        
+        // inner loop: copy the received data into the aircraft objects
+        for (int i = 0; i < acRcvd; i++)
+        {
+            const T& bulk = vBulk[i];
+            
+            // try to find the matching aircraft object in out map
+            const std::string key = LTAPI::hexStr(bulk.keyNum);
+            MapLTAPIAircraft::iterator iter = mapAc.find(key);
+            if (iter == mapAc.end())            // didn't find, need new one
+            {
+                // create a new aircraft object
+                assert(pfCreateAcObject);
+                iter = mapAc.emplace(key, pfCreateAcObject()).first;
+                // tell call we added new objects
+                ret = true;
+            }
+            
+            // copy the bulk data
+            assert(iter != mapAc.end());
+            iter->second->updateAircraft(bulk);
+        } // inner loop processing received bulk data
+    } // outer loop fetching bulk data from LT
+    
+    return ret;
+}
+
+
 //
 // MARK: LTDataRef
 //
@@ -311,6 +446,7 @@ sDataRef(_sDataRef)
 {}
 
 // Found the dataRef and it contains formats we can work with?
+/// @note Not const! Will call FindDataRef() to try becoming valid.
 bool LTDataRef::isValid ()
 {
     if (needsInit()) FindDataRef();
@@ -336,6 +472,12 @@ float LTDataRef::getFloat()
 {
     if (needsInit()) FindDataRef();
     return XPLMGetDataf(dataRef);
+}
+
+int LTDataRef::getData(void* pOut, int inOffset, int inMaxBytes)
+{
+    if (needsInit()) FindDataRef();
+    return XPLMGetDatab(dataRef, pOut, inOffset, inMaxBytes);
 }
 
 void LTDataRef::set(int i)

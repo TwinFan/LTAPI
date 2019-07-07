@@ -65,6 +65,7 @@ static XPLMWindowID g_winEnhanced = NULL;
 float COL_WHITE[3]    = {1.00f, 1.00f, 1.00f};
 float COL_YELLOW[3]   = {1.00f, 1.00f, 0.00f};
 float COL_GREY[3]     = {0.75f, 0.75f, 0.75f};
+float COL_CYAN[3]     = {0.50f, 1.00f, 1.00f};
 
 // Callbacks we will register when we create our window
 void				draw_list_simple(XPLMWindowID in_window_id, void * in_refcon);
@@ -142,6 +143,7 @@ PLUGIN_API int XPluginStart(
     // put it below the simple window:
     params.top  = params.bottom - 20;
     params.bottom = params.top - 200;           // height: 200
+    params.right = params.left + 700;           // width: 670
 
     // use the drawing function for the enhanced example
     params.drawWindowFunc = draw_list_enhanced;
@@ -276,7 +278,7 @@ void	draw_list_simple(XPLMWindowID in_window_id, void * /*in_refcon*/)
 // i.e. once it found a line it stays there.
 // Also allows to show text "---removed---" for some time when a/c was removed
 //
-constexpr int MAX_LN = 15;
+constexpr int MAX_LN = 50;
 
 class EnhAircraft : public LTAPIAircraft
 {
@@ -295,10 +297,10 @@ public:
     EnhAircraft();
     virtual ~EnhAircraft();
     // we add some simplistic logic to derive a line number for output
-    virtual bool updateAircraft();
+    virtual bool updateAircraft(const LTAPIBulkData& __bulk);
     static EnhAircraft* lnTaken[MAX_LN];
     // we move the ability to output a line into this class
-    void DrawOutput(int x, int y);
+    void DrawOutput(int x, int y, int r, int b);
     // this creates a new EnhAircraft object
     static LTAPIAircraft* CreateNewObject() { return new EnhAircraft(); }
 };
@@ -321,10 +323,10 @@ EnhAircraft::~EnhAircraft()
         lnTaken[ln] = nullptr;
 }
 
-bool EnhAircraft::updateAircraft()
+bool EnhAircraft::updateAircraft(const LTAPIBulkData& __bulk)
 {
     // first we call the LTAPI do fetch (updated) data for the a/c
-    if (!LTAPIAircraft::updateAircraft())
+    if (!LTAPIAircraft::updateAircraft(__bulk))
         return false;
     
     // then we do our own logic
@@ -348,40 +350,68 @@ bool EnhAircraft::updateAircraft()
 }
 
 // we move the ability to output a line into this class
-void EnhAircraft::DrawOutput(int x, int y)
+
+// Draw a C string with a given pixel length (simplified)
+#define DRAW_C(w,s,fnt)                                     \
+if (x+w > r) return;                                        \
+XPLMDrawString(col,x,y,s,NULL,fnt);                         \
+x += w
+
+// Draw a constant text with a given pixel length (simplified)
+#define DRAW_T(w,s,fnt)                                         \
+strcpy(buf,s);              \
+DRAW_C(w,buf,fnt)
+
+// Draw a std::string with a given pixel length (simplified)
+#define DRAW_S(w,s)                                         \
+strcpy(buf,s.substr(0,sizeof(buf)-1).c_str());              \
+DRAW_C(w,buf,xplmFont_Proportional)
+
+// Draw a double with a given pixel length (simplified)
+#define DRAW_N(w,n,dig,dec)                                 \
+snprintf(buf,sizeof(buf),"%*.*f",dig,dec,n);                \
+DRAW_C(w,buf,xplmFont_Basic)
+
+void EnhAircraft::DrawOutput(int x, int y, int r, int)
 {
     char buf[500];
     if (dispStatus == ED_SHOWN || dispStatus == ED_NONE)
     {
-        // put together some information about the a/c
-        snprintf(buf, sizeof(buf),
-                 "%s (%s) %6.3f%c %6.3f%c %5.0fft %03.0f° %3.0fkn - %s",
-                 getKey().c_str(),
-                 getModelIcao().c_str(),
+        float* const col = dispStatus == ED_NONE ? COL_YELLOW : COL_WHITE;
+
+        // write output in more or less well aligned colums
+        DRAW_S(55, getRegistration());
+        DRAW_S(60, getCallSign());
+        DRAW_S(60, getFlightNumber());
+        DRAW_S(40, getOrigin());
+        DRAW_S(50, getDestination());
+        DRAW_S(40, getModelIcao());
+        snprintf(buf, sizeof(buf),              // nice location format
+                 "%6.3f%c %6.3f%c",
                  std::fabs(getLat()),
                  getLat() >= 0.0f ? 'N' : 'S',
                  std::fabs(getLon()),
-                 getLon() >= 0.0f ? 'E' : 'W',
-                 getAltFt(),
-                 getHeading(),
-                 getSpeedKn(),
-                 getPhaseStr().c_str());
-        // output a line (for simplicity we don't care about the window's width...)
-        // new lines in yellow, otherwise plain white
-        XPLMDrawString(dispStatus == ED_NONE ? COL_YELLOW : COL_WHITE,
-                       x, y, buf, NULL, xplmFont_Proportional);
+                 getLon() >= 0.0f ? 'E' : 'W');
+        DRAW_C(110, buf, xplmFont_Basic);
+        DRAW_N(35, getAltFt(), 5, 0);
+        DRAW_T(15, getVSIft() < -100 ? "v" : getVSIft() > 100 ? "^" : "", xplmFont_Proportional);
+        DRAW_N(30, getHeading(), 3, 0);
+        DRAW_N(30, getSpeedKn(), 3, 0);
+        DRAW_N(30, getBearing(), 4, 0);
+        DRAW_N(35, getDistNm(), 4, 1);
+        DRAW_S(80, getPhaseStr());
+        DRAW_S(60, getKey());
+        DRAW_S(110, getTrackedBy());
     }
     else if (dispStatus >= ED_SHOW_REMOVED)
     {
-        snprintf(buf, sizeof(buf),
-                 "%s (%s) --- removed ---",
-                 getKey().c_str(),
-                 getModelIcao().c_str());
-         // output a line (for simplicity we don't care about the window's width...)
-         XPLMDrawString(COL_GREY, x, y, buf, NULL, xplmFont_Proportional);
+        float* col = COL_WHITE;
+        DRAW_S(55, getRegistration());
+        DRAW_S(60, getCallSign());
+        DRAW_S(60, getFlightNumber());
+        col = COL_GREY;
+        DRAW_T(40, "--- removed ---", xplmFont_Proportional);
     }
-    
-
 }
 
 
@@ -389,7 +419,7 @@ void EnhAircraft::DrawOutput(int x, int y)
 // 1. Have one (probably even static) object of LTAPIConnect
 //    This time we pass in our own object creation callback,
 //    so that objects are of type EnhAircraft
-LTAPIConnect ltEnhanced(EnhAircraft::CreateNewObject);
+LTAPIConnect ltEnhanced(EnhAircraft::CreateNewObject, 10);
 // And we manage removed aircrafts ourself!
 ListLTAPIAircraft listRemovedAc;
 
@@ -436,6 +466,28 @@ float LoopCBUpdateAcListEnhanced (float, float, int, void*)
     return UPDATE_INTVL;
 }
 
+void    draw_header (int x, int y, int r)
+{
+    float* const col = COL_CYAN;
+    char buf[50];
+    DRAW_T(55,  "Reg",      xplmFont_Proportional);
+    DRAW_T(60,  "Call",     xplmFont_Proportional);
+    DRAW_T(60,  "Flight",   xplmFont_Proportional);
+    DRAW_T(40,  "from",     xplmFont_Proportional);
+    DRAW_T(50,  "to",       xplmFont_Proportional);
+    DRAW_T(40,  "Mdl",      xplmFont_Proportional);
+    DRAW_T(110, "Position", xplmFont_Proportional);
+    DRAW_T(35,  "   ft",    xplmFont_Basic);
+    DRAW_T(15,  "",         xplmFont_Basic);
+    DRAW_T(30,  "  °",      xplmFont_Basic);
+    DRAW_T(30,  " kn",      xplmFont_Basic);
+    DRAW_T(30,  "Brng",     xplmFont_Basic);
+    DRAW_T(35,  "Dist",     xplmFont_Basic);
+    DRAW_T(80,  "Phase",    xplmFont_Proportional);
+    DRAW_T(60,  "key",      xplmFont_Proportional);
+    DRAW_T(110, "tracked by", xplmFont_Proportional);
+}
+
 void    draw_list_enhanced(XPLMWindowID in_window_id, void * /*in_refcon*/)
 {
     // Mandatory: We *must* set the OpenGL state before drawing
@@ -461,12 +513,19 @@ void    draw_list_enhanced(XPLMWindowID in_window_id, void * /*in_refcon*/)
     l += 10;
     t -= 20;
     
+    // Header
+    draw_header(l, t, r);
+    
+    // next line...past bottom of window?
+    if ((t -= 15) <= b)
+        return;
+
     // We now cycle the 20 line items that our enhanced object keeps track of
     for (EnhAircraft* pEnh: EnhAircraft::lnTaken)
     {
         // output that aircraft's info
         if (pEnh)
-            pEnh->DrawOutput(l,t);
+            pEnh->DrawOutput(l,t,r,b);
         
         // next line...past bottom of window?
         if ((t -= 15) <= b)
