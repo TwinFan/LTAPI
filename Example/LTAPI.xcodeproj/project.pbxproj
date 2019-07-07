@@ -35,6 +35,8 @@
 		254CCAB622666C52003878B1 /* LTAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LTAPI.h; path = ../LTAPI.h; sourceTree = "<group>"; };
 		25831F2C2258D08B002398D2 /* XPWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XPWidgets.framework; path = Lib/XPSDK301/Libraries/Mac/XPWidgets.framework; sourceTree = "<group>"; };
 		25831F2D2258D08B002398D2 /* XPLM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XPLM.framework; path = Lib/XPSDK301/Libraries/Mac/XPLM.framework; sourceTree = "<group>"; };
+		25D4757422C8014900BF03D9 /* LTAPI.doxygen */ = {isa = PBXFileReference; lastKnownFileType = text; name = LTAPI.doxygen; path = ../LTAPI.doxygen; sourceTree = "<group>"; };
+		25D4757522C8037900BF03D9 /* MainPage.dox */ = {isa = PBXFileReference; lastKnownFileType = text; name = MainPage.dox; path = ../MainPage.dox; sourceTree = "<group>"; };
 		D607B19909A556E400699BC3 /* LTAPIExample.xpl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = LTAPIExample.xpl; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6A7BDA916A1DEA200D1426A /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		D6A7BDC016A1DEC000D1426A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -58,6 +60,8 @@
 		D607B15F09A5563000699BC3 = {
 			isa = PBXGroup;
 			children = (
+				25D4757522C8037900BF03D9 /* MainPage.dox */,
+				25D4757422C8014900BF03D9 /* LTAPI.doxygen */,
 				254CCAB622666C52003878B1 /* LTAPI.h */,
 				254CCAB422666C3A003878B1 /* LTAPI.cpp */,
 				254CCAB222666C2A003878B1 /* LTAPIExample.cpp */,
