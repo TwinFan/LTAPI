@@ -30,6 +30,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		253E8F9C22D29354008C70E8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		254CCAB222666C2A003878B1 /* LTAPIExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LTAPIExample.cpp; sourceTree = "<group>"; };
 		254CCAB422666C3A003878B1 /* LTAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LTAPI.cpp; path = ../LTAPI.cpp; sourceTree = "<group>"; };
 		254CCAB622666C52003878B1 /* LTAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LTAPI.h; path = ../LTAPI.h; sourceTree = "<group>"; };
@@ -60,6 +61,7 @@
 		D607B15F09A5563000699BC3 = {
 			isa = PBXGroup;
 			children = (
+				253E8F9C22D29354008C70E8 /* README.md */,
 				25D4757522C8037900BF03D9 /* MainPage.dox */,
 				25D4757422C8014900BF03D9 /* LTAPI.doxygen */,
 				254CCAB622666C52003878B1 /* LTAPI.h */,
