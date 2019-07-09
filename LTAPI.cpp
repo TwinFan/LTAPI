@@ -141,6 +141,7 @@ std::string LTAPIAircraft::getDescription() const
     
     // 3. origin/destination
     if (info.origin[0] || info.destination[0]) {
+        ret += " ";
         ret += info.origin[0] ? info.origin : "?";
         ret += "-";
         ret += info.destination[0] ? info.destination : "?";
