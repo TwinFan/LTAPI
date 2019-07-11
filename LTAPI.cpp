@@ -26,9 +26,16 @@
 
 #include <stdio.h>
 #include <cstring>
+#include <algorithm>
+#include <cassert>
 #include "LTAPI.h"
 
 #include "XPLMPlugin.h"
+
+// Windows: I prefer std::min
+#ifdef min
+#undef min
+#endif
 
 //
 // MARK: Globals
