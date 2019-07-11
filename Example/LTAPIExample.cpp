@@ -278,7 +278,7 @@ void	draw_list_simple(XPLMWindowID in_window_id, void * /*in_refcon*/)
 // i.e. once it found a line it stays there.
 // Also allows to show text "---removed---" for some time when a/c was removed
 //
-constexpr int MAX_LN = 50;
+constexpr int MAX_LN = 100;
 
 class EnhAircraft : public LTAPIAircraft
 {
