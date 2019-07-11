@@ -112,8 +112,12 @@ public:
             bool        bcn        : 1;     ///< beacon light
             bool        strb       : 1;     ///< strobe light
             bool        nav        : 1;     ///< navigaton lights
-            
-            unsigned    filler     : 2;     ///< unused, fills up to 8 byte alignment
+            unsigned    filler1    : 2;     ///< unused, fills up to byte alignment
+            // Misc
+            int         multiIdx    : 8;    ///< multiplayer index if plane reported via sim/multiplayer/position dataRefs, 0 if not
+            // Filler for 8-byte alignment
+            unsigned    filler2     : 8;
+            unsigned    filler3     : 32;
         } bits;                             ///< Flights phase, on-ground status, lights
         
         /// Constructor initializes some data without defaults
@@ -229,6 +233,7 @@ public:
     // simulation
     float           getBearing()        const { return bulk.bearing; }          ///< [°] to current camera position
     float           getDistNm()         const { return bulk.dist_nm; }          ///< [nm] distance to current camera
+    int             getMultiIdx()       const { return bulk.bits.multiIdx; }    ///< multiplayer index if plane reported via sim/multiplayer/position dataRefs, 0 if not
 
 public:
     /// @brief Standard object creation callback.
@@ -241,7 +246,7 @@ public:
 //
 
 /// Smart pointer to an TLAPIAircraft object
-typedef std::unique_ptr<LTAPIAircraft> UPtrLTAPIAircraft;
+typedef std::shared_ptr<LTAPIAircraft> SPtrLTAPIAircraft;
 
 /// @brief Map of all aircrafts stored as smart pointers to LTAPIAircraft objects
 ///
@@ -253,13 +258,13 @@ typedef std::unique_ptr<LTAPIAircraft> UPtrLTAPIAircraft;
 /// As we use smart pointers, object storage is deallocated as soon
 /// as objects are removed from the map. Effectively, the map manages
 /// storage.
-typedef std::map<std::string,UPtrLTAPIAircraft> MapLTAPIAircraft;
+typedef std::map<std::string,SPtrLTAPIAircraft> MapLTAPIAircraft;
 
 /// @brief Simple list of smart pointers to LTAPIAircraft objects
 ///
 /// This is used to return aircraft objects which got removed by LiveTraffic,
 /// see LTAPIConnect::UpdateAcList()
-typedef std::list<UPtrLTAPIAircraft> ListLTAPIAircraft;
+typedef std::list<SPtrLTAPIAircraft> ListLTAPIAircraft;
 
 /// @brief Connects to LiveTraffic's dataRefs and returns aircraft information.
 ///
@@ -346,7 +351,14 @@ public:
     ///        management of them is then up to you.
     ///        LTAPI will only _emplace_back_ to the list, never remove anything.
     const MapLTAPIAircraft& UpdateAcList (ListLTAPIAircraft* plistRemovedAc = nullptr);
+    
+    /// Returns the map of aircraft as it currently stands
     const MapLTAPIAircraft& getAcMap () const { return mapAc; }
+    
+    /// @brief Finds an aircraft for a given multiplayer slot
+    /// @param multiIdx The multiplayer index to look for
+    /// @return Pointer to aircraft in slot `multiIdx`, is empty if not found
+    SPtrLTAPIAircraft getAcByMultIdx (int multiIdx) const;
     
 protected:
     /// @brief fetch bulk data and create/update aircraft objects

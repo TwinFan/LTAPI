@@ -379,6 +379,22 @@ const MapLTAPIAircraft& LTAPIConnect::UpdateAcList (ListLTAPIAircraft* plistRemo
     return mapAc;
 }
 
+// Finds an aircraft for a given multiplayer slot
+SPtrLTAPIAircraft LTAPIConnect::getAcByMultIdx (int multiIdx) const
+{
+    // sanity check: Don't search for 0...there are too many of them
+    if (multiIdx < 1)
+        return SPtrLTAPIAircraft();
+    
+    // search the map for a matching aircraft
+    MapLTAPIAircraft::const_iterator iter =
+    std::find_if(mapAc.cbegin(), mapAc.cend(),
+                 [multiIdx](const MapLTAPIAircraft::value_type& pair)
+                 { return pair.second->getMultiIdx() == multiIdx; });
+    
+    // return a copy of they pointer if found
+    return iter == mapAc.cend() ? SPtrLTAPIAircraft() : iter->second;
+}
 
 
 // fetch bulk data and create/update aircraft objects

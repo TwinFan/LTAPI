@@ -143,7 +143,7 @@ PLUGIN_API int XPluginStart(
     // put it below the simple window:
     params.top  = params.bottom - 20;
     params.bottom = params.top - 200;           // height: 200
-    params.right = params.left + 700;           // width: 670
+    params.right = params.left + 920;           // width: 670
 
     // use the drawing function for the enhanced example
     params.drawWindowFunc = draw_list_enhanced;
@@ -401,6 +401,11 @@ void EnhAircraft::DrawOutput(int x, int y, int r, int)
         DRAW_N(35, getDistNm(), 4, 1);
         DRAW_S(80, getPhaseStr());
         DRAW_S(60, getKey());
+        if (getMultiIdx() > 0) {
+            DRAW_N(20, double(getMultiIdx()), 2, 0);
+        } else {
+            DRAW_T(20, "", xplmFont_Proportional);
+        }
         DRAW_S(110, getTrackedBy());
     }
     else if (dispStatus >= ED_SHOW_REMOVED)
@@ -485,6 +490,7 @@ void    draw_header (int x, int y, int r)
     DRAW_T(35,  "Dist",     xplmFont_Basic);
     DRAW_T(80,  "Phase",    xplmFont_Proportional);
     DRAW_T(60,  "key",      xplmFont_Proportional);
+    DRAW_T(20,  "#",        xplmFont_Proportional);
     DRAW_T(110, "tracked by", xplmFont_Proportional);
 }
 
