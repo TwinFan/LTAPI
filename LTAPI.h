@@ -134,10 +134,12 @@ public:
         char            registration[8];    ///< tail number like "D-AISD"
         // aircraft model/operator
         char            modelIcao[8];       ///< ICAO aircraft type like "A321"
-        char            acClass[8];         ///< a/c class like "L2J"
+        char            acClass[4];         ///< a/c class like "L2J"
+        char            wtc[4];             ///< wake turbulence category like H,M,L/M,L
         char            opIcao[8];          ///< ICAO-code of operator like "DLH"
         char            man[40];            ///< human-readable manufacturer like "Airbus"
         char            model[40];          ///< human-readable a/c model like "A321-231"
+        char            catDescr[40];       ///< human-readable category description
         char            op[40];             ///< human-readable operator like "Lufthansa"
         // flight data
         char            callSign[8];        ///< call sign like "DLH56C"
@@ -200,7 +202,12 @@ public:
     // aircraft model/operator
     std::string     getModelIcao()      const { return info.modelIcao; }        ///< ICAO aircraft type like "A321"
     std::string     getAcClass()        const { return info.acClass; }          ///< a/c class like "L2J"
+    std::string     getWtc()            const { return info.wtc; }              ///< wake turbulence category like H,M,L/M,L
     std::string     getOpIcao()         const { return info.opIcao; }           ///< ICAO-code of operator like "DLH"
+    std::string     getMan()            const { return info.man; }              ///< human-readable manufacturer like "Airbus"
+    std::string     getModel()          const { return info.model; }            ///< human-readable a/c model like "A321-231"
+    std::string     getCatDescr()       const { return info.catDescr; }         ///< human-readable category description
+    std::string     getOp()             const { return info.op; }               ///< human-readable operator like "Lufthansa"
     // flight data
     std::string     getCallSign()       const { return info.callSign; }         ///< call sign like "DLH56C"
     std::string     getSquawk()         const { return info.squawk; }           ///< squawk code (as text) like "1000"

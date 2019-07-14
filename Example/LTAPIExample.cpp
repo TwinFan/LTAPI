@@ -352,9 +352,9 @@ bool EnhAircraft::updateAircraft(const LTAPIBulkData& __bulk)
 // we move the ability to output a line into this class
 
 // Draw a C string with a given pixel length (simplified)
-#define DRAW_C(w,s,fnt)                                     \
-if (x+w > r) return;                                        \
-XPLMDrawString(col,x,y,s,NULL,fnt);                         \
+#define DRAW_C(w,s,fnt)                                                             \
+if (x+w > r) { strcpy(buf,">>"); XPLMDrawString(col,r-20,y,buf,NULL,fnt); return; } \
+XPLMDrawString(col,x,y,s,NULL,fnt);                                                 \
 x += w
 
 // Draw a constant text with a given pixel length (simplified)
@@ -386,6 +386,8 @@ void EnhAircraft::DrawOutput(int x, int y, int r, int)
         DRAW_S(40, getOrigin());
         DRAW_S(50, getDestination());
         DRAW_S(40, getModelIcao());
+        DRAW_S(30, getAcClass());
+        DRAW_S(30, getWtc());
         snprintf(buf, sizeof(buf),              // nice location format
                  "%6.3f%c %6.3f%c",
                  std::fabs(getLat()),
@@ -406,7 +408,8 @@ void EnhAircraft::DrawOutput(int x, int y, int r, int)
         } else {
             DRAW_T(20, "", xplmFont_Proportional);
         }
-        DRAW_S(110, getTrackedBy());
+        DRAW_S(150, getTrackedBy());
+        DRAW_S(200, getCatDescr());
     }
     else if (dispStatus >= ED_SHOW_REMOVED)
     {
@@ -481,6 +484,8 @@ void    draw_header (int x, int y, int r)
     DRAW_T(40,  "from",     xplmFont_Proportional);
     DRAW_T(50,  "to",       xplmFont_Proportional);
     DRAW_T(40,  "Mdl",      xplmFont_Proportional);
+    DRAW_T(30,  "Cls",      xplmFont_Proportional);
+    DRAW_T(30,  "WTC",      xplmFont_Proportional);
     DRAW_T(110, "Position", xplmFont_Proportional);
     DRAW_T(35,  "   ft",    xplmFont_Basic);
     DRAW_T(15,  "",         xplmFont_Basic);
@@ -491,7 +496,8 @@ void    draw_header (int x, int y, int r)
     DRAW_T(80,  "Phase",    xplmFont_Proportional);
     DRAW_T(60,  "key",      xplmFont_Proportional);
     DRAW_T(20,  "#",        xplmFont_Proportional);
-    DRAW_T(110, "tracked by", xplmFont_Proportional);
+    DRAW_T(150, "tracked by", xplmFont_Proportional);
+    DRAW_T(200, "Category", xplmFont_Proportional);
 }
 
 void    draw_list_enhanced(XPLMWindowID in_window_id, void * /*in_refcon*/)

@@ -204,16 +204,19 @@ bool LTAPIAircraft::updateAircraft(const LTAPIBulkInfoTexts& __info)
     ZERO_TERM(info.registration);
     ZERO_TERM(info.modelIcao);
     ZERO_TERM(info.acClass);
+    ZERO_TERM(info.wtc);
     ZERO_TERM(info.opIcao);
     ZERO_TERM(info.man);
     ZERO_TERM(info.model);
+    ZERO_TERM(info.catDescr);
     ZERO_TERM(info.op);
     ZERO_TERM(info.callSign);
     ZERO_TERM(info.squawk);
     ZERO_TERM(info.flightNumber);
     ZERO_TERM(info.origin);
     ZERO_TERM(info.destination);
-    
+    ZERO_TERM(info.trackedBy);
+
     // has been updated
     bUpdated = true;
     return true;
