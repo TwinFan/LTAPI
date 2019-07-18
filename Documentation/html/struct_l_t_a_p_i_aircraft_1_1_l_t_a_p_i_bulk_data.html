@@ -150,17 +150,35 @@ bcn: 1</td>
 <td class="fielddoc">
 beacon light </td></tr>
 <tr><td class="fieldtype">
-<a id="ad936b2c92cffca21e3aaace346099f13"></a>unsigned</td>
+<a id="a5132fe5230722087788cc4b362361453"></a>unsigned</td>
 <td class="fieldname">
-filler: 2</td>
+filler1: 2</td>
 <td class="fielddoc">
-unused, fills up to 8 byte alignment </td></tr>
+unused, fills up to byte alignment </td></tr>
+<tr><td class="fieldtype">
+<a id="a3f8fd0ada5bd3a41990334f1f6788d4c"></a>unsigned</td>
+<td class="fieldname">
+filler2: 8</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="ae45c1f895d55a93ee105dd1bc2a83e4d"></a>unsigned</td>
+<td class="fieldname">
+filler3: 32</td>
+<td class="fielddoc">
+</td></tr>
 <tr><td class="fieldtype">
 <a id="aaac4f571b52733b4edeb63dbe6474187"></a>bool</td>
 <td class="fieldname">
 land: 1</td>
 <td class="fielddoc">
 landing lights </td></tr>
+<tr><td class="fieldtype">
+<a id="ac43647927d1ffea8d76c2d3b21f353e9"></a>int</td>
+<td class="fieldname">
+multiIdx: 8</td>
+<td class="fielddoc">
+multiplayer index if plane reported via sim/multiplayer/position dataRefs, 0 if not </td></tr>
 <tr><td class="fieldtype">
 <a id="ab2e647e53014efb68d8d0a7bb70a7f00"></a>bool</td>
 <td class="fieldname">
