@@ -27,6 +27,7 @@
 #ifndef LTAPI_h
 #define LTAPI_h
 
+#include <cstring>
 #include <memory>
 #include <string>
 #include <list>
