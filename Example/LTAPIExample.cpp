@@ -297,7 +297,7 @@ public:
     EnhAircraft();
     virtual ~EnhAircraft();
     // we add some simplistic logic to derive a line number for output
-    virtual bool updateAircraft(const LTAPIBulkData& __bulk);
+    virtual bool updateAircraft(const LTAPIBulkData& __bulk, size_t __inSize);
     static EnhAircraft* lnTaken[MAX_LN];
     // we move the ability to output a line into this class
     void DrawOutput(int x, int y, int r, int b);
@@ -323,10 +323,10 @@ EnhAircraft::~EnhAircraft()
         lnTaken[ln] = nullptr;
 }
 
-bool EnhAircraft::updateAircraft(const LTAPIBulkData& __bulk)
+bool EnhAircraft::updateAircraft(const LTAPIBulkData& __bulk, size_t __inSize)
 {
     // first we call the LTAPI do fetch (updated) data for the a/c
-    if (!LTAPIAircraft::updateAircraft(__bulk))
+    if (!LTAPIAircraft::updateAircraft(__bulk,__inSize))
         return false;
     
     // then we do our own logic
@@ -408,6 +408,7 @@ void EnhAircraft::DrawOutput(int x, int y, int r, int)
         } else {
             DRAW_T(20, "", xplmFont_Proportional);
         }
+        DRAW_S(150, getCslModel());
         DRAW_S(150, getTrackedBy());
         DRAW_S(200, getCatDescr());
     }
@@ -496,6 +497,7 @@ void    draw_header (int x, int y, int r)
     DRAW_T(80,  "Phase",    xplmFont_Proportional);
     DRAW_T(60,  "key",      xplmFont_Proportional);
     DRAW_T(20,  "#",        xplmFont_Proportional);
+    DRAW_T(150, "CSL Model", xplmFont_Proportional);
     DRAW_T(150, "tracked by", xplmFont_Proportional);
     DRAW_T(200, "Category", xplmFont_Proportional);
 }

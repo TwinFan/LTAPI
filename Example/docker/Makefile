@@ -1,6 +1,6 @@
 # platforms=win mac lin
 platforms=lin
-container=lt-cross-compile-env
+container=ltapi-cross-compile-env
 
 # all: mac lin win
 all: lin

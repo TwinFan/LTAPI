@@ -162,7 +162,7 @@ std::string LTAPIAircraft::getDescription() const
 /// Copies the provided `bulk` data and sets `bUpdated` to `true`
 /// if the provided data matches this aircraft.
 /// @note This function can _set_ this object's `key` for the first and only time.
-bool LTAPIAircraft::updateAircraft(const LTAPIBulkData& __bulk)
+bool LTAPIAircraft::updateAircraft(const LTAPIBulkData& __bulk, size_t __inSize)
 {
     // first time init of this LTAPIAircraft object?
     if (key.empty()) {
@@ -179,6 +179,16 @@ bool LTAPIAircraft::updateAircraft(const LTAPIBulkData& __bulk)
     // just copy the data
     bulk = __bulk;
     
+    // version compatibility
+    // If LiveTraffic sent v120 number of bytes then we need to fill
+    // new double values from old float values as the doubles haven't been
+    // transferred:
+    if (__inSize < LTAPIBulkData_v122) {
+        bulk.lat = bulk.lat_f;
+        bulk.lon = bulk.lon_f;
+        bulk.alt_ft = bulk.alt_ft_f;
+    }
+    
     // has been updated
     bUpdated = true;
     return true;
@@ -190,7 +200,7 @@ bool LTAPIAircraft::updateAircraft(const LTAPIBulkData& __bulk)
 ///       A new LTAPIAircraft object will always receive a call to
 ///       the above version (with `LTAPIBulkData`) first before receiving
 ///       a call to this version (with `LTAPIBulkInfoTexts`).
-bool LTAPIAircraft::updateAircraft(const LTAPIBulkInfoTexts& __info)
+bool LTAPIAircraft::updateAircraft(const LTAPIBulkInfoTexts& __info, size_t __inSize)
 {
     // We continue only if the aircraft offered
     // is the same as we represent!
@@ -216,6 +226,15 @@ bool LTAPIAircraft::updateAircraft(const LTAPIBulkInfoTexts& __info)
     ZERO_TERM(info.origin);
     ZERO_TERM(info.destination);
     ZERO_TERM(info.trackedBy);
+    ZERO_TERM(info.cslModel);
+    
+    // version compatibility
+    // If LiveTraffic sent v120 number of bytes then we didn't receive cslModel
+    if (__inSize < LTAPIBulkInfoTexts_v122) {
+        memset(info.cslModel, 0, sizeof(info.cslModel));
+    }
+    
+
 
     // has been updated
     bUpdated = true;
@@ -253,12 +272,12 @@ std::string LTAPIAircraft::getPhaseStr () const
 //
 
 LTAPIConnect::LTAPIConnect(fCreateAcObject* _pfCreateAcObject, int numBulkAc) :
-pfCreateAcObject(_pfCreateAcObject),
 // clamp numBulkAc between 1 and 100
 iBulkAc(numBulkAc < 1 ? 1 : numBulkAc > 100 ? 100 : numBulkAc),
 // reserve memory for bulk data transfer from LiveTraffic
 vBulkNum (new LTAPIAircraft::LTAPIBulkData[iBulkAc]),
-vInfoTexts(new LTAPIAircraft::LTAPIBulkInfoTexts[iBulkAc])
+vInfoTexts(new LTAPIAircraft::LTAPIBulkInfoTexts[iBulkAc]),
+pfCreateAcObject(_pfCreateAcObject)
 {}
 
 LTAPIConnect::~LTAPIConnect()
@@ -450,13 +469,13 @@ bool LTAPIConnect::DoBulkFetch (int numAc, LTDataRef& DR, int& outSizeLT,
                 // create a new aircraft object
                 assert(pfCreateAcObject);
                 iter = mapAc.emplace(key, pfCreateAcObject()).first;
-                // tell call we added new objects
+                // tell caller we added new objects
                 ret = true;
             }
             
             // copy the bulk data
             assert(iter != mapAc.end());
-            iter->second->updateAircraft(bulk);
+            iter->second->updateAircraft(bulk, outSizeLT);
         } // inner loop processing received bulk data
     } // outer loop fetching bulk data from LT
     
