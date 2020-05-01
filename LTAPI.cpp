@@ -289,6 +289,34 @@ bool LTAPIConnect::isLTAvail ()
     return XPLMFindPluginBySignature(LT_PLUGIN_SIGNATURE) != XPLM_NO_PLUGIN_ID;
 }
 
+// LiveTraffic's version number
+int LTAPIConnect::getLTVerNr()
+{
+    static LTDataRef DRVerNr("livetraffic/ver/nr");
+    if (!isLTAvail())                   // LiveTraffic unavailable?
+        return 0;
+    if (DRVerNr.isValid())              // Can fetch version number from LT?
+        return DRVerNr.getInt();
+    else
+        return 150;
+}
+
+/// @brief LiveTraffic's version date
+/// @details Version date became available with v2.01 only. This is why 20191231 is returned in case
+///          LiveTraffic is available, but not the dataRef to fetch the date from.
+/// @return Version date (like 20200430 for 30-APR-2020), or constant 20191231 if unknown, or 0 if LiveTraffic is unavailable
+int LTAPIConnect::getLTVerDate()
+{
+    static LTDataRef DRVerDate("livetraffic/ver/date");
+    if (!isLTAvail())                   // LiveTraffic unavailable?
+        return 0;
+    if (DRVerDate.isValid())            // Can fetch version date from LT?
+        return DRVerDate.getInt();
+    else
+        return 20191231;
+}
+
+
 // Does LiveTraffic display aircrafts? (Is it activated?)
 bool LTAPIConnect::doesLTDisplayAc ()
 {

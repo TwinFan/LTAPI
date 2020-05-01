@@ -77,6 +77,7 @@ void				dummy_key_handler(XPLMWindowID in_window_id, char key, XPLMKeyFlags flag
 
 // flight loop callback to update list of LiveTraffic aircrafts
 constexpr float UPDATE_INTVL    = 1.0;      // [s] how often to call the callback
+float LoopCBOneTimeInit (float, float, int, void*);
 float LoopCBUpdateAcListSimple (float, float, int, void*);
 float LoopCBUpdateAcListEnhanced (float, float, int, void*);
 
@@ -179,6 +180,7 @@ PLUGIN_API void	XPluginStop(void)
 // dataRefs then.
 PLUGIN_API int  XPluginEnable(void)
 {
+    XPLMRegisterFlightLoopCallback(LoopCBOneTimeInit, -1, NULL);
     XPLMRegisterFlightLoopCallback(LoopCBUpdateAcListSimple, UPDATE_INTVL, NULL);
     XPLMRegisterFlightLoopCallback(LoopCBUpdateAcListEnhanced, UPDATE_INTVL, NULL);
     return 1;
@@ -191,6 +193,27 @@ PLUGIN_API void XPluginDisable(void)
 }
 
 PLUGIN_API void XPluginReceiveMessage(XPLMPluginID inFrom, int inMsg, void * inParam) { }
+
+//
+// MARK: Late init callback
+//
+// How to properly read one-time information.
+// Avoid trying in XPluhinStart or XPluginEnable, as
+// - depending on Startup order - LT might not be available by that time.
+// During a first flight loop callback all plugins have been initialized and should be available.
+float LoopCBOneTimeInit(float, float, int, void*)
+{
+    // Make a fancy window title displaying LiveTraffic's version information
+    char szTitle[100];
+    snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%.2f %d",
+        float(LTAPIConnect::getLTVerNr()) / 100.0f, LTAPIConnect::getLTVerDate());
+    XPLMSetWindowTitle(g_winEnhanced, szTitle);
+
+    // don't call me again
+    return 0.0f;
+}
+
+
 
 //
 // MARK: LTAPI Simple Example

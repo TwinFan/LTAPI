@@ -346,7 +346,26 @@ public:
     
     /// Is LiveTraffic available? (checks via XPLMFindPluginBySignature)
     static bool isLTAvail ();
-    
+
+    /// @brief LiveTraffic's version number
+    /// @details Version number became available with v2.01 only. This is why 150 is returned in case
+    ///          LiveTraffic is available, but not the dataRef to fetch the number from.
+    /// @note    Calling this function from your XPluginStart or XPluginEnable is not guaranteed
+    ///          to return proper results. Call from a flight loop callback,
+    ///          e.g. create a one-time late-init flight loop callback function for this purpose.
+    ///          LTAPIExample.cpp demonstrates this.\n
+    ///          Depending on startup order, LiveTraffic might or might not have been started yet.
+    ///          This note is basically true for all requests accessing LiveTraffic data.
+    ///          It is noted here only because it is tempting to fetch the version number once only during startup.
+    /// @return Version (like 201 for v2.01), or constant 150 if unknown, or 0 if LiveTraffic is unavailable
+    static int getLTVerNr();
+
+    /// @brief LiveTraffic's version date
+    /// @details Version date became available with v2.01 only. This is why 20191231 is returned in case
+    ///          LiveTraffic is available, but not the dataRef to fetch the date from.
+    /// @return Version date (like 20200430 for 30-APR-2020), or constant 20191231 if unknown, or 0 if LiveTraffic is unavailable
+    static int getLTVerDate();
+
     /// @brief Does LiveTraffic display aircrafts? (Is it activated?)
     ///
     /// This is the only function which checks again and again if LiveTraffic's
