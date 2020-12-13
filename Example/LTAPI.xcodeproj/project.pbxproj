@@ -210,7 +210,7 @@
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = macosx;
-				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane 11";
+				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane/Release";
 				XPSDK_ROOT = Lib/SDK;
 			};
 			name = Debug;
@@ -286,7 +286,7 @@
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = macosx;
-				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane 11";
+				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane/Release";
 				XPSDK_ROOT = Lib/SDK;
 			};
 			name = Release;

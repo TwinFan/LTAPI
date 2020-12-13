@@ -105,11 +105,13 @@ Variables</h2></td></tr>
 <tr class="memdesc:a54b291974cdeab2ee8512b8b604d8539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of current bulk structure.  <a href="LTAPI_8h.html#a54b291974cdeab2ee8512b8b604d8539">More...</a><br /></td></tr>
 <tr class="separator:a54b291974cdeab2ee8512b8b604d8539"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61629a12156e357035ce3c5a1c0472f6"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LTAPI_8h.html#a61629a12156e357035ce3c5a1c0472f6">LTAPIBulkInfoTexts_v120</a> = 264</td></tr>
-<tr class="memdesc:a61629a12156e357035ce3c5a1c0472f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of original bulk info structure as per LiveTraffic v1.20.  <a href="LTAPI_8h.html#a61629a12156e357035ce3c5a1c0472f6">More...</a><br /></td></tr>
+<tr class="memdesc:a61629a12156e357035ce3c5a1c0472f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of original bulk info structure as per previous versions of LiveTraffic.  <a href="LTAPI_8h.html#a61629a12156e357035ce3c5a1c0472f6">More...</a><br /></td></tr>
 <tr class="separator:a61629a12156e357035ce3c5a1c0472f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af714799d413d882cbe4bc01014f8c69f"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LTAPI_8h.html#af714799d413d882cbe4bc01014f8c69f">LTAPIBulkInfoTexts_v122</a> = sizeof(<a class="el" href="structLTAPIAircraft_1_1LTAPIBulkInfoTexts.html">LTAPIAircraft::LTAPIBulkInfoTexts</a>)</td></tr>
-<tr class="memdesc:af714799d413d882cbe4bc01014f8c69f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of current bulk info structure.  <a href="LTAPI_8h.html#af714799d413d882cbe4bc01014f8c69f">More...</a><br /></td></tr>
+<tr class="memitem:af714799d413d882cbe4bc01014f8c69f"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LTAPI_8h.html#af714799d413d882cbe4bc01014f8c69f">LTAPIBulkInfoTexts_v122</a> = 288</td></tr>
 <tr class="separator:af714799d413d882cbe4bc01014f8c69f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacbdd61fccbcd7c92bff72464b5dce7d"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LTAPI_8h.html#aacbdd61fccbcd7c92bff72464b5dce7d">LTAPIBulkInfoTexts_v240</a> = sizeof(<a class="el" href="structLTAPIAircraft_1_1LTAPIBulkInfoTexts.html">LTAPIAircraft::LTAPIBulkInfoTexts</a>)</td></tr>
+<tr class="memdesc:aacbdd61fccbcd7c92bff72464b5dce7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of current bulk info structure.  <a href="LTAPI_8h.html#aacbdd61fccbcd7c92bff72464b5dce7d">More...</a><br /></td></tr>
+<tr class="separator:aacbdd61fccbcd7c92bff72464b5dce7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LiveTraffic API. </p>
@@ -141,11 +143,17 @@ bcn: 1</td>
 <td class="fielddoc">
 beacon light </td></tr>
 <tr><td class="fieldtype">
+<a id="a744dd94b77cd13bccf61f9ea589bfb10"></a>bool</td>
+<td class="fieldname">
+camera: 1</td>
+<td class="fielddoc">
+is LiveTraffic's camera on this aircraft? </td></tr>
+<tr><td class="fieldtype">
 <a id="a5132fe5230722087788cc4b362361453"></a>unsigned</td>
 <td class="fieldname">
-filler1: 2</td>
+filler1: 1</td>
 <td class="fielddoc">
-unused, fills up to byte alignment </td></tr>
+unused </td></tr>
 <tr><td class="fieldtype">
 <a id="a3f8fd0ada5bd3a41990334f1f6788d4c"></a>unsigned</td>
 <td class="fieldname">
@@ -325,7 +333,7 @@ taxi lights </td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Size of original bulk info structure as per LiveTraffic v1.20. </p>
+<p>Size of original bulk info structure as per previous versions of LiveTraffic. </p>
 
 </div>
 </div>
@@ -339,7 +347,29 @@ taxi lights </td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr size_t LTAPIBulkInfoTexts_v122 = sizeof(<a class="el" href="structLTAPIAircraft_1_1LTAPIBulkInfoTexts.html">LTAPIAircraft::LTAPIBulkInfoTexts</a>)</td>
+          <td class="memname">constexpr size_t LTAPIBulkInfoTexts_v122 = 288</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aacbdd61fccbcd7c92bff72464b5dce7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacbdd61fccbcd7c92bff72464b5dce7d">&#9670;&nbsp;</a></span>LTAPIBulkInfoTexts_v240</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t LTAPIBulkInfoTexts_v240 = sizeof(<a class="el" href="structLTAPIAircraft_1_1LTAPIBulkInfoTexts.html">LTAPIAircraft::LTAPIBulkInfoTexts</a>)</td>
         </tr>
       </table>
   </td>
