@@ -7,35 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2536422022160982000DC56F /* LTAPIExample.xpl in CopyFiles */ = {isa = PBXBuildFile; fileRef = D607B19909A556E400699BC3 /* LTAPIExample.xpl */; };
+		254128992586A75C00C5197A /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 254128982586A75C00C5197A /* XPLM.framework */; };
+		2541289B2586A76D00C5197A /* XPWidgets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2541289A2586A76D00C5197A /* XPWidgets.framework */; };
 		254CCAB322666C2A003878B1 /* LTAPIExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 254CCAB222666C2A003878B1 /* LTAPIExample.cpp */; };
 		254CCAB522666C3A003878B1 /* LTAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 254CCAB422666C3A003878B1 /* LTAPI.cpp */; };
-		25831F2E2258D08B002398D2 /* XPWidgets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25831F2C2258D08B002398D2 /* XPWidgets.framework */; };
-		25831F2F2258D08B002398D2 /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25831F2D2258D08B002398D2 /* XPLM.framework */; };
 		D6A7BDAA16A1DEA200D1426A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A7BDA916A1DEA200D1426A /* OpenGL.framework */; };
 		D6A7BDC116A1DEC000D1426A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A7BDC016A1DEC000D1426A /* CoreFoundation.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		2536421F22160948000DC56F /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "/Users/birger/Applications/X-Plane 11/Resources/plugins";
-			dstSubfolderSpec = 0;
-			files = (
-				2536422022160982000DC56F /* LTAPIExample.xpl in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		253E8F9C22D29354008C70E8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		254128982586A75C00C5197A /* XPLM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XPLM.framework; path = Lib/SDK/Libraries/Mac/XPLM.framework; sourceTree = "<group>"; };
+		2541289A2586A76D00C5197A /* XPWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XPWidgets.framework; path = Lib/SDK/Libraries/Mac/XPWidgets.framework; sourceTree = "<group>"; };
 		254CCAB222666C2A003878B1 /* LTAPIExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LTAPIExample.cpp; sourceTree = "<group>"; };
 		254CCAB422666C3A003878B1 /* LTAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LTAPI.cpp; path = ../LTAPI.cpp; sourceTree = "<group>"; };
 		254CCAB622666C52003878B1 /* LTAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LTAPI.h; path = ../LTAPI.h; sourceTree = "<group>"; };
-		25831F2C2258D08B002398D2 /* XPWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XPWidgets.framework; path = Lib/XPSDK301/Libraries/Mac/XPWidgets.framework; sourceTree = "<group>"; };
-		25831F2D2258D08B002398D2 /* XPLM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XPLM.framework; path = Lib/XPSDK301/Libraries/Mac/XPLM.framework; sourceTree = "<group>"; };
 		25D4757422C8014900BF03D9 /* LTAPI.doxygen */ = {isa = PBXFileReference; lastKnownFileType = text; name = LTAPI.doxygen; path = ../LTAPI.doxygen; sourceTree = "<group>"; };
 		25D4757522C8037900BF03D9 /* MainPage.dox */ = {isa = PBXFileReference; lastKnownFileType = text; name = MainPage.dox; path = ../MainPage.dox; sourceTree = "<group>"; };
 		D607B19909A556E400699BC3 /* LTAPIExample.xpl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = LTAPIExample.xpl; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,10 +34,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2541289B2586A76D00C5197A /* XPWidgets.framework in Frameworks */,
+				254128992586A75C00C5197A /* XPLM.framework in Frameworks */,
 				D6A7BDC116A1DEC000D1426A /* CoreFoundation.framework in Frameworks */,
 				D6A7BDAA16A1DEA200D1426A /* OpenGL.framework in Frameworks */,
-				25831F2F2258D08B002398D2 /* XPLM.framework in Frameworks */,
-				25831F2E2258D08B002398D2 /* XPWidgets.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,10 +69,10 @@
 		D6A7BDAD16A1DEA700D1426A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2541289A2586A76D00C5197A /* XPWidgets.framework */,
+				254128982586A75C00C5197A /* XPLM.framework */,
 				D6A7BDC016A1DEC000D1426A /* CoreFoundation.framework */,
 				D6A7BDA916A1DEA200D1426A /* OpenGL.framework */,
-				25831F2D2258D08B002398D2 /* XPLM.framework */,
-				25831F2C2258D08B002398D2 /* XPWidgets.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -100,7 +86,6 @@
 			buildPhases = (
 				D607B19609A556E400699BC3 /* Sources */,
 				D607B19709A556E400699BC3 /* Frameworks */,
-				2536421F22160948000DC56F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -117,7 +102,7 @@
 		D607B16109A5563100699BC3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1220;
 			};
 			buildConfigurationList = D607B16209A5563100699BC3 /* Build configuration list for PBXProject "LTAPI" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -174,6 +159,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DSTROOT = "$(XPLANE11_ROOT)/Resources/plugins/$(TARGETNAME)";
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -207,7 +193,7 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				MACH_O_TYPE = mh_bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
@@ -224,7 +210,8 @@
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = macosx;
-				XPSDK_ROOT = Lib/XPSDK301;
+				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane 11";
+				XPSDK_ROOT = Lib/SDK;
 			};
 			name = Debug;
 		};
@@ -250,6 +237,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DSTROOT = "$(XPLANE11_ROOT)/Resources/plugins/$(TARGETNAME)";
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -282,7 +270,7 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				MACH_O_TYPE = mh_bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
 					"-Wl,-exported_symbol",
@@ -298,7 +286,8 @@
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = macosx;
-				XPSDK_ROOT = Lib/XPSDK301;
+				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane 11";
+				XPSDK_ROOT = Lib/SDK;
 			};
 			name = Release;
 		};
@@ -307,9 +296,11 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				FRAMEWORK_SEARCH_PATHS = (
+				DEPLOYMENT_LOCATION = YES;
+				INSTALL_PATH = mac_x64;
+				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Lib/XPSDK301/Libraries/Mac",
+					"$(PROJECT_DIR)/Lib/SDK/Libraries/Mac/XPLM.framework",
 				);
 				VALID_ARCHS = x86_64;
 			};
@@ -320,9 +311,11 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				FRAMEWORK_SEARCH_PATHS = (
+				DEPLOYMENT_LOCATION = YES;
+				INSTALL_PATH = mac_x64;
+				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Lib/XPSDK301/Libraries/Mac",
+					"$(PROJECT_DIR)/Lib/SDK/Libraries/Mac/XPLM.framework",
 				);
 				VALID_ARCHS = x86_64;
 			};

@@ -52,9 +52,3 @@ All the rest of the code deals with the example's functionality, which is:
   - You need [Docker](https://www.docker.com/get-started) installed. The, with Docker app running:
   - `cd Example/docker`
   - `make`
-
-## What it looks like
-
-This is a screenshot taken from the Example plugin included in this project:
-
-![LTAPI Example Screenshot](Example/LTAPIExample.png)

@@ -1,35 +1,34 @@
-//
-//  LiveTraffic API Example Plugin
-//
+/// @file       LTAPI.cpp
+/// @brief      LiveTraffic API - Example Plugin
+/// @details    This plugin demonstrates a simple and a more complex
+///             way of using LTAPI in a fully functional plugin,
+///             which opens two windows with aircraft information
+///             read from LiveTraffic.
+///
+///             This example plugin is based on the Hello World SDK 3 plugin
+///             downloaded from https://developer.x-plane.com/code-sample/hello-world-sdk-3/
+///             and comes with no copyright notice.
+///             It is changed, however, to also work with SDK 2.10, i.e. XP10
+///             But you can also define all up to XPLM301, if you want.
+/// @see        https://twinfan.github.io/LTAPI/
+/// @author     Birger Hoppe
+/// @copyright  (c) 2019-2020 Birger Hoppe
+/// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
+///             copy of this software and associated documentation files (the "Software"),
+///             to deal in the Software without restriction, including without limitation
+///             the rights to use, copy, modify, merge, publish, distribute, sublicense,
+///             and/or sell copies of the Software, and to permit persons to whom the
+///             Software is furnished to do so, subject to the following conditions:\n
+///             The above copyright notice and this permission notice shall be included in
+///             all copies or substantial portions of the Software.\n
+///             THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+///             IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+///             FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+///             AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+///             LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+///             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+///             THE SOFTWARE.
 
-/*
- * Copyright (c) 2019, Birger Hoppe
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-// This example plugin is based on the Hello World SDK 3 plugin
-// downloaded from https://developer.x-plane.com/code-sample/hello-world-sdk-3/
-// and comes with no copyright notice.
-
-// It is changed, however, to also work with SDK 2.10, i.e. XP10
-// But you can also define all up to XPLM301, if you want.
 #ifndef XPLM210
 #error This is made to be compiled at least against the XPLM210 SDK
 #endif

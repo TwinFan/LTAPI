@@ -14,17 +14,17 @@ set(CMAKE_CXX_STANDARD 11)
 # Set include directories used by our code and dependencies.
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/..")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
-include_directories("${CMAKE_SOURCE_DIR}/Lib/XPSDK301/CHeaders/Widgets")
-include_directories("${CMAKE_SOURCE_DIR}/Lib/XPSDK301/CHeaders/Wrappers")
-include_directories("${CMAKE_SOURCE_DIR}/Lib/XPSDK301/CHeaders/XPLM")
+include_directories("${CMAKE_SOURCE_DIR}/Lib/SDK/CHeaders/Widgets")
+include_directories("${CMAKE_SOURCE_DIR}/Lib/SDK/CHeaders/Wrappers")
+include_directories("${CMAKE_SOURCE_DIR}/Lib/SDK/CHeaders/XPLM")
 message("CMAKE_CURRENT_SOURCE_DIR = "(${CMAKE_CURRENT_SOURCE_DIR}))
 message("CMAKE_SOURCE_DIR = "(${CMAKE_SOURCE_DIR}))
 
 # Specify library search locations.
 if (WIN32)
-    list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Lib/XPSDK301/Libraries/Win")
+    list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Lib/SDK/Libraries/Win")
 elseif (APPLE)
-    list(APPEND CMAKE_FRAMEWORK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Lib/XPSDK301/Libraries/Mac")
+    list(APPEND CMAKE_FRAMEWORK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Lib/SDK/Libraries/Mac")
 elseif (UNIX)
 
 endif ()
