@@ -10,7 +10,7 @@ You only need to include 2 files into your own projects:
 - `LTAPI.cpp`
 - `LTAPI.h`
 
-Both files include lots of comments in Doxygen style as **documentation**. The generated Doxygen documentation is available in `Documentation/html/index.html` or on
+Both files include lots of comments in Doxygen style as **documentation**. The generated Doxygen documentation is available in `docs/html/index.html` or on
 [GitHub pages](https://twinfan.github.io/LTAPI/html/index.html).
 
 ## Example Plugin Implementation
