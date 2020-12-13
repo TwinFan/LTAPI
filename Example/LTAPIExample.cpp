@@ -80,6 +80,8 @@ float LoopCBOneTimeInit (float, float, int, void*);
 float LoopCBUpdateAcListSimple (float, float, int, void*);
 float LoopCBUpdateAcListEnhanced (float, float, int, void*);
 
+void SetEnhWndTitle();
+
 //
 // MARK: Plugin Main Functions
 //
@@ -203,10 +205,7 @@ PLUGIN_API void XPluginReceiveMessage(XPLMPluginID inFrom, int inMsg, void * inP
 float LoopCBOneTimeInit(float, float, int, void*)
 {
     // Make a fancy window title displaying LiveTraffic's version information
-    char szTitle[100];
-    snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%.2f %d",
-        float(LTAPIConnect::getLTVerNr()) / 100.0f, LTAPIConnect::getLTVerDate());
-    XPLMSetWindowTitle(g_winEnhanced, szTitle);
+    SetEnhWndTitle();
 
     // don't call me again
     return 0.0f;
@@ -430,6 +429,7 @@ void EnhAircraft::DrawOutput(int x, int y, int r, int)
         } else {
             DRAW_T(20, "", xplmFont_Proportional);
         }
+        DRAW_T(20, isOnCamera() ? "X" : "", xplmFont_Proportional);
         DRAW_S(180, getCslModel());
         DRAW_S(150, getTrackedBy());
         DRAW_S(200, getCatDescr());
@@ -492,6 +492,9 @@ float LoopCBUpdateAcListEnhanced (float, float, int, void*)
             rmIter++;
         }
     }
+
+    // Update the window's title, could include info of aircraft on camera
+    SetEnhWndTitle();
     
     // call me again in a second
     return UPDATE_INTVL;
@@ -519,6 +522,7 @@ void    draw_header (int x, int y, int r)
     DRAW_T(80,  "Phase",    xplmFont_Proportional);
     DRAW_T(60,  "key",      xplmFont_Proportional);
     DRAW_T(20,  "#",        xplmFont_Proportional);
+    DRAW_T(20,  "cam",      xplmFont_Proportional);
     DRAW_T(180, "CSL Model", xplmFont_Proportional);
     DRAW_T(150, "tracked by", xplmFont_Proportional);
     DRAW_T(200, "Category", xplmFont_Proportional);
@@ -571,3 +575,18 @@ void    draw_list_enhanced(XPLMWindowID in_window_id, void * /*in_refcon*/)
     
 }
 
+// Makes a nice title to the enhanced window
+void SetEnhWndTitle()
+{
+    char szTitle[150];
+    SPtrLTAPIAircraft acOnCam = ltEnhanced.getAcInCameraView();
+    if (!acOnCam) {
+        snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%.2f %d",
+                 float(LTAPIConnect::getLTVerNr()) / 100.0f, LTAPIConnect::getLTVerDate());
+    } else {
+        snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%.2f %d viewing %s",
+                 float(LTAPIConnect::getLTVerNr()) / 100.0f, LTAPIConnect::getLTVerDate(),
+                 acOnCam->getDescription().c_str());
+    }
+    XPLMSetWindowTitle(g_winEnhanced, szTitle);
+}

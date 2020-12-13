@@ -454,7 +454,21 @@ SPtrLTAPIAircraft LTAPIConnect::getAcByMultIdx (int multiIdx) const
                  [multiIdx](const MapLTAPIAircraft::value_type& pair)
                  { return pair.second->getMultiIdx() == multiIdx; });
     
-    // return a copy of they pointer if found
+    // return a copy of the pointer if found
+    return iter == mapAc.cend() ? SPtrLTAPIAircraft() : iter->second;
+}
+
+
+// Returns the aircraft being viewed in LiveTraffic's camera view, if any
+SPtrLTAPIAircraft LTAPIConnect::getAcInCameraView() const
+{
+    // search the map for a matching aircraft
+    MapLTAPIAircraft::const_iterator iter =
+        std::find_if(mapAc.cbegin(), mapAc.cend(),
+            [](const MapLTAPIAircraft::value_type& pair)
+            { return pair.second->isOnCamera(); });
+
+    // return a copy of the pointer if found
     return iter == mapAc.cend() ? SPtrLTAPIAircraft() : iter->second;
 }
 
