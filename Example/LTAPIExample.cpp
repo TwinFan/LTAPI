@@ -430,7 +430,7 @@ void EnhAircraft::DrawOutput(int x, int y, int r, int)
         } else {
             DRAW_T(20, "", xplmFont_Proportional);
         }
-        DRAW_S(150, getCslModel());
+        DRAW_S(180, getCslModel());
         DRAW_S(150, getTrackedBy());
         DRAW_S(200, getCatDescr());
     }
@@ -519,7 +519,7 @@ void    draw_header (int x, int y, int r)
     DRAW_T(80,  "Phase",    xplmFont_Proportional);
     DRAW_T(60,  "key",      xplmFont_Proportional);
     DRAW_T(20,  "#",        xplmFont_Proportional);
-    DRAW_T(150, "CSL Model", xplmFont_Proportional);
+    DRAW_T(180, "CSL Model", xplmFont_Proportional);
     DRAW_T(150, "tracked by", xplmFont_Proportional);
     DRAW_T(200, "Category", xplmFont_Proportional);
 }

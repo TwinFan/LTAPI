@@ -160,8 +160,8 @@ public:
         char            destination[8];     ///< destination airport (IATA or ICAO) like "FRA" or "EDDF"
         char            trackedBy[24];      ///< name of channel deliverying the underlying tracking data
 
-        // V1.22 additions
-        char            cslModel[24];       ///< name of CSL model used for actual rendering of plane
+        // V1.22 additions, in V2.40 extended from 24 to 40 chars
+        char            cslModel[40];       ///< name of CSL model used for actual rendering of plane
 
         /// Constructor initializes all data with zeroes
         LTAPIBulkInfoTexts()
@@ -489,9 +489,10 @@ constexpr size_t LTAPIBulkData_v120 = 80;
 /// Size of current bulk structure
 constexpr size_t LTAPIBulkData_v122 = sizeof(LTAPIAircraft::LTAPIBulkData);
 
-/// Size of original bulk info structure as per LiveTraffic v1.20
+/// Size of original bulk info structure as per previous versions of LiveTraffic
 constexpr size_t LTAPIBulkInfoTexts_v120 = 264;
+constexpr size_t LTAPIBulkInfoTexts_v122 = 288;
 /// Size of current bulk info structure
-constexpr size_t LTAPIBulkInfoTexts_v122 = sizeof(LTAPIAircraft::LTAPIBulkInfoTexts);
+constexpr size_t LTAPIBulkInfoTexts_v240 = sizeof(LTAPIAircraft::LTAPIBulkInfoTexts);
 
 #endif /* LTAPI_h */

@@ -236,8 +236,10 @@ bool LTAPIAircraft::updateAircraft(const LTAPIBulkInfoTexts& __info, size_t __in
     if (__inSize < LTAPIBulkInfoTexts_v122) {
         memset(info.cslModel, 0, sizeof(info.cslModel));
     }
-    
-
+    // If LiveTraffic sent v122 number of bytes then we receive only 24 chars of cslModel
+    else if (__inSize < LTAPIBulkInfoTexts_v240) {
+        memset(info.cslModel+24, 0, sizeof(info.cslModel)-24);
+    }
 
     // has been updated
     bUpdated = true;

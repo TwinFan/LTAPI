@@ -75,7 +75,7 @@
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..;$(ProjectDir);Lib\XPSDK301\CHeaders\Widgets;Lib\XPSDK301\CHeaders\XPLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;$(ProjectDir);Lib\SDK\CHeaders\Widgets;Lib\SDK\CHeaders\XPLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;IBM=1;XPLM200=1;XPLM210=1;XPLM300=1;XPLM301=1;_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
@@ -101,7 +101,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>Lib\XPSDK301\Libraries\Win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>Lib\SDK\Libraries\Win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>XPLM_64.lib</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
     </Link>
@@ -109,7 +109,7 @@
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <PostBuildEvent>
-      <Command>copy /Y "$(TargetDir)$(TargetName)$(TargetExt)" "D:\X-Plane 11\Resources\plugins"</Command>
+      <Command>copy /Y "$(TargetDir)$(TargetName)$(TargetExt)" "C:\X-Plane\11\Resources\plugins"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copies the plugin into my X-Plane directory after build</Message>
@@ -123,7 +123,7 @@
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..;$(ProjectDir);Lib\XPSDK301\CHeaders\Widgets;Lib\XPSDK301\CHeaders\XPLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;$(ProjectDir);Lib\SDK\CHeaders\Widgets;Lib\SDK\CHeaders\XPLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;IBM=1;XPLM200=1;XPLM210=1;XPLM300=1;XPLM301=1;_CRT_SECURE_NO_WARNINGS;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
@@ -151,7 +151,7 @@
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>Lib\XPSDK301\Libraries\Win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>Lib\SDK\Libraries\Win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>XPLM_64.lib</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <Profile>true</Profile>
@@ -160,7 +160,7 @@
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <PostBuildEvent>
-      <Command>copy /Y "$(TargetDir)$(TargetName)$(TargetExt)" "D:\X-Plane 11\Resources\plugins"</Command>
+      <Command>copy /Y "$(TargetDir)$(TargetName)$(TargetExt)" "C:\X-Plane\11\Resources\plugins"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copies the plugin into my X-Plane directory after build</Message>
