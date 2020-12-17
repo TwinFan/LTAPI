@@ -40,6 +40,7 @@
 #include "XPLMDisplay.h"
 #include "XPLMGraphics.h"
 #include "XPLMProcessing.h"
+#include "XPLMUtilities.h"
 #include <string.h>
 #if IBM
 #include <windows.h>
@@ -80,7 +81,8 @@ float LoopCBOneTimeInit (float, float, int, void*);
 float LoopCBUpdateAcListSimple (float, float, int, void*);
 float LoopCBUpdateAcListEnhanced (float, float, int, void*);
 
-void SetEnhWndTitle();
+class EnhAircraft;
+void SetEnhWndTitle(EnhAircraft* pAcOnCam);
 
 //
 // MARK: Plugin Main Functions
@@ -205,7 +207,7 @@ PLUGIN_API void XPluginReceiveMessage(XPLMPluginID inFrom, int inMsg, void * inP
 float LoopCBOneTimeInit(float, float, int, void*)
 {
     // Make a fancy window title displaying LiveTraffic's version information
-    SetEnhWndTitle();
+    SetEnhWndTitle(nullptr);
 
     // don't call me again
     return 0.0f;
@@ -316,9 +318,12 @@ public:
     bool bAcDeleted = false;    // has this a/c been removed from LT?
 public:
     EnhAircraft();
-    virtual ~EnhAircraft();
+    ~EnhAircraft() override;
     // we add some simplistic logic to derive a line number for output
-    virtual bool updateAircraft(const LTAPIBulkData& __bulk, size_t __inSize);
+    bool updateAircraft(const LTAPIBulkData& __bulk, size_t __inSize) override;
+    // test out notifications of camera toggle
+    void toggleCamera (bool bCameraActive, SPtrLTAPIAircraft spPrevAc) override;
+    
     static EnhAircraft* lnTaken[MAX_LN];
     // we move the ability to output a line into this class
     void DrawOutput(int x, int y, int r, int b);
@@ -368,6 +373,30 @@ bool EnhAircraft::updateAircraft(const LTAPIBulkData& __bulk, size_t __inSize)
     }
     
     return true;
+}
+
+// test out notifications of camera toggle
+void EnhAircraft::toggleCamera (bool bCameraActive, SPtrLTAPIAircraft spPrevAc)
+{
+    // format a nice log message about camera toggling events
+    char buf[200];
+    if (bCameraActive && spPrevAc)
+        snprintf (buf, sizeof(buf),
+                  "LTAPIExample: Camera moved from '%s' to '%s'\n",
+                  spPrevAc->getDescription().c_str(),
+                  getDescription().c_str());
+    else if (bCameraActive && !spPrevAc)
+        snprintf (buf, sizeof(buf),
+                  "LTAPIExample: Camera now on '%s'\n",
+                  getDescription().c_str());
+    else
+        snprintf (buf, sizeof(buf),
+                  "LTAPIExample: Camera now off, was previously on '%s'\n",
+                  getDescription().c_str());
+    XPLMDebugString(buf);
+    
+    // Update Window Title with this info
+    SetEnhWndTitle(bCameraActive ? this : nullptr);
 }
 
 // we move the ability to output a line into this class
@@ -492,9 +521,6 @@ float LoopCBUpdateAcListEnhanced (float, float, int, void*)
             rmIter++;
         }
     }
-
-    // Update the window's title, could include info of aircraft on camera
-    SetEnhWndTitle();
     
     // call me again in a second
     return UPDATE_INTVL;
@@ -576,17 +602,16 @@ void    draw_list_enhanced(XPLMWindowID in_window_id, void * /*in_refcon*/)
 }
 
 // Makes a nice title to the enhanced window
-void SetEnhWndTitle()
+void SetEnhWndTitle(EnhAircraft* pAcOnCam)
 {
     char szTitle[150];
-    SPtrLTAPIAircraft acOnCam = ltEnhanced.getAcInCameraView();
-    if (!acOnCam) {
+    if (!pAcOnCam) {
         snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%.2f %d",
                  float(LTAPIConnect::getLTVerNr()) / 100.0f, LTAPIConnect::getLTVerDate());
     } else {
         snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%.2f %d viewing %s",
                  float(LTAPIConnect::getLTVerNr()) / 100.0f, LTAPIConnect::getLTVerDate(),
-                 acOnCam->getDescription().c_str());
+                 pAcOnCam->getDescription().c_str());
     }
     XPLMSetWindowTitle(g_winEnhanced, szTitle);
 }

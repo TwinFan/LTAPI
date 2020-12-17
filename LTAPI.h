@@ -41,6 +41,10 @@
 #include "XPLMGraphics.h"
 
 class LTDataRef;
+class LTAPIAircraft;
+
+/// Smart pointer to an LTAPIAircraft object
+typedef std::shared_ptr<LTAPIAircraft> SPtrLTAPIAircraft;
 
 /// @brief Represents one aircraft as controlled by LiveTraffic.
 ///
@@ -211,6 +215,11 @@ public:
     /// Helper in update loop, resets `bUpdated` flag
     void resetUpdated ()    { bUpdated = false; }
     
+    /// @brief Called when LiveTraffic toggles its aircraft camera, override in your class to handle event
+    /// @param bCameraActive `True` if camera is on this aircraft now, `false` if camera is switched off
+    /// @param spPrevAc May point to previous aircraft under camera if switching directly from one to this; can be `null`
+    virtual void toggleCamera (bool bCameraActive, SPtrLTAPIAircraft spPrevAc) {}
+    
     // data access
 public:
     std::string     getKey()            const { return key; }                   ///< Unique key for this aircraft, usually ICAO transponder hex code
@@ -279,9 +288,6 @@ public:
 //
 // MapLTAPIAircraft
 //
-
-/// Smart pointer to an TLAPIAircraft object
-typedef std::shared_ptr<LTAPIAircraft> SPtrLTAPIAircraft;
 
 /// @brief Map of all aircrafts stored as smart pointers to LTAPIAircraft objects
 ///
@@ -430,6 +436,8 @@ protected:
     bool DoBulkFetch (int numAc, LTDataRef& DR, int& outSizeLT,
                       std::unique_ptr<T[]> &vBulk);
     
+    /// @brief shared DataRef event notification
+    static void CameraSharedDataCB (LTAPIConnect* me);
 };
 
 

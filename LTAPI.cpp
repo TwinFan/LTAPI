@@ -47,6 +47,11 @@
 /// LiveTraffic's plugin signature
 #define LT_PLUGIN_SIGNATURE     "TwinFan.plugin.LiveTraffic"
 
+/// shared dataRef for accessing current aircraft under camera
+constexpr const char* SDR_CAMERA_TCAS_IDX = "sim/multiplayer/camera/tcas_idx";
+/// shared dataRef for accessing current aircraft under camera
+constexpr const char* SDR_CAMERA_MODES_ID = "sim/multiplayer/camera/modeS_id";
+
 // The following macros define dataRef access statically,
 // then assign its current value to the passed-in variable:
 
@@ -283,10 +288,17 @@ iBulkAc(numBulkAc < 1 ? 1 : numBulkAc > 100 ? 100 : numBulkAc),
 vBulkNum (new LTAPIAircraft::LTAPIBulkData[iBulkAc]),
 vInfoTexts(new LTAPIAircraft::LTAPIBulkInfoTexts[iBulkAc]),
 pfCreateAcObject(_pfCreateAcObject)
-{}
+{
+    // Create the shared dataRefs to access camera aircraft event notifications
+    XPLMShareData(SDR_CAMERA_MODES_ID, xplmType_Int, nullptr, nullptr);
+    XPLMShareData(SDR_CAMERA_TCAS_IDX, xplmType_Int, (XPLMDataChanged_f)(&LTAPIConnect::CameraSharedDataCB), this);
+}
 
 LTAPIConnect::~LTAPIConnect()
-{}
+{
+    XPLMUnshareData(SDR_CAMERA_MODES_ID, xplmType_Int, nullptr, nullptr);
+    XPLMUnshareData(SDR_CAMERA_TCAS_IDX, xplmType_Int, (XPLMDataChanged_f)(&LTAPIConnect::CameraSharedDataCB), this);
+}
 
 // LiveTraffic available? (checks via XPLMFindPluginBySignature)
 bool LTAPIConnect::isLTAvail ()
@@ -529,6 +541,33 @@ bool LTAPIConnect::DoBulkFetch (int numAc, LTDataRef& DR, int& outSizeLT,
     return ret;
 }
 
+
+// shared DataRef event notification
+void LTAPIConnect::CameraSharedDataCB (LTAPIConnect* me)
+{
+    // Fetch the aircraft id from LiveTraffic
+    int modeS_id = 0;
+    SPtrLTAPIAircraft spCamAc;
+    ASSIGN_DR_NAME(modeS_id, id, SDR_CAMERA_MODES_ID, Int);
+    
+    // search the map for a matching aircraft that is _now_ under the camera
+    if (modeS_id) {
+        char keyHex[10];
+        snprintf ( keyHex, sizeof(keyHex), "%06X", (unsigned int)modeS_id );
+        MapLTAPIAircraft::iterator iter = me->mapAc.find(keyHex);
+        if (iter != me->mapAc.end())
+            spCamAc = iter->second;
+    }
+
+    // our data still holds the aircraft that was _previously_ under the camera
+    SPtrLTAPIAircraft spPrevCamAc = me->getAcInCameraView();
+    
+    // Inform the aircraft
+    if (spCamAc)                    // there is a (new) aircraft under the camera
+        spCamAc->toggleCamera(true, spPrevCamAc);
+    else if (spPrevCamAc)           // there is none now, but maybe there was one before?
+        spPrevCamAc->toggleCamera(false, SPtrLTAPIAircraft());
+}
 
 //
 // MARK: LTDataRef
