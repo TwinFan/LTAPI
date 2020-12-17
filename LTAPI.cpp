@@ -111,6 +111,21 @@ namespace LTAPI {
         }
         return "-OVFL-";                        // overflow
     }
+
+    /// With this global variable we declare that we are setting shared dataRef information and want to ignore the resulting notification callback
+    static bool gbIgnoreBecauseItsMe = false;
+
+    /// Set the shared dataRefs for aircraft under camera
+    void setCameraAcDataRefs (int tcasIdx, int modeS_id)
+    {
+        static LTDataRef drTcasIdx(SDR_CAMERA_TCAS_IDX);
+        static LTDataRef drModeSId(SDR_CAMERA_MODES_ID);
+        gbIgnoreBecauseItsMe = true;
+        drTcasIdx.set(tcasIdx);
+        drModeSId.set(modeS_id);
+        gbIgnoreBecauseItsMe = false;
+    }
+
 }
 
 //
@@ -249,6 +264,12 @@ bool LTAPIAircraft::updateAircraft(const LTAPIBulkInfoTexts& __info, size_t __in
     // has been updated
     bUpdated = true;
     return true;
+}
+
+// @brief Declare the aircraft the one under the camera (e.g. if your plugin is a camera plugin and now views this aircraft)
+void LTAPIAircraft::setCameraAc ()
+{
+    LTAPI::setCameraAcDataRefs(getMultiIdx(), (int)keyNum);
 }
 
 /// @return Human readable string for current flight phase
@@ -485,6 +506,13 @@ SPtrLTAPIAircraft LTAPIConnect::getAcInCameraView() const
 }
 
 
+// LTAPIConnect::Clear camera information, ie. delcare that no aircraft is currently being viewed
+void clearCameraInfo ()
+{
+    LTAPI::setCameraAcDataRefs(0, 0);
+}
+
+
 // fetch bulk data and create/update aircraft objects
 template <class T>
 bool LTAPIConnect::DoBulkFetch (int numAc, LTDataRef& DR, int& outSizeLT,
@@ -545,6 +573,10 @@ bool LTAPIConnect::DoBulkFetch (int numAc, LTDataRef& DR, int& outSizeLT,
 // shared DataRef event notification
 void LTAPIConnect::CameraSharedDataCB (LTAPIConnect* me)
 {
+    // Ignore the callback when data is changed by us
+    if (LTAPI::gbIgnoreBecauseItsMe)
+        return;
+    
     // Fetch the aircraft id from LiveTraffic
     int modeS_id = 0;
     SPtrLTAPIAircraft spCamAc;

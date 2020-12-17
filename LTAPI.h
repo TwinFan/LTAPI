@@ -220,6 +220,9 @@ public:
     /// @param spPrevAc May point to previous aircraft under camera if switching directly from one to this; can be `null`
     virtual void toggleCamera (bool bCameraActive, SPtrLTAPIAircraft spPrevAc) {}
     
+    /// @brief Declare the aircraft the one under the camera (e.g. if your plugin is a camera plugin and now views this aircraft)
+    void setCameraAc ();
+    
     // data access
 public:
     std::string     getKey()            const { return key; }                   ///< Unique key for this aircraft, usually ICAO transponder hex code
@@ -423,6 +426,9 @@ public:
     /// @brief Returns the aircraft being viewed in LiveTraffic's camera view, if any
     /// @return Pointer to aircraft in camera view, is empty if none is being viewed
     SPtrLTAPIAircraft getAcInCameraView () const;
+    
+    /// @brief Clear camera information, ie. delcare that no aircraft is currently being viewed
+    void clearCameraInfo ();
     
 protected:
     /// @brief fetch bulk data and create/update aircraft objects
