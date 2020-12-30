@@ -1,0 +1,16 @@
+language: cpp
+
+os:
+- linux
+
+# Ubuntu 18.04
+dist: bionic
+
+# We want to build with Ninja
+addons:
+  apt:
+    packages:
+    - ninja-build
+
+script:
+- cd Example && ./docker/build.sh lin
