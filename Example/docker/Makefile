@@ -1,9 +1,7 @@
-# platforms=win mac lin
 platforms=lin
-container=ltapi-cross-compile-env
+container=xplane-linux-compile-env
 
-# all: mac lin win
-all: lin
+all: $(platforms)
 
 .image: Dockerfile build.sh
 	docker build . -t $(container)

@@ -84,6 +84,7 @@ if (APPLE)
 endif ()
 
 # Link OpenGL and OpenAL related libraries.
+set (OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)  # apt install freeglut3-dev
 if ( OpenGL_FOUND )
     include_directories( ${OpenGL_INCLUDE_DIRS} )

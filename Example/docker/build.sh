@@ -14,19 +14,19 @@ function build() {
   case "$platform" in
     lin)
       ;;
-    win)
-      flags+=('-DCMAKE_TOOLCHAIN_FILE=../Toolchain-mingw-w64-x86-64.cmake')
-      ;;
-    mac)
-      flags+=('-DCMAKE_TOOLCHAIN_FILE=../Toolchain-ubuntu-osxcross-10.11.cmake')
-      flags+=('-DCMAKE_FIND_ROOT_PATH=/usr/osxcross/SDK/MacOSX10.11.sdk/')
-      ;;
+#    win)
+#      flags+=('-DCMAKE_TOOLCHAIN_FILE=../Toolchain-mingw-w64-x86-64.cmake')
+#      ;;
+#    mac)
+#      flags+=('-DCMAKE_TOOLCHAIN_FILE=../docker/Toolchain-ubuntu-osxcross-10.11.cmake')
+#      flags+=('-DCMAKE_FIND_ROOT_PATH=/usr/osxcross/SDK/MacOSX10.11.sdk/')
+#      ;;
     *)
       echo "Platform $platform is not supported, skipping..."
       return
   esac
 
-  flags+=("-DCREATECOMPLETEEDITION=$complete_edition")
+#  flags+=("-DCREATECOMPLETEEDITION=$complete_edition")
 
   (
     export PATH="$PATH:/usr/osxcross/bin"
