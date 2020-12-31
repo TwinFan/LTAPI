@@ -11,6 +11,7 @@ addons:
   apt:
     packages:
     - ninja-build
+    - freeglut3-dev
 
 script:
 - ./Example/docker/build.sh lin
