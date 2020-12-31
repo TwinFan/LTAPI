@@ -13,4 +13,4 @@ addons:
     - ninja-build
 
 script:
-- cd Example && ./docker/build.sh lin
+- ./Example/docker/build.sh lin
