@@ -1,17 +1,25 @@
+# Travis CI configuration for LTAPI Example plugin
 language: cpp
 
-os:
-- linux
-
-# Ubuntu 18.04
-dist: bionic
-
-# We want to build with Ninja
-addons:
-  apt:
-    packages:
-    - ninja-build
-    - freeglut3-dev
-
-script:
-- ./Example/docker/build.sh lin
+jobs:
+  include:
+    # --- Linux ---
+    - name: Linux build
+      os: Linux
+      dist: bionic        # Ubuntu 18.04
+      addons:
+        apt:
+          packages:
+          - freeglut3-dev
+      script:
+      - cd Example        # for LTAPI we build the example plugin
+      - mkdir build-lin && cd build-lin
+      - cmake -G "Unix Makefiles" ..
+      - make
+      deploy:
+        provider: releases
+        api_key: "$GITHUB_OAUTH_KEY"
+        skip_cleanup: true
+        draft: true
+        overwrite: true
+        file: "LTAPIExample-lin.xpl"
