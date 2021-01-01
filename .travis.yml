@@ -9,21 +9,23 @@ jobs:
     # --- Linux ---
     - name: Linux build
       os: linux
-      dist: bionic        # Ubuntu 18.04
+      dist: bionic                  # Ubuntu 18.04
       addons:
         apt:
           packages:
           - freeglut3-dev
       script:
-      - cd Example        # for LTAPI we build the example plugin
+      - cd Example                  # for LTAPI we build the example plugin
       - mkdir build-lin && cd build-lin
       - cmake -G "Unix Makefiles" ..
       - make
+      before_deploy:                # Determine tag for deployment
+        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
       deploy:
-        provider: releases
-        edge: true        # opting in to dpl v2
+        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+        edge: true                  # opting in to dpl v2
         name: LTAPI Example Plugin
-        tag_name: "travis_build"
+        tag_name: "$TRAVIS_TAG"
         on:
           all_branches: true
         cleanup: false
