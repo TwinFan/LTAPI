@@ -25,6 +25,7 @@ jobs:
         name: LTAPI Example Plugin
         on:
           all_branches: true
+          tags: true
         cleanup: false
         draft: true
         prerelease: true
