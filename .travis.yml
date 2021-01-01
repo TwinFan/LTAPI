@@ -42,6 +42,6 @@ jobs:
 #      - choco install visualstudio2019buildtools --package-parameters "--norestart --passive --installPath C:\VS19 --add Microsoft.VisualStudio.Workload.VCTools;includeRecommended"
       script:
       - export PATH=$MSBUILD_PATH:$PATH
-      - tree "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools"
+      - ls -l "C:\Program Files (x86)\Windows Kits\10\Include"          # try finding out which Win SDKs are installed
       - cd Example
       - MSBuild.exe -p:Configuration=Release
