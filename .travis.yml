@@ -37,7 +37,7 @@ jobs:
     - name: Windows build
       os: windows
       before_install:               # install VS 2019 tools (as only 2017 tools come pre-installed)
-      - choco install visualstudio2019buildtools --package-parameters "--norestart --passive --installPath C:\VS19 -add Microsoft.VisualStudio.Workload.VCTools;includeRecommended"
+      - choco install visualstudio2019buildtools --package-parameters "--norestart --passive --installPath C:\VS19 --add Microsoft.VisualStudio.Workload.VCTools;includeRecommended"
       script:
       - cd C:\VS19
       - dir
