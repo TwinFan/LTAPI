@@ -23,9 +23,9 @@ jobs:
         provider: releases
         edge: true        # opting in to dpl v2
         name: LTAPI Example Plugin
+        tag_name: "travis_build"
         on:
           all_branches: true
-          tags: true
         cleanup: false
         draft: true
         prerelease: true
