@@ -6,30 +6,38 @@ dist: bionic
 
 jobs:
   include:
-    # --- Linux ---
-    - name: Linux build
-      os: linux
-      dist: bionic                  # Ubuntu 18.04
-      addons:
-        apt:
-          packages:
-          - freeglut3-dev
+#    # --- Linux ---
+#    - name: Linux build
+#      os: linux
+#      dist: bionic                  # Ubuntu 18.04
+#      addons:
+#        apt:
+#          packages:
+#          - freeglut3-dev
+#      script:
+#      - cd Example                  # for LTAPI we build the example plugin
+#      - mkdir build-lin && cd build-lin
+#      - cmake -G "Unix Makefiles" ..
+#      - make
+#      before_deploy:                # Determine tag for deployment
+#        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
+#      deploy:
+#        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+#        edge: true                  # opting in to dpl v2
+#        name: LTAPI Example Plugin
+#        tag_name: "$TRAVIS_TAG"
+#        on:
+#          all_branches: true
+#        cleanup: false
+#        draft: true
+#        prerelease: true
+#        overwrite: true
+#        file: "LTAPIExample-lin.xpl"
+    # --- Windows ---
+    - name: Windows build
+      os: windows
+      before_install:               # install VS 2019 tools (as only 2017 tools come pre-installed)
+      - choco install visualstudio2019buildtools --package-parameters "--norestart --passive --installPath C:\VS19 -add Microsoft.VisualStudio.Workload.VCTools;includeRecommended"
       script:
-      - cd Example                  # for LTAPI we build the example plugin
-      - mkdir build-lin && cd build-lin
-      - cmake -G "Unix Makefiles" ..
-      - make
-      before_deploy:                # Determine tag for deployment
-        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
-      deploy:
-        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
-        edge: true                  # opting in to dpl v2
-        name: LTAPI Example Plugin
-        tag_name: "$TRAVIS_TAG"
-        on:
-          all_branches: true
-        cleanup: false
-        draft: true
-        prerelease: true
-        overwrite: true
-        file: "LTAPIExample-lin.xpl"
+      - cd C:\VS19
+      - dir
