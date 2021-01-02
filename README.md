@@ -55,6 +55,22 @@ All the rest of the code deals with the example's functionality, which is:
   - `cd Example/docker`
   - `make`
 
+## Building with Travis CI
+
+A [Travis CI](https://travis-ci.com/) configuration file `.travis.yml` is included,
+which allows to build all three platforms natively on Travis servers.
+If you are interested in using Travis CI please see
+[their tutorial](https://docs.travis-ci.com/user/tutorial/).
+
+If using the provided `.travis.yml` configuration, then the resulting
+binaries are "deployed" to GitHub Releases of the same repository
+as a non-public draft release. For this deployment to work you need to
+
+- create a [GitHub Personal access token](https://github.com/settings/tokens),
+- define the environment variable `GITHUB_TOKEN` in the
+  [Travis repository settings](https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings), and
+- assign it the GitHub personal access token as its value.
+
 ## What it looks like
 
 This is a screenshot taken from the Example plugin included in this project:
