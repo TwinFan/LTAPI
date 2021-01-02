@@ -19,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.travis.yml" />
+    <None Include="..\README.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <SccProjectName />

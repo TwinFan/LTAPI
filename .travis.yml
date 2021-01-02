@@ -24,7 +24,7 @@ jobs:
       deploy:
         provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
         edge: true                  # opting in to dpl v2
-        name: LTAPI Example Plugin (Lin)
+        name: LTAPI Example Plugin
         tag_name: "$TRAVIS_TAG"
         on:
           all_branches: true
@@ -50,7 +50,7 @@ jobs:
       deploy:
         provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
         edge: true                  # opting in to dpl v2
-        name: LTAPI Example Plugin (Win)
+        name: LTAPI Example Plugin
         tag_name: "$TRAVIS_TAG"
         on:
           all_branches: true
