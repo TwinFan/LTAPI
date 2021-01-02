@@ -6,62 +6,62 @@ dist: bionic
 
 jobs:
   include:
-#    # --- Linux ---
-#    - name: Linux build
-#      os: linux
-#      dist: bionic                  # Ubuntu 18.04
-#      addons:
-#        apt:
-#          packages:
-#          - freeglut3-dev
-#      script:
-#      - cd Example                  # for LTAPI we build the example plugin
-#      - mkdir build-lin && cd build-lin
-#      - cmake -G "Unix Makefiles" ..
-#      - make
-#      before_deploy:                # Determine tag for deployment
-#        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
-#      deploy:
-#        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
-#        edge: true                  # opting in to dpl v2
-#        name: LTAPI Example Plugin
-#        tag_name: "$TRAVIS_TAG"
-#        on:
-#          all_branches: true
-#        cleanup: false
-#        draft: true
-#        prerelease: true
-#        overwrite: true
-#        file: "LTAPIExample-lin.xpl"
-#    # --- Windows ---
-#    - name: Windows build
-#      os: windows
-#      env:
-#        - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
-#      script:
-#        - export PATH=$MSBUILD_PATH:$PATH
-#        - ls "C:\Program Files (x86)\Windows Kits\10\Include"       # list available Windows SDKs versions for information
-#        - cd Example                # for LTAPI we build the example plugin
-#        - MSBuild.exe -p:Configuration=Release
-#      before_deploy:                # Determine tag for deployment and prepare zip archive for upload
-#        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
-#        - cd build/x64/Release      # Seems like shell just continues, so we are in 'Example' already and move from there
-#        - 7z.exe a -tzip LTAPIExampleWin.zip LTAPIExampleWin.pdb LTAPIExampleWin.xpl
-#      deploy:
-#        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
-#        edge: true                  # opting in to dpl v2
-#        name: LTAPI Example Plugin
-#        tag_name: "$TRAVIS_TAG"
-#        on:
-#          all_branches: true
-#        cleanup: false
-#        draft: true
-#        prerelease: true
-#        overwrite: true
-#        file: "LTAPIExampleWin.zip"
+    # --- Linux ---
+    - name: Linux build
+      os: linux
+      dist: bionic                  # Ubuntu 18.04
+      addons:
+        apt:
+          packages:
+          - freeglut3-dev
+      script:
+      - cd Example                  # for LTAPI we build the example plugin
+      - mkdir build-lin && cd build-lin
+      - cmake -G "Unix Makefiles" ..
+      - make
+      before_deploy:                # Determine tag for deployment
+        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
+      deploy:
+        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+        edge: true                  # opting in to dpl v2
+        name: LTAPI Example Plugin
+        tag_name: "$TRAVIS_TAG"
+        on:
+          all_branches: true
+        cleanup: false
+        draft: true
+        prerelease: true
+        overwrite: true
+        file: "LTAPIExample-lin.xpl"
+    # --- Windows ---
+    - name: Windows build
+      os: windows
+      env:
+        - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
+      script:
+        - export PATH=$MSBUILD_PATH:$PATH
+        - ls "C:\Program Files (x86)\Windows Kits\10\Include"       # list available Windows SDKs versions for information
+        - cd Example                # for LTAPI we build the example plugin
+        - MSBuild.exe -p:Configuration=Release
+      before_deploy:                # Determine tag for deployment and prepare zip archive for upload
+        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
+        - cd build/x64/Release      # Seems like shell just continues, so we are in 'Example' already and move from there
+        - 7z.exe a -tzip LTAPIExampleWin.zip LTAPIExampleWin.pdb LTAPIExampleWin.xpl
+      deploy:
+        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+        edge: true                  # opting in to dpl v2
+        name: LTAPI Example Plugin
+        tag_name: "$TRAVIS_TAG"
+        on:
+          all_branches: true
+        cleanup: false
+        draft: true
+        prerelease: true
+        overwrite: true
+        file: "LTAPIExampleWin.zip"
     # --- Mac OS ---
     - name: MacOS build
-      os: macos
+      os: osx
       osx_image: xcode12.3
       script:
         - cd Example                # for LTAPI we build the example plugin
