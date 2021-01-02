@@ -15,6 +15,8 @@ Both files include lots of comments in Doxygen style as **documentation**. The g
 
 ## Example Plugin Implementation
 
+[![Build Status](https://travis-ci.com/TwinFan/LTAPI.svg?branch=master)](https://travis-ci.com/TwinFan/LTAPI)
+
 The `Example` folder includes an example X-Plane plugin (based on the [Hello World plugin](https://developer.x-plane.com/code-sample/hello-world-sdk-3/)), which demonstrates the most simplistic usage as well as an enhanced way of using the API by subclassing the provided `LTAPIAircraft` class.
 
 The plugin just opens two windows and shows information about LiveTraffic's aircrafts as text.
