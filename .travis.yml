@@ -24,7 +24,7 @@ jobs:
 #      deploy:
 #        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
 #        edge: true                  # opting in to dpl v2
-#        name: LTAPI Example Plugin
+#        name: LTAPI Example Plugin (Lin)
 #        tag_name: "$TRAVIS_TAG"
 #        on:
 #          all_branches: true
@@ -37,14 +37,28 @@ jobs:
     - name: Windows build
       os: windows
       env:
-      - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
+        - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
       script:
-      - export PATH=$MSBUILD_PATH:$PATH
-      - ls "C:\Program Files (x86)\Windows Kits\10\Include"             # list available Windows SDKs versions for information
-      - cd Example
-      - MSBuild.exe -p:Configuration=Release
+        - export PATH=$MSBUILD_PATH:$PATH
+        - ls "C:\Program Files (x86)\Windows Kits\10\Include"             # list available Windows SDKs versions for information
+        - cd Example
+        - MSBuild.exe -p:Configuration=Release
       before_deploy:
-      - cd Example/build/x64/Release
-      - ls -lisa
-      - zip LTAPIExampleWin.zip LTAPIExampleWin.pdb LTAPIExampleWin.xpl
-      - ls -lisa
+        - cd Example/build/x64/Release
+        - ls -lisa
+        - zip LTAPIExampleWin.zip LTAPIExampleWin.pdb LTAPIExampleWin.xpl
+        - ls -lisa
+        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
+      deploy:
+        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+        edge: true                  # opting in to dpl v2
+        name: LTAPI Example Plugin (Win)
+        tag_name: "$TRAVIS_TAG"
+        on:
+          all_branches: true
+        cleanup: false
+        draft: true
+        prerelease: true
+        overwrite: true
+        file: "LTAPIExampleWin.zip"
+        
