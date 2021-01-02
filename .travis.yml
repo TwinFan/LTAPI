@@ -46,7 +46,7 @@ jobs:
       before_deploy:
         - cd build/x64/Release                                      # Seems like shell just continues, so we are in 'Example' already and move from there
         - ls -lisa
-        - zip LTAPIExampleWin.zip LTAPIExampleWin.pdb LTAPIExampleWin.xpl
+        - 7z.exe a -tzip LTAPIExampleWin.zip LTAPIExampleWin.pdb LTAPIExampleWin.xpl
         - ls -lisa
         - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
       deploy:
