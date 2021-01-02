@@ -38,10 +38,13 @@ jobs:
       os: windows
       env:
       - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
-#      before_install:               # install VS 2019 tools (as only 2017 tools come pre-installed)
-#      - choco install visualstudio2019buildtools --package-parameters "--norestart --passive --installPath C:\VS19 --add Microsoft.VisualStudio.Workload.VCTools;includeRecommended"
       script:
       - export PATH=$MSBUILD_PATH:$PATH
-      - ls -l "C:\Program Files (x86)\Windows Kits\10\Include"          # try finding out which Win SDKs are installed
+      - ls "C:\Program Files (x86)\Windows Kits\10\Include"             # list available Windows SDKs versions for information
       - cd Example
       - MSBuild.exe -p:Configuration=Release
+      before_deploy:
+      - cd Example/build/x64/Release
+      - ls -lisa
+      - zip LTAPIExampleWin.zip LTAPIExampleWin.pdb LTAPIExampleWin.xpl
+      - ls -lisa
