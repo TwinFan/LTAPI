@@ -4,9 +4,13 @@ language: cpp
 os: linux
 dist: bionic
 
+##########################################################################
+# Job Matrix
+# Specifically defines the 3 jobs to run with their varying scrips
+##########################################################################
 jobs:
   include:
-    # --- Linux ---
+    ######################################################################
     - name: Linux build
       os: linux
       dist: bionic                  # Ubuntu 18.04
@@ -19,21 +23,8 @@ jobs:
       - mkdir build-lin && cd build-lin
       - cmake -G "Unix Makefiles" ..
       - make
-      before_deploy:                # Determine tag for deployment
-        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
-      deploy:
-        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
-        edge: true                  # opting in to dpl v2
-        name: LTAPI Example Plugin
-        tag_name: "$TRAVIS_TAG"
-        on:
-          all_branches: true
-        cleanup: false
-        draft: true
-        prerelease: true
-        overwrite: true
-        file: "LTAPIExample-lin.xpl"
-    # --- Windows ---
+      env: LTAPI_FILE=LTAPIExample-lin.xpl # file to be deployed, see "deploy:" section
+    ######################################################################
     - name: Windows build
       os: windows
       env:
@@ -43,40 +34,34 @@ jobs:
         - ls "C:\Program Files (x86)\Windows Kits\10\Include"       # list available Windows SDKs versions for information
         - cd Example                # for LTAPI we build the example plugin
         - MSBuild.exe -p:Configuration=Release
-      before_deploy:                # Determine tag for deployment and prepare zip archive for upload
-        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
+      after_success:                # prepare zip archive for upload
         - cd build/x64/Release      # Seems like shell just continues, so we are in 'Example' already and move from there
-        - 7z.exe a -tzip LTAPIExampleWin.zip LTAPIExampleWin.pdb LTAPIExampleWin.xpl
-      deploy:
-        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
-        edge: true                  # opting in to dpl v2
-        name: LTAPI Example Plugin
-        tag_name: "$TRAVIS_TAG"
-        on:
-          all_branches: true
-        cleanup: false
-        draft: true
-        prerelease: true
-        overwrite: true
-        file: "LTAPIExampleWin.zip"
-    # --- Mac OS ---
+        - 7z.exe a -tzip LTAPIExample-win.zip LTAPIExampleWin.pdb LTAPIExampleWin.xpl
+      env: LTAPI_FILE=LTAPIExample-win.zip # file to be deployed, see "deploy:" section
+    ######################################################################
     - name: MacOS build
       os: osx
       osx_image: xcode12.3
       script:
         - cd Example                # for LTAPI we build the example plugin
         - xcodebuild DSTROOT=build-mac
-      before_deploy:                # Determine tag for deployment
-        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
-      deploy:
-        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
-        edge: true                  # opting in to dpl v2
-        name: LTAPI Example Plugin
-        tag_name: "$TRAVIS_TAG"
-        on:
-          all_branches: true
-        cleanup: false
-        draft: true
-        prerelease: true
-        overwrite: true
-        file: "build-mac/mac_x64/LTAPIExample.xpl"
+      env: LTAPI_FILE=build-mac/mac_x64/LTAPIExample.xpl # file to be deployed, see "deploy:" section
+
+##########################################################################
+# Deployment is always to GitHub Release into the same document
+# identified by the tag_name
+##########################################################################
+before_deploy:                # Determine tag for deployment
+  - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
+deploy:
+  provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+  edge: true                  # opting in to dpl v2
+  name: LTAPI Example Plugin
+  tag_name: "$TRAVIS_TAG"
+  on:
+    all_branches: true
+  cleanup: false
+  draft: true
+  prerelease: true
+  overwrite: true
+  file: "$LTAPI_FILE"
