@@ -19,16 +19,18 @@ jobs:
           packages:
           - freeglut3-dev
       script:
-      - cd Example                  # for LTAPI we build the example plugin
-      - mkdir build-lin && cd build-lin
-      - cmake -G "Unix Makefiles" ..
-      - make
-      env: LTAPI_FILE=LTAPIExample-lin.xpl # file to be deployed, see "deploy:" section
+        - cd Example                # for LTAPI we build the example plugin
+        - mkdir build-lin && cd build-lin
+        - cmake -G "Unix Makefiles" ..
+        - make
+      env:
+        - LTAPI_FILE=LTAPIExample-lin.xpl # file to be deployed, see "deploy:" section
     ######################################################################
     - name: Windows build
       os: windows
       env:
         - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
+        - LTAPI_FILE=LTAPIExample-win.zip # file to be deployed, see "deploy:" section
       script:
         - export PATH=$MSBUILD_PATH:$PATH
         - ls "C:\Program Files (x86)\Windows Kits\10\Include"       # list available Windows SDKs versions for information
@@ -37,7 +39,6 @@ jobs:
       after_success:                # prepare zip archive for upload
         - cd build/x64/Release      # Seems like shell just continues, so we are in 'Example' already and move from there
         - 7z.exe a -tzip LTAPIExample-win.zip LTAPIExampleWin.pdb LTAPIExampleWin.xpl
-      env: LTAPI_FILE=LTAPIExample-win.zip # file to be deployed, see "deploy:" section
     ######################################################################
     - name: MacOS build
       os: osx
@@ -45,7 +46,8 @@ jobs:
       script:
         - cd Example                # for LTAPI we build the example plugin
         - xcodebuild DSTROOT=build-mac
-      env: LTAPI_FILE=build-mac/mac_x64/LTAPIExample.xpl # file to be deployed, see "deploy:" section
+      env:
+        - LTAPI_FILE=build-mac/mac_x64/LTAPIExample.xpl # file to be deployed, see "deploy:" section
 
 ##########################################################################
 # Deployment is always to GitHub Release into the same document
