@@ -50,22 +50,35 @@ jobs:
         - LTAPI_FILE=build-mac/mac_x64/LTAPIExample.xpl # file to be deployed, see "deploy:" section
 
 ##########################################################################
-# Deployment is always to GitHub Release into the same document
-# identified by the tag_name
+# Deployment is always to GitHub Release into one document per branch,
+# identified by tag_name = $TRAVIS_TAG
 ##########################################################################
 before_deploy:                # Determine tag for deployment
   - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_${TRAVIS_BRANCH}"; fi
-  - if [[ "$TRAVIS_BRANCH" = "master" ]]; then export TRAVIS_DRAFT=false; else export TRAVIS_DRAFT=true; fi
 deploy:
-  provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
-  edge: true                  # opting in to dpl v2
-  name: LTAPI Example Plugin - $TRAVIS_BRANCH
-  body: Latest automatic pre-release build from the $TRAVIS_BRANCH branch, based on commit ${TRAVIS_COMMIT} "${TRAVIS_COMMIT_MESSAGE}"
-  tag_name: "$TRAVIS_TAG"
-  on:
-    all_branches: true
-  cleanup: false
-  draft: $TRAVIS_DRAFT                
-  prerelease: true
-  overwrite: true
-  file: "$LTAPI_FILE"
+  # master ###############################################################
+  - name: LTAPI Example Plugin
+    provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+    edge: true                  # opting in to dpl v2
+    release_notes: Latest automatic pre-release build from the $TRAVIS_BRANCH branch, based on commit ${TRAVIS_COMMIT} "${TRAVIS_COMMIT_MESSAGE}"
+    tag_name: "$TRAVIS_TAG"
+    on:
+      condition: $TRAVIS_BRANCH = master
+    cleanup: false
+    draft: false                # published immediately
+    prerelease: true
+    overwrite: true
+    file: "$LTAPI_FILE"
+  # other branches #######################################################
+  - name: LTAPI Example Plugin - $TRAVIS_BRANCH
+    provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+    edge: true                  # opting in to dpl v2
+    release_notes: Latest automatic pre-release build from the $TRAVIS_BRANCH branch, based on commit ${TRAVIS_COMMIT} "${TRAVIS_COMMIT_MESSAGE}"
+    tag_name: "$TRAVIS_TAG"
+    on:
+      condition: $TRAVIS_BRANCH != master
+    cleanup: false
+    draft: true                 # not automatically published
+    prerelease: true
+    overwrite: true
+    file: "$LTAPI_FILE"
