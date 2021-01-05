@@ -3,6 +3,8 @@ language: cpp
 # The matrix specifies full os/dist settings, this root definition is only to avoid Travis informational output
 os: linux
 dist: bionic
+# Skip entire build if it is triggered by one of the tags we create through this script to avoid double-execution
+if: branch !~ /^travis_/
 
 ##########################################################################
 # Job Matrix
