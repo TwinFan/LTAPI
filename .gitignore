@@ -1,13 +1,10 @@
 .DS_Store
 .localized
-.image
+.image*
 .vs/
 
 # Build directories
-build/
-build-lin/
-build-win/
-build-mac/
+build*/
 Debug/
 Release/
 

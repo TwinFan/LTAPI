@@ -42,16 +42,6 @@
 #include "XPLMProcessing.h"
 #include "XPLMUtilities.h"
 #include <string.h>
-#if IBM
-#include <windows.h>
-#endif
-#if LIN
-#include <GL/gl.h>
-#elif __GNUC__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
 #include <cmath>
 
 //
@@ -70,10 +60,10 @@ float COL_CYAN[3]     = {0.50f, 1.00f, 1.00f};
 // Callbacks we will register when we create our window
 void				draw_list_simple(XPLMWindowID in_window_id, void * in_refcon);
 void                draw_list_enhanced(XPLMWindowID in_window_id, void * in_refcon);
-int					dummy_mouse_handler(XPLMWindowID in_window_id, int x, int y, int is_down, void * in_refcon) { return 0; }
-XPLMCursorStatus	dummy_cursor_status_handler(XPLMWindowID in_window_id, int x, int y, void * in_refcon) { return xplm_CursorDefault; }
-int					dummy_wheel_handler(XPLMWindowID in_window_id, int x, int y, int wheel, int clicks, void * in_refcon) { return 0; }
-void				dummy_key_handler(XPLMWindowID in_window_id, char key, XPLMKeyFlags flags, char virtual_key, void * in_refcon, int losing_focus) { }
+int					dummy_mouse_handler(XPLMWindowID /*in_window_id*/, int /*x*/, int /*y*/, int /*is_down*/, void * /*in_refcon*/) { return 0; }
+XPLMCursorStatus	dummy_cursor_status_handler(XPLMWindowID /*in_window_id*/, int /*x*/, int /*y*/, void * /*in_refcon*/) { return xplm_CursorDefault; }
+int					dummy_wheel_handler(XPLMWindowID /*in_window_id*/, int /*x*/, int /*y*/, int /*wheel*/, int /*clicks*/, void * /*in_refcon*/) { return 0; }
+void				dummy_key_handler(XPLMWindowID /*in_window_id*/, char /*key*/, XPLMKeyFlags /*flags*/, char /*virtual_key*/, void * /*in_refcon*/, int /*losing_focus*/) { }
 
 // flight loop callback to update list of LiveTraffic aircrafts
 constexpr float UPDATE_INTVL    = 1.0;      // [s] how often to call the callback
@@ -195,7 +185,7 @@ PLUGIN_API void XPluginDisable(void)
     XPLMUnregisterFlightLoopCallback(LoopCBUpdateAcListEnhanced, NULL);
 }
 
-PLUGIN_API void XPluginReceiveMessage(XPLMPluginID inFrom, int inMsg, void * inParam) { }
+PLUGIN_API void XPluginReceiveMessage(XPLMPluginID /*inFrom*/, int /*inMsg*/, void * /*inParam*/) { }
 
 //
 // MARK: Late init callback

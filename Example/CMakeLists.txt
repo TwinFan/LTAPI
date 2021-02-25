@@ -2,7 +2,7 @@
 #
 
 cmake_minimum_required(VERSION 3.9)
-project(LT_API VERSION 0.1.0 DESCRIPTION "LiveTraffic API Example Plugin")
+project(LT_API VERSION 1.0.0 DESCRIPTION "LiveTraffic API Example Plugin")
 
 # By default, use optimized release configuration.
 if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
@@ -17,8 +17,6 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories("${CMAKE_SOURCE_DIR}/Lib/SDK/CHeaders/Widgets")
 include_directories("${CMAKE_SOURCE_DIR}/Lib/SDK/CHeaders/Wrappers")
 include_directories("${CMAKE_SOURCE_DIR}/Lib/SDK/CHeaders/XPLM")
-message("CMAKE_CURRENT_SOURCE_DIR = "(${CMAKE_CURRENT_SOURCE_DIR}))
-message("CMAKE_SOURCE_DIR = "(${CMAKE_SOURCE_DIR}))
 
 # Specify library search locations.
 if (WIN32)
@@ -90,51 +88,6 @@ if ( OpenGL_FOUND )
     include_directories( ${OpenGL_INCLUDE_DIRS} )
     target_link_libraries( LT_API ${OpenGL_LIBRARIES} )
 endif( OpenGL_FOUND )
-
-# find_package(OpenAL REQUIRED)  # apt install libopenal-dev
-# if ( OpenAL_FOUND )
-#     include_directories( ${OpenAL_INCLUDE_DIRS} )
-#     target_link_libraries( LT_API ${OpenAL_LIBRARIES} )
-# endif( OpenAL_FOUND )
-#
-find_package(GLUT REQUIRED)  # apt install freeglut3-dev
-if ( GLUT_FOUND )
- include_directories( ${GLUT_INCLUDE_DIRS} )
- target_link_libraries( LT_API ${GLUT_LIBRARIES} )
-endif( GLUT_FOUND )
-
-# find_package(ZLIB REQUIRED)  # sudo apt-get install zlib1g-dev
-# if ( ZLIB_FOUND )
-#     include_directories( ${ZLIB_INCLUDE_DIRS} )
-#     target_link_libraries( LT_API ${ZLIB_LIBRARIES} )
-# endif( ZLIB_FOUND )
-#
-# find_package(PNG REQUIRED)  # sudo apt-get install libpng-dev
-# if ( PNG_FOUND )
-#     include_directories( ${PNG_INCLUDE_DIRS} )
-#     target_link_libraries( LT_API ${PNG_LIBRARIES} )
-# endif( PNG_FOUND )
-
-
-# ****************************************************
-# This workd correctly with cmake but not with docker
-# find_package(CURL REQUIRED)  # sudo apt-get install curl
-# if ( CURL_FOUND )
-#    include_directories( ${CURL_INCLUDE_DIRS} )
-#    target_link_libraries( LT_API ${CURL_LIBRARIES} )
-# endif( CURL_FOUND )
-
-
-# ***********************************************
-# This will allows docker to build but get "undefined symbol: curl_easy_perform"
-# When I try to run X-Plane
-# FIND_PACKAGE(CURL)
-# IF(CURL_FOUND)
-#   INCLUDE_DIRECTORIES(${CURL_INCLUDE_DIR})
-#   SET(requiredlibs ${requiredlibs} ${CURL_LIBRARIES} )
-# ELSE(CURL_FOUND)
-#   MESSAGE(FATAL_ERROR "Could not find the CURL library and development files.")
-# ENDIF(CURL_FOUND)
 
 
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
