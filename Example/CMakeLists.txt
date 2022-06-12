@@ -31,27 +31,52 @@ endif ()
 
 # # Enable all X-Plane SDK APIs up to the newest version.
 add_definitions(-DXPLM200=1 -DXPLM210=1 -DXPLM300=1 -DXPLM301=1)
-# Enable X-Plane 10 SDK APIs only:
-# add_definitions(-DXPLM200=1 -DXPLM210=1)
 # Define platform macros.
 add_definitions(-DAPL=$<BOOL:${APPLE}> -DIBM=$<BOOL:${WIN32}> -DLIN=$<AND:$<BOOL:${UNIX}>,$<NOT:$<BOOL:${APPLE}>>>)
 
-# Force-enable exception support. This is most likely redundant, although for C
-# code the default is the opposite. Since we are mixing C++ and C libraries,
-# safer to set it on?
-add_compile_options(-fexceptions -fpermissive)
-# On UNIX systems this makes symbols non-exported by default. On Windows this
-# option is simply ignored, since symbol visibility works differently there.
-add_compile_options(-fvisibility=hidden)
-
 # Enable stricter warnings and then disable some we are not interested in.
-add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra)
-add_compile_options(-Wno-unused)
+# For XPMP2 compile, we don't need to be warned about our self-defined depreciations
+if (MSVC)
+    add_compile_options(/wd4996 /wd4068)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+else()
+    add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra -Wno-deprecated-declarations)
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 9.0 AND NOT APPLE)
+        add_compile_options(-Wno-stringop-truncation)
+    endif()
 
-# Always use position-independent code and highest optimization level (FPS!).
-add_compile_options(-O3 -fPIC)
+    # Force-enable exception support. This is most likely redundant, although for C
+    # code the default is the opposite. Since we are mixing C++ and C libraries,
+    # safer to set it on?
+    add_compile_options(-fexceptions)
 
-# X-Plane plugin
+    # Makes symbols non-exported by default.
+    add_compile_options(-fvisibility=hidden)
+endif()
+
+
+# Debug vs Release build
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    add_compile_definitions(DEBUG=1)
+    if (MSVC)
+        add_compile_options(/Zi)
+    else()
+        add_compile_options(-O0 -g)
+    endif()
+else()
+    add_compile_definitions(NDEBUG=1)
+    if(MSVC)
+        # Use highest optimization level in Release builds
+        add_compile_options(/GL)
+    elseif(APPLE)
+        add_compile_options(-O3 -fPIC)
+    elseif (UNIX OR MINGW)
+        # Use position-independent code and highest optimization level (FPS!).
+        add_compile_options(-O3 -fPIC)
+        # Strip symbols during linking
+        add_link_options(-s)
+    endif()
+endif()
 
 
 ################################################################################
