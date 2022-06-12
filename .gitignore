@@ -2,11 +2,11 @@
 .localized
 .image*
 .vs/
+.vscode/
 
 # Build directories
-build*/
-Debug/
-Release/
+build*/*
+Example/build*/*
 
 # XCode user specific files
 xcuserdata/
