@@ -92,9 +92,8 @@ endif( OpenGL_FOUND )
 
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
 if (WIN32 OR APPLE)
-# if (WIN32)
     find_library(XPLM_LIBRARY NAMES XPLM XPLM_64.lib)
-	find_library(XPWIDGETS_LIBRARY NAMES XPWidgets XPWidgets_64.lib)
+#	find_library(XPWIDGETS_LIBRARY NAMES XPWidgets XPWidgets_64.lib)   # not needed if not using X-Plane's widgets
     target_link_libraries(LT_API ${XPLM_LIBRARY} ${XPWIDGETS_LIBRARY})
 endif ()
 
@@ -124,35 +123,30 @@ if (WIN32)
     # entire plugin. This allows building the plugin nativaly on Windows.
     target_link_libraries(LT_API -static)
 elseif (APPLE)
-    # Restrict set of symbols exported from the plugin. This reduces changes of
+    # Restrict set of symbols exported from the plugin. This reduces chances of
     # conflict with other plugins, in particular ones with Lua interpreter
     # embedded.
     target_link_libraries(LT_API "-exported_symbols_list ${CMAKE_SOURCE_DIR}/LTAPIExample.sym_mac")
 	target_link_libraries(LT_API "-framework XPLM -framework XPWidgets -ldl")
 elseif (UNIX)
     # Specify additional runtime search laths for dynamically-linked libraries.
-    # Restrict set of symbols exported from the plugin. This reduces changes of
+    # Restrict set of symbols exported from the plugin. This reduces chances of
     # conflict with other plugins, in particular ones with Lua interpreter
     # embedded.
-    message(${CMAKE_CURRENT_SOURCE_DIR})
-    list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Lib/xplanemp")
-
-#    find_library(XPLANEMP_LIBRARY NAMES libxplanemp.a)
-#    target_link_libraries(LT_API ${XPLANEMP_LIBRARY})
-
     target_link_libraries(LT_API -Wl,--version-script -Wl,${CMAKE_SOURCE_DIR}/LTAPIExample.sym)
 endif ()
 
-set_target_properties(LT_API PROPERTIES PREFIX "")
+# Target directory and file name
 if (WIN32)
-   set_target_properties(LT_API PROPERTIES OUTPUT_NAME "LTAPIExample-win")
+   set_target_properties(LT_API PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/win_x64")
 elseif (APPLE)
-   set_target_properties(LT_API PROPERTIES OUTPUT_NAME "LTAPIExample-mac")
+   set_target_properties(LT_API PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/mac_x64")
 elseif (UNIX)
-   set_target_properties(LT_API PROPERTIES OUTPUT_NAME "LTAPIExample-lin")
+   set_target_properties(LT_API PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lin_x64")
 endif ()
-set_target_properties(LT_API PROPERTIES SUFFIX ".xpl")
 
-# set_target_properties(LT_API PROPERTIES PREFIX "")
-# set_target_properties(LT_API PROPERTIES OUTPUT_NAME "LT_API")
-# set_target_properties(LT_API PROPERTIES SUFFIX ".xpl")
+set_target_properties(LT_API PROPERTIES
+    PREFIX ""
+    OUTPUT_NAME "LTAPIExample"
+    SUFFIX ".xpl"
+)

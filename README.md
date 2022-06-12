@@ -15,7 +15,7 @@ Both files include lots of comments in Doxygen style as **documentation**. The g
 
 ## Example Plugin Implementation
 
-[![Build Status](https://travis-ci.com/TwinFan/LTAPI.svg?branch=master)](https://travis-ci.com/TwinFan/LTAPI)
+[![Build all Platforms](https://github.com/TwinFan/LTAPI/actions/workflows/build.yml/badge.svg)](https://github.com/TwinFan/LTAPI/actions/workflows/build.yml)
 
 The `Example` folder includes an example X-Plane plugin (based on the [Hello World plugin](https://developer.x-plane.com/code-sample/hello-world-sdk-3/)), which demonstrates the most simplistic usage as well as an enhanced way of using the API by subclassing the provided `LTAPIAircraft` class.
 
@@ -48,28 +48,39 @@ All the rest of the code deals with the example's functionality, which is:
 
 ## Building the Example
 
+### IDEs
+
 - Mac: Open the XCode project `LTAPI.xcodeproj`. There might be paths you way want to check: In the Build Settings there is a user-defined setting `XPLANE11_ROOT` pointing to the root folder of your X-Plane 11 installation. If that is set correctly then the resulting plugin is installed there correctly in the `plugins` folder.
 - Windows: Open the Visual Studio solution `LTAPI.sln`. Also here you might need to check directories. There is a copy command to my X-Plane installation in the _Post Build Event_.
-- Linux: As I don't have a Linux environment myself I provide a Docker environment to build the Linux version based on a `CMakeList`. I have not tested the resulting binary `LTAPIExample-lin.xpl`. Can't even say if it starts.
-  - You need [Docker](https://www.docker.com/get-started) installed. The, with Docker app running:
-  - `cd Example/docker`
-  - `make`
 
-## Building with Travis CI
+### Docker
 
-A [Travis CI](https://travis-ci.com/) configuration file `.travis.yml` is included,
-which allows to build all three platforms natively on Travis servers.
-If you are interested in using Travis CI please see
-[their tutorial](https://docs.travis-ci.com/user/tutorial/).
+As I don't have a Linux environment myself I provide a Docker environment to build the Linux version as well as the Windows and the Mac version based on a `CMakeList`. I have not tested the resulting Linux binary.
+- You need [Docker](https://www.docker.com/get-started) installed. Then, with the Docker app running:
+- `cd Example/docker`
+- `make`
 
-If using the provided `.travis.yml` configuration, then the resulting
-binaries are "deployed" to GitHub Releases of the same repository
-as a non-public draft release. For this deployment to work you need to
+You will find the resulting binaries as `build-<platform>/<platform>_x64/LTAPIExample.xpl`.
 
-- create a [GitHub Personal access token](https://github.com/settings/tokens),
-- define the environment variable `GITHUB_TOKEN` in the
-  [Travis repository settings](https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings), and
-- assign it the GitHub personal access token as its value.
+### Github Actions
+
+The LTAPI Example builds on Github, see
+[`.github/workflows/build.yml`](https://github.com/TwinFan/LTAPI/blob/master/.github/workflows/build.yml).
+
+## Installation of the Example
+
+The LTAPI Example plugin is just one small binary file to be installed like any other X-Plane plugin under `<X-Plane>/Resources/plugins`. For all 3 platforms you end up with the following folder and file structure:
+
+```
+<X-Plane>/Resources/plugins/
+    LTAPIExample/
+        lin_x64/
+            LTAPIExample.xpl
+        mac_x64/
+            LTAPIExample.xpl
+        win_x64/
+            LTAPIExample.xpl
+```
 
 ## What it looks like
 

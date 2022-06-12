@@ -102,7 +102,7 @@
 		D607B16109A5563100699BC3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1340;
 			};
 			buildConfigurationList = D607B16209A5563100699BC3 /* Build configuration list for PBXProject "LTAPI" */;
 			compatibilityVersion = "Xcode 3.2";
