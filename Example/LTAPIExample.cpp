@@ -594,7 +594,7 @@ void    draw_list_enhanced(XPLMWindowID in_window_id, void * /*in_refcon*/)
 // Makes a nice title to the enhanced window
 void SetEnhWndTitle(EnhAircraft* pAcOnCam)
 {
-    char szVersion[10];
+    char szVersion[20];
     char szTitle[150];
     
     // Proper semantic versioning was introduced with LT v3.0.0 only
