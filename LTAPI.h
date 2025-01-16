@@ -218,7 +218,8 @@ public:
     /// @brief Called when LiveTraffic toggles its aircraft camera, override in your class to handle event
     /// @param bCameraActive `True` if camera is on this aircraft now, `false` if camera is switched off
     /// @param spPrevAc May point to previous aircraft under camera if switching directly from one to this; can be `null`
-    virtual void toggleCamera (bool bCameraActive, SPtrLTAPIAircraft spPrevAc) {}
+    virtual void toggleCamera ([[maybe_unused]] bool bCameraActive,
+                               [[maybe_unused]] SPtrLTAPIAircraft spPrevAc) {}
     
     /// @brief Declare the aircraft the one under the camera (e.g. if your plugin is a camera plugin and now views this aircraft)
     void setCameraAc ();
@@ -372,7 +373,7 @@ public:
     ///          Depending on startup order, LiveTraffic might or might not have been started yet.
     ///          This note is basically true for all requests accessing LiveTraffic data.
     ///          It is noted here only because it is tempting to fetch the version number once only during startup.
-    /// @return Version (like 201 for v2.01), or constant 150 if unknown, or 0 if LiveTraffic is unavailable
+    /// @return Version (like 40101 for v4.1.1), or constant 150 if unknown, or 0 if LiveTraffic is unavailable
     static int getLTVerNr();
 
     /// @brief LiveTraffic's version date

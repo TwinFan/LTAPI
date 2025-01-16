@@ -594,13 +594,24 @@ void    draw_list_enhanced(XPLMWindowID in_window_id, void * /*in_refcon*/)
 // Makes a nice title to the enhanced window
 void SetEnhWndTitle(EnhAircraft* pAcOnCam)
 {
+    char szVersion[10];
     char szTitle[150];
+    
+    // Proper semantic versioning was introduced with LT v3.0.0 only
+    const int ver = LTAPIConnect::getLTVerNr();
+    if (ver > 10000)
+        snprintf(szVersion, sizeof(szVersion), "%d.%d.%d",
+                 ver / 10000, (ver % 10000) / 100, ver % 100);
+    else
+        snprintf(szVersion, sizeof(szVersion), "%.2f",
+                 float(LTAPIConnect::getLTVerNr()) / 100.0f);
+
     if (!pAcOnCam) {
-        snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%.2f %d",
-                 float(LTAPIConnect::getLTVerNr()) / 100.0f, LTAPIConnect::getLTVerDate());
+        snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%s %d",
+                 szVersion, LTAPIConnect::getLTVerDate());
     } else {
-        snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%.2f %d viewing %s",
-                 float(LTAPIConnect::getLTVerNr()) / 100.0f, LTAPIConnect::getLTVerDate(),
+        snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%s %d viewing %s",
+                 szVersion, LTAPIConnect::getLTVerDate(),
                  pAcOnCam->getDescription().c_str());
     }
     XPLMSetWindowTitle(g_winEnhanced, szTitle);
