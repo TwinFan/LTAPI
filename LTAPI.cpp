@@ -277,6 +277,7 @@ std::string LTAPIAircraft::getPhaseStr () const
 {
     switch (bulk.bits.phase) {
         case FPH_UNKNOWN:           return "Unknown";
+        case FPH_PARKED:            return "Parked";
         case FPH_TAXI:              return "Taxi";
         case FPH_TAKE_OFF:          return "Take Off";
         case FPH_TO_ROLL:           return "Take Off Roll";
