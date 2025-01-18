@@ -10,16 +10,17 @@ on:
 env:
   PRJ_BASE:     Example/          # The base directory from which we build everything
   PRJ_NAME:     LTAPIExample      # The plugin's name, expected to be the .xpl file's name and used as the plugin folder name
-  PRJ_BUNDLEID: TwinFan.plugin.LTAPIExample
 
 jobs:
   #####################################
   # Linux with GCC
   build-lin:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    env:
+      platform: lin
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2       # must checkout before we can use our own actions
+      uses: actions/checkout@v4       # must checkout before we can use our own actions
     - name: Build
       uses: ./.github/actions/build-lin
       id: build
@@ -32,14 +33,17 @@ jobs:
         pluginName:   ${{ env.PRJ_NAME }}
         archFolder:   lin_x64
         xplFileName:  "${{ steps.build.outputs.xpl-file-name }}"
+        pdbFileName:  "${{ steps.build.outputs.pdb-file-name }}"
 
   #####################################
   # MacOS with CMake/clang and sign/notarize in self-written script
   build-mac:
-    runs-on: macos-latest
+    runs-on: macos-14
+    env:
+      platform: mac
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2       # must checkout before we can use our own actions
+      uses: actions/checkout@v4       # must checkout before we can use our own actions
     - name: Build
       uses: ./.github/actions/build-mac
       id: build
@@ -53,19 +57,19 @@ jobs:
       shell: bash
       run: |
         if [ "$MACOS_CERTIFICATE" == "" ]; then
-          echo ::set-output name=secretspresent::
+          echo "secretspresent=" >> $GITHUB_OUTPUT
         else
-          echo ::set-output name=secretspresent::true
+          echo "secretspresent=true" >> $GITHUB_OUTPUT
         fi
     - name: Codesign and Notarization
       if: ${{ steps.checksecrets.outputs.secretspresent }}
       uses: ./.github/actions/sign-notarize
       with:
-        bundleId:       ${{ env.PRJ_BUNDLEID }}
         xplFileName:    ${{ steps.build.outputs.xpl-file-name }}
         certificate:    ${{ secrets.MACOS_CERTIFICATE }}
         certPwd:        ${{ secrets.MACOS_CERT_PWD }}
         notarizeUser:   ${{ secrets.NOTARIZATION_USERNAME }}
+        notarizeTeam:   ${{ secrets.NOTARIZATION_TEAM }}
         notarizeAppPwd: ${{ secrets.NOTARIZATION_PASSWORD }}
     - name: Upload
       uses: ./.github/actions/upload-plugin
@@ -73,6 +77,7 @@ jobs:
         pluginName:   ${{ env.PRJ_NAME }}
         archFolder:   mac_x64
         xplFileName:  ${{ steps.build.outputs.xpl-file-name }}
+        pdbFileName:  "${{ steps.build.outputs.pdb-file-name }}"
 
   #####################################
   # Windows with MS Visual Studio
@@ -80,7 +85,7 @@ jobs:
     runs-on: windows-2022
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2       # must checkout before we can use our own actions
+      uses: actions/checkout@v4       # must checkout before we can use our own actions
     - name: Build
       uses: ./.github/actions/build-win
       id: build

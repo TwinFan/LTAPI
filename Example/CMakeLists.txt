@@ -1,15 +1,33 @@
 # LT_API build script.
 #
 
-cmake_minimum_required(VERSION 3.9)
-project(LT_API VERSION 1.0.0 DESCRIPTION "LiveTraffic API Example Plugin")
+cmake_minimum_required(VERSION 3.16)
 
-# By default, use optimized release configuration.
-if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
-    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
-endif ()
+# Mac: Need to tell early on that we want a cross platform build
+if(DEFINED ENV{platform})
+    message ("-- Platform is $ENV{platform}")
+    if($ENV{platform} STREQUAL "mac-x86")
+        message ("   Building cross-platform for mac/x86_64")
+        set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Archs to build")
+    elseif($ENV{platform} STREQUAL "mac-arm")
+        message ("   Building cross-platform for mac/arm64")
+        set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "Archs to build")
+    elseif($ENV{platform} STREQUAL "mac")
+        message ("   Building cross-platform for both mac/x86_64 and mac/arm64")
+        set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Archs to build")
+    endif()
+else()
+    # No 'platform' defined could mean running from command line, assume we build universal image in one go via XCode
+    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Archs to build")
+endif()
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
+
+project(LT_API VERSION 1.3.0 DESCRIPTION "LiveTraffic API Example Plugin")
+
+set(CMAKE_CXX_STANDARD 17)
+set_property(GLOBAL PROPERTY CXX_STANDARD_REQUIRED 17)
+set_property(GLOBAL PROPERTY CXX_STANDARD 17)
 
 # Set include directories used by our code and dependencies.
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/..")
@@ -68,13 +86,9 @@ else()
     if(MSVC)
         # Use highest optimization level in Release builds
         add_compile_options(/GL)
-    elseif(APPLE)
+    else()
+        # Use position-independent code and highest optimization level
         add_compile_options(-O3 -fPIC)
-    elseif (UNIX OR MINGW)
-        # Use position-independent code and highest optimization level (FPS!).
-        add_compile_options(-O3 -fPIC)
-        # Strip symbols during linking
-        add_link_options(-s)
     endif()
 endif()
 
