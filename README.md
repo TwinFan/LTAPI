@@ -86,4 +86,4 @@ The LTAPI Example plugin is just one small binary file to be installed like any 
 
 This is a screenshot taken from the Example plugin included in this project:
 
-![LTAPI Example Screenshot](Example/LTAPIExample.png)
+![LTAPI Example Screenshot](https://raw.githubusercontent.com/TwinFan/LTAPI/refs/heads/master/Example/LTAPIExample.png)
