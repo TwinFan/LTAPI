@@ -10,7 +10,7 @@
 ///             textual info like type, registration, call sign, flight number.
 /// @see        https://twinfan.github.io/LTAPI/
 /// @author     Birger Hoppe
-/// @copyright  (c) 2019-2020 Birger Hoppe
+/// @copyright  (c) 2019-2025 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -122,7 +122,7 @@ public:
             bool        bcn        : 1;     ///< beacon light
             bool        strb       : 1;     ///< strobe light
             bool        nav        : 1;     ///< navigaton lights
-            unsigned    filler1    : 1;     ///< unused
+            bool        hidden     : 1;     ///< aircraft _not_ visible?
             bool        camera     : 1;     ///< is LiveTraffic's camera on this aircraft?
             // Misc
             int         multiIdx    : 8;    ///< multiplayer index if plane reported via sim/multiplayer/position dataRefs, 0 if not
@@ -264,6 +264,7 @@ public:
     bool            isOnGnd()           const { return bulk.bits.onGnd; }       ///< Is plane on ground?
     LTFlightPhase   getPhase()          const { return bulk.bits.phase; }       ///< flight phase
     std::string     getPhaseStr()       const;                                  ///< flight phase as string
+    bool            isVisible()         const { return !bulk.bits.hidden; }     ///< aircraft visible?
     // configuration
     float           getFlaps()          const { return bulk.flaps; }            ///< flap position: 0.0 retracted, 1.0 fully extended
     float           getGear()           const { return bulk.gear; }             ///< gear position: 0.0 retracted, 1.0 fully extended

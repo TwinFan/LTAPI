@@ -12,7 +12,7 @@
 ///             But you can also define all up to XPLM301, if you want.
 /// @see        https://twinfan.github.io/LTAPI/
 /// @author     Birger Hoppe
-/// @copyright  (c) 2019-2020 Birger Hoppe
+/// @copyright  (c) 2019-2025 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -316,7 +316,7 @@ public:
     
     static EnhAircraft* lnTaken[MAX_LN];
     // we move the ability to output a line into this class
-    void DrawOutput(int x, int y, int r, int b);
+    void DrawOutput(int x, int y, int r, int b) const;
     // this creates a new EnhAircraft object
     static LTAPIAircraft* CreateNewObject() { return new EnhAircraft(); }
 };
@@ -341,7 +341,7 @@ EnhAircraft::~EnhAircraft()
 
 bool EnhAircraft::updateAircraft(const LTAPIBulkData& __bulk, size_t __inSize)
 {
-    // first we call the LTAPI do fetch (updated) data for the a/c
+    // first we call the LTAPI to fetch (updated) data for the a/c
     if (!LTAPIAircraft::updateAircraft(__bulk,__inSize))
         return false;
     
@@ -412,7 +412,7 @@ DRAW_C(w,buf,xplmFont_Proportional)
 snprintf(buf,sizeof(buf),"%*.*f",dig,dec,n);                \
 DRAW_C(w,buf,xplmFont_Basic)
 
-void EnhAircraft::DrawOutput(int x, int y, int r, int)
+void EnhAircraft::DrawOutput(int x, int y, int r, int) const
 {
     char buf[500];
     if (dispStatus == ED_SHOWN || dispStatus == ED_NONE)
@@ -448,7 +448,8 @@ void EnhAircraft::DrawOutput(int x, int y, int r, int)
         } else {
             DRAW_T(20, "", xplmFont_Proportional);
         }
-        DRAW_T(20, isOnCamera() ? "X" : "", xplmFont_Proportional);
+        DRAW_T(25, isVisible() ? "X" : "", xplmFont_Proportional);
+        DRAW_T(25, isOnCamera() ? "X" : "", xplmFont_Proportional);
         DRAW_S(180, getCslModel());
         DRAW_S(150, getTrackedBy());
         DRAW_S(200, getCatDescr());
@@ -538,7 +539,8 @@ void    draw_header (int x, int y, int r)
     DRAW_T(80,  "Phase",    xplmFont_Proportional);
     DRAW_T(60,  "key",      xplmFont_Proportional);
     DRAW_T(20,  "#",        xplmFont_Proportional);
-    DRAW_T(20,  "cam",      xplmFont_Proportional);
+    DRAW_T(25,  "vis",      xplmFont_Proportional);
+    DRAW_T(25,  "cam",      xplmFont_Proportional);
     DRAW_T(180, "CSL Model", xplmFont_Proportional);
     DRAW_T(150, "tracked by", xplmFont_Proportional);
     DRAW_T(200, "Category", xplmFont_Proportional);
@@ -577,7 +579,7 @@ void    draw_list_enhanced(XPLMWindowID in_window_id, void * /*in_refcon*/)
         return;
 
     // We now cycle the 20 line items that our enhanced object keeps track of
-    for (EnhAircraft* pEnh: EnhAircraft::lnTaken)
+    for (const EnhAircraft* pEnh: EnhAircraft::lnTaken)
     {
         // output that aircraft's info
         if (pEnh)
