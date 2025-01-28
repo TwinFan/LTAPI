@@ -122,7 +122,7 @@ public:
             bool        bcn        : 1;     ///< beacon light
             bool        strb       : 1;     ///< strobe light
             bool        nav        : 1;     ///< navigaton lights
-            bool        hidden     : 1;     ///< aircraft _not_ visible?
+            unsigned    hidden     : 1;     ///< aircraft _not_ visible? (remains an 'unsigned' for backward compatibility)
             bool        camera     : 1;     ///< is LiveTraffic's camera on this aircraft?
             // Misc
             int         multiIdx    : 8;    ///< multiplayer index if plane reported via sim/multiplayer/position dataRefs, 0 if not
