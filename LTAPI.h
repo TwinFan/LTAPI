@@ -283,7 +283,7 @@ public:
     /// @param[out] y Local y coordinate
     /// @param[out] z Local z coordinate
     void            getLocalCoord (double& x, double& y, double& z) const
-    { XPLMWorldToLocal(bulk.lat,bulk.lon,bulk.alt_ft, &x,&y,&z); }
+    { XPLMWorldToLocal(bulk.lat,bulk.lon,bulk.alt_ft*0.3048, &x,&y,&z); }
 
 public:
     /// @brief Standard object creation callback.
