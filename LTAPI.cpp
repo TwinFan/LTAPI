@@ -310,11 +310,7 @@ iBulkAc(numBulkAc < 1 ? 1 : numBulkAc > 100 ? 100 : numBulkAc),
 vBulkNum (new LTAPIAircraft::LTAPIBulkData[iBulkAc]),
 vInfoTexts(new LTAPIAircraft::LTAPIBulkInfoTexts[iBulkAc]),
 pfCreateAcObject(_pfCreateAcObject)
-{
-    // Create the shared dataRefs to access camera aircraft event notifications
-    XPLMShareData(SDR_CAMERA_MODES_ID, xplmType_Int, nullptr, nullptr);
-    XPLMShareData(SDR_CAMERA_TCAS_IDX, xplmType_Int, (XPLMDataChanged_f)(&LTAPIConnect::CameraSharedDataCB), this);
-}
+{}
 
 LTAPIConnect::~LTAPIConnect()
 {
@@ -407,6 +403,15 @@ std::chrono::system_clock::time_point LTAPIConnect::getLTSimTimePoint ()
 
 const MapLTAPIAircraft& LTAPIConnect::UpdateAcList (ListLTAPIAircraft* plistRemovedAc)
 {
+    // One-time init that needs to be done before the first aircraft is created
+    static bool bOneTimeInitDone = false;
+    if (!bOneTimeInitDone) {
+        // Create the shared dataRefs to access camera aircraft event notifications
+        XPLMShareData(SDR_CAMERA_MODES_ID, xplmType_Int, nullptr, nullptr);
+        XPLMShareData(SDR_CAMERA_TCAS_IDX, xplmType_Int, (XPLMDataChanged_f)(&LTAPIConnect::CameraSharedDataCB), this);
+        bOneTimeInitDone = true;
+    }
+    
     // These are the bulk input/output dataRefs in LiveTraffic,
     // with which we fetch mass data from LiveTraffic
     static LTDataRef DRquick("livetraffic/bulk/quick");
@@ -507,8 +512,8 @@ SPtrLTAPIAircraft LTAPIConnect::getAcInCameraView() const
 }
 
 
-// LTAPIConnect::Clear camera information, ie. delcare that no aircraft is currently being viewed
-void clearCameraInfo ()
+// Clear camera information, ie. delcare that no aircraft is currently being viewed
+void LTAPIConnect::clearCameraInfo ()
 {
     LTAPI::setCameraAcDataRefs(0, 0);
 }
