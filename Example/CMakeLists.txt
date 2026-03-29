@@ -32,7 +32,6 @@ set_property(GLOBAL PROPERTY CXX_STANDARD 17)
 # Set include directories used by our code and dependencies.
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/..")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
-include_directories("${CMAKE_SOURCE_DIR}/Lib/SDK/CHeaders/Widgets")
 include_directories("${CMAKE_SOURCE_DIR}/Lib/SDK/CHeaders/Wrappers")
 include_directories("${CMAKE_SOURCE_DIR}/Lib/SDK/CHeaders/XPLM")
 
@@ -72,26 +71,24 @@ else()
     add_compile_options(-fvisibility=hidden)
 endif()
 
-
 # Debug vs Release build
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
     add_compile_definitions(DEBUG=1)
     if (MSVC)
         add_compile_options(/Zi)
     else()
-        add_compile_options(-O0 -g)
+        add_compile_options(-O0 -g -fPIC)
     endif()
 else()
     add_compile_definitions(NDEBUG=1)
     if(MSVC)
         # Use highest optimization level in Release builds
-        add_compile_options(/GL)
+        add_compile_options(/MD /Zi /GL- /O2)
     else()
-        # Use position-independent code and highest optimization level
-        add_compile_options(-O3 -fPIC)
+        # Use position-independent code and highest optimization level plus some minimal debug info for stack traces
+        add_compile_options(-O3 -fPIC -g1)
     endif()
 endif()
-
 
 ################################################################################
 # Source groups
@@ -132,8 +129,7 @@ endif( OpenGL_FOUND )
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
 if (WIN32 OR APPLE)
     find_library(XPLM_LIBRARY NAMES XPLM XPLM_64.lib)
-#	find_library(XPWIDGETS_LIBRARY NAMES XPWidgets XPWidgets_64.lib)   # not needed if not using X-Plane's widgets
-    target_link_libraries(LT_API ${XPLM_LIBRARY} ${XPWIDGETS_LIBRARY})
+    target_link_libraries(LT_API ${XPLM_LIBRARY})
 endif ()
 
 
@@ -166,7 +162,7 @@ elseif (APPLE)
     # conflict with other plugins, in particular ones with Lua interpreter
     # embedded.
     target_link_libraries(LT_API "-exported_symbols_list ${CMAKE_SOURCE_DIR}/LTAPIExample.sym_mac")
-	target_link_libraries(LT_API "-framework XPLM -framework XPWidgets -ldl")
+	target_link_libraries(LT_API "-framework XPLM -ldl")
 elseif (UNIX)
     # Specify additional runtime search laths for dynamically-linked libraries.
     # Restrict set of symbols exported from the plugin. This reduces chances of
