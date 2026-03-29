@@ -12,7 +12,7 @@
 ///             But you can also define all up to XPLM301, if you want.
 /// @see        https://twinfan.github.io/LTAPI/
 /// @author     Birger Hoppe
-/// @copyright  (c) 2019-2025 Birger Hoppe
+/// @copyright  (c) 2019-2026 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -439,6 +439,7 @@ void EnhAircraft::DrawOutput(int x, int y, int r, int) const
         DRAW_T(15, getVSIft() < -100 ? "v" : getVSIft() > 100 ? "^" : "", xplmFont_Proportional);
         DRAW_N(30, getHeading(), 3, 0);
         DRAW_N(30, getSpeedKn(), 3, 0);
+        DRAW_N(30, getLocalGndSpeed_kn(), 3, 0);
         DRAW_N(30, getBearing(), 4, 0);
         DRAW_N(35, getDistNm(), 4, 1);
         DRAW_S(80, getPhaseStr());
@@ -448,6 +449,7 @@ void EnhAircraft::DrawOutput(int x, int y, int r, int) const
         } else {
             DRAW_T(20, "", xplmFont_Proportional);
         }
+        DRAW_T(100, getTrspModeTxt(), xplmFont_Proportional);
         DRAW_T(25, isVisible() ? "X" : "", xplmFont_Proportional);
         DRAW_T(25, isOnCamera() ? "X" : "", xplmFont_Proportional);
         DRAW_S(180, getCslModel());
@@ -534,11 +536,13 @@ void    draw_header (int x, int y, int r)
     DRAW_T(15,  "",         xplmFont_Basic);
     DRAW_T(30,  "  °",      xplmFont_Basic);
     DRAW_T(30,  " kn",      xplmFont_Basic);
+    DRAW_T(30,  "lcl",      xplmFont_Basic);
     DRAW_T(30,  "Brng",     xplmFont_Basic);
     DRAW_T(35,  "Dist",     xplmFont_Basic);
     DRAW_T(80,  "Phase",    xplmFont_Proportional);
     DRAW_T(60,  "key",      xplmFont_Proportional);
     DRAW_T(20,  "#",        xplmFont_Proportional);
+    DRAW_T(100, "Transp.",  xplmFont_Proportional);
     DRAW_T(25,  "vis",      xplmFont_Proportional);
     DRAW_T(25,  "cam",      xplmFont_Proportional);
     DRAW_T(180, "CSL Model", xplmFont_Proportional);

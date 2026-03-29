@@ -51,9 +51,14 @@ All the rest of the code deals with the example's functionality, which is:
 ### IDEs
 
 - Mac: Open the XCode project `LTAPI.xcodeproj`. There might be paths you way want to check: In the Build Settings there is a user-defined setting `XPLANE11_ROOT` pointing to the root folder of your X-Plane 11 installation. If that is set correctly then the resulting plugin is installed there correctly in the `plugins` folder.
-- Windows: Open the Visual Studio solution `LTAPI.sln`. Also here you might need to check directories. There is a copy command to my X-Plane installation in the _Post Build Event_.
+- Windows: In Visual Studio, use "File | Open | Folder..." to open the LTAPI
+folder. Visual Studio will find the `Example/CMakeList.txt` file and offer
+to use it to build the solution based on it. Results are in the `build` folder.
 
 ### Docker
+
+> **NOTE:** The Docker environment hasn't been maintained for a long time
+>           and is no longer guaranteed to work.
 
 As I don't have a Linux environment myself I provide a Docker environment to build the Linux version as well as the Windows and the Mac version based on a `CMakeList`. I have not tested the resulting Linux binary.
 - You need [Docker](https://www.docker.com/get-started) installed. Then, with the Docker app running:

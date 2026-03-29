@@ -10,7 +10,7 @@
 ///             textual info like type, registration, call sign, flight number.
 /// @see        https://twinfan.github.io/LTAPI/
 /// @author     Birger Hoppe
-/// @copyright  (c) 2019-2025 Birger Hoppe
+/// @copyright  (c) 2019-2026 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -297,6 +297,36 @@ std::string LTAPIAircraft::getPhaseStr () const
     }
     // must not get here...then we missed a value in the above switch
     return "?";
+}
+
+// Transponder mode text, like "off", "Mode C", "Mode S TARA"
+const char* LTAPIAircraft::getTrspModeTxt() const
+{
+    switch (getTrspMode()) {
+        case xpmpTransponderMode_Off:           return "off";
+        case xpmpTransponderMode_Standby:       return "standby";
+        case xpmpTransponderMode_ModeA:         return "Mode A";
+        case xpmpTransponderMode_ModeC:         return "Mode C";
+        case xpmpTransponderMode_Test:          return "Test";
+        case xpmpTransponderMode_ModeS_Gnd:     return "Mode S GND";
+        case xpmpTransponderMode_ModeS_TAOnly:  return "Mode S TA-Only";
+        case xpmpTransponderMode_ModeS_TARA:    return "Mode S TA/RA";
+    }
+    return "?";
+}
+
+// @brief `lat`/`lon`/`alt` converted to local coordinates
+void LTAPIAircraft::getLocalCoord (double& x, double& y, double& z) const
+{
+    // older version don't send local coordinates directly, then we need to convert
+    if (std::isnan(bulk.x))
+        XPLMWorldToLocal(bulk.lat,bulk.lon,bulk.alt_ft*0.3048, &x,&y,&z);
+    // but if we have local coordinates already then let's just forward those
+    else {
+        x = bulk.x;
+        y = bulk.y;
+        z = bulk.z;
+    }
 }
 
 //

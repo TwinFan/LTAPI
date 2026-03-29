@@ -20,7 +20,7 @@ jobs:
       platform: lin
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v4       # must checkout before we can use our own actions
+      uses: actions/checkout@v5       # must checkout before we can use our own actions
     - name: Build
       uses: ./.github/actions/build-lin
       id: build
@@ -43,7 +43,7 @@ jobs:
       platform: mac
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v4       # must checkout before we can use our own actions
+      uses: actions/checkout@v5       # must checkout before we can use our own actions
     - name: Build
       uses: ./.github/actions/build-mac
       id: build
@@ -83,9 +83,11 @@ jobs:
   # Windows with MS Visual Studio
   build-win:
     runs-on: windows-2022
+    env:
+      platform: win
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v4       # must checkout before we can use our own actions
+      uses: actions/checkout@v5       # must checkout before we can use our own actions
     - name: Build
       uses: ./.github/actions/build-win
       id: build

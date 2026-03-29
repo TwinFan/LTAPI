@@ -70,6 +70,7 @@ $(function(){ initResizable(false); });
 <code>#include &lt;list&gt;</code><br />
 <code>#include &lt;map&gt;</code><br />
 <code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
 <code>#include &quot;XPLMDataAccess.h&quot;</code><br />
 <code>#include &quot;XPLMGraphics.h&quot;</code><br />
 </div>
@@ -115,9 +116,12 @@ Variables</h2></td></tr>
 <tr class="memitem:a6a1c367996b67cfdc4785e0e8ecf6e9b" id="r_a6a1c367996b67cfdc4785e0e8ecf6e9b"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a1c367996b67cfdc4785e0e8ecf6e9b">LTAPIBulkData_v120</a> = 80</td></tr>
 <tr class="memdesc:a6a1c367996b67cfdc4785e0e8ecf6e9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of original bulk structure as per LiveTraffic v1.20.  <br /></td></tr>
 <tr class="separator:a6a1c367996b67cfdc4785e0e8ecf6e9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54b291974cdeab2ee8512b8b604d8539" id="r_a54b291974cdeab2ee8512b8b604d8539"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54b291974cdeab2ee8512b8b604d8539">LTAPIBulkData_v122</a> = sizeof(<a class="el" href="structLTAPIAircraft_1_1LTAPIBulkData.html">LTAPIAircraft::LTAPIBulkData</a>)</td></tr>
-<tr class="memdesc:a54b291974cdeab2ee8512b8b604d8539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of current bulk structure.  <br /></td></tr>
+<tr class="memitem:a54b291974cdeab2ee8512b8b604d8539" id="r_a54b291974cdeab2ee8512b8b604d8539"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54b291974cdeab2ee8512b8b604d8539">LTAPIBulkData_v122</a> = 104</td></tr>
+<tr class="memdesc:a54b291974cdeab2ee8512b8b604d8539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of bulk structure as per LiveTraffic v1.22.  <br /></td></tr>
 <tr class="separator:a54b291974cdeab2ee8512b8b604d8539"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a899817705d6ae59edb365d5a42a69c29" id="r_a899817705d6ae59edb365d5a42a69c29"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a899817705d6ae59edb365d5a42a69c29">LTAPIBulkData_v440</a> = sizeof(<a class="el" href="structLTAPIAircraft_1_1LTAPIBulkData.html">LTAPIAircraft::LTAPIBulkData</a>)</td></tr>
+<tr class="memdesc:a899817705d6ae59edb365d5a42a69c29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of current bulk structure.  <br /></td></tr>
+<tr class="separator:a899817705d6ae59edb365d5a42a69c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61629a12156e357035ce3c5a1c0472f6" id="r_a61629a12156e357035ce3c5a1c0472f6"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61629a12156e357035ce3c5a1c0472f6">LTAPIBulkInfoTexts_v120</a> = 264</td></tr>
 <tr class="memdesc:a61629a12156e357035ce3c5a1c0472f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of original bulk info structure as per previous versions of LiveTraffic.  <br /></td></tr>
 <tr class="separator:a61629a12156e357035ce3c5a1c0472f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,7 +135,7 @@ Variables</h2></td></tr>
 <div class="textblock"><p>LiveTraffic API. </p>
 <p>API to access LiveTraffic's aircraft information. Data transfer from LiveTraffic to your plugin is by dataRefs in a fast, efficient way: LiveTraffic copies data of several planes combined into defined structures. LTAPI handles all that in the background and provides you with an array of aircraft information with numerical info like position, heading, speed and textual info like type, registration, call sign, flight number. </p><dl class="section see"><dt>See also</dt><dd><a href="https://twinfan.github.io/LTAPI/">https://twinfan.github.io/LTAPI/</a> </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
-<dl class="section copyright"><dt>Copyright</dt><dd>(c) 2019-2025 Birger Hoppe </dd>
+<dl class="section copyright"><dt>Copyright</dt><dd>(c) 2019-2026 Birger Hoppe </dd>
 <dd>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br  />
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br  />
@@ -165,7 +169,7 @@ is LiveTraffic's camera on this aircraft? </td></tr>
 <tr><td class="fieldtype">
 <a id="a3f8fd0ada5bd3a41990334f1f6788d4c" name="a3f8fd0ada5bd3a41990334f1f6788d4c"></a>unsigned</td>
 <td class="fieldname">
-filler2: 8</td>
+filler2: 4</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -222,6 +226,12 @@ strobe light </td></tr>
 taxi: 1</td>
 <td class="fielddoc">
 taxi lights </td></tr>
+<tr><td class="fieldtype">
+<a id="a91e5a080bb84e640e0cfa4272650887e" name="a91e5a080bb84e640e0cfa4272650887e"></a>unsigned</td>
+<td class="fieldname">
+trspMode: 4</td>
+<td class="fielddoc">
+Transponder mode, see enum XPMPTransponderMode (filled only as of LT 4.4.0) </td></tr>
 </table>
 
 </div>
@@ -313,7 +323,31 @@ taxi lights </td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t LTAPIBulkData_v122 = sizeof(<a class="el" href="structLTAPIAircraft_1_1LTAPIBulkData.html">LTAPIAircraft::LTAPIBulkData</a>)</td>
+          <td class="memname">size_t LTAPIBulkData_v122 = 104</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Size of bulk structure as per LiveTraffic v1.22. </p>
+
+</div>
+</div>
+<a id="a899817705d6ae59edb365d5a42a69c29" name="a899817705d6ae59edb365d5a42a69c29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a899817705d6ae59edb365d5a42a69c29">&#9670;&#160;</a></span>LTAPIBulkData_v440</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t LTAPIBulkData_v440 = sizeof(<a class="el" href="structLTAPIAircraft_1_1LTAPIBulkData.html">LTAPIAircraft::LTAPIBulkData</a>)</td>
         </tr>
       </table>
   </td>
