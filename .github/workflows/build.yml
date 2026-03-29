@@ -83,6 +83,8 @@ jobs:
   # Windows with MS Visual Studio
   build-win:
     runs-on: windows-2022
+    env:
+      platform: win
     steps:
     - name: Checkout Code
       uses: actions/checkout@v5       # must checkout before we can use our own actions
