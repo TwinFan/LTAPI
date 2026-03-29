@@ -111,6 +111,20 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a8c5d6cf4dc04f8a00e85d9f35a4399e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flight phase, definition copied from LiveTraffic.  <a href="#a8c5d6cf4dc04f8a00e85d9f35a4399e7">More...</a><br /></td></tr>
 <tr class="separator:a8c5d6cf4dc04f8a00e85d9f35a4399e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc3118d5cdfe6b928bd8c4517528843e" id="r_acc3118d5cdfe6b928bd8c4517528843e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc3118d5cdfe6b928bd8c4517528843e">XPMPTransponderMode</a> { <br />
+&#160;&#160;<a class="el" href="#acc3118d5cdfe6b928bd8c4517528843eafba40f9e6159098bd0ab9bdca82405d5">xpmpTransponderMode_Off</a> = 0
+, <a class="el" href="#acc3118d5cdfe6b928bd8c4517528843ea8a93bdd43c3e9b3c65cd284290ac08a3">xpmpTransponderMode_Standby</a>
+, <a class="el" href="#acc3118d5cdfe6b928bd8c4517528843ea771c84b3c855ac290491ca0e1bb2d7a4">xpmpTransponderMode_ModeA</a>
+, <a class="el" href="#acc3118d5cdfe6b928bd8c4517528843ea586c440ce1e15a863aa06db720aa6df0">xpmpTransponderMode_ModeC</a>
+, <br />
+&#160;&#160;<a class="el" href="#acc3118d5cdfe6b928bd8c4517528843ead5b1bd92ad27c3527af2b8329e210877">xpmpTransponderMode_Test</a>
+, <a class="el" href="#acc3118d5cdfe6b928bd8c4517528843ea737b70c0101228601b79f8610f04486e">xpmpTransponderMode_ModeS_Gnd</a>
+, <a class="el" href="#acc3118d5cdfe6b928bd8c4517528843eac955a8d3b852ae88e446a2e00e8f63a6">xpmpTransponderMode_ModeS_TAOnly</a>
+, <a class="el" href="#acc3118d5cdfe6b928bd8c4517528843eab3a3f7b07923b1a768a7e63f5045b0fb">xpmpTransponderMode_ModeS_TARA</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:acc3118d5cdfe6b928bd8c4517528843e"><td class="mdescLeft">&#160;</td><td class="mdescRight">These enumerations define the way the transponder of a given plane is operating.  <a href="#acc3118d5cdfe6b928bd8c4517528843e">More...</a><br /></td></tr>
+<tr class="separator:acc3118d5cdfe6b928bd8c4517528843e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -259,8 +273,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa8650735fad9a5368ea8efa8c9cea739" id="r_aa8650735fad9a5368ea8efa8c9cea739"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8650735fad9a5368ea8efa8c9cea739">getMultiIdx</a> () const</td></tr>
 <tr class="memdesc:aa8650735fad9a5368ea8efa8c9cea739"><td class="mdescLeft">&#160;</td><td class="mdescRight">multiplayer index if plane reported via sim/multiplayer/position dataRefs, 0 if not  <br /></td></tr>
 <tr class="separator:aa8650735fad9a5368ea8efa8c9cea739"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdddd1c63cbb21aee248d289846ea432" id="r_abdddd1c63cbb21aee248d289846ea432"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#acc3118d5cdfe6b928bd8c4517528843e">XPMPTransponderMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abdddd1c63cbb21aee248d289846ea432">getTrspMode</a> () const</td></tr>
+<tr class="memdesc:abdddd1c63cbb21aee248d289846ea432"><td class="mdescLeft">&#160;</td><td class="mdescRight">&lt; Transponder mode, like off, Mode_C, Mode_S_TARA  <br /></td></tr>
+<tr class="separator:abdddd1c63cbb21aee248d289846ea432"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35e2d663d5916bec81c395c5b27804db" id="r_a35e2d663d5916bec81c395c5b27804db"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35e2d663d5916bec81c395c5b27804db">getTrspModeTxt</a> () const</td></tr>
+<tr class="memdesc:a35e2d663d5916bec81c395c5b27804db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transponder mode text, like "off", "Mode C", "Mode S TARA".  <br /></td></tr>
+<tr class="separator:a35e2d663d5916bec81c395c5b27804db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace802c15e20c638c6571fd1a4d3b17be" id="r_ace802c15e20c638c6571fd1a4d3b17be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace802c15e20c638c6571fd1a4d3b17be">getLocalVelocities</a> (double &amp;v_x, double &amp;v_y, double &amp;v_z) const</td></tr>
+<tr class="memdesc:ace802c15e20c638c6571fd1a4d3b17be"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>lat</code>/<code>lon</code>/<code>alt</code> converted to local coordinates  <br /></td></tr>
+<tr class="separator:ace802c15e20c638c6571fd1a4d3b17be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa76eab322cf6cc2d9f88b86a14c7d589" id="r_aa76eab322cf6cc2d9f88b86a14c7d589"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa76eab322cf6cc2d9f88b86a14c7d589">getLocalGndSpeed_ms</a> () const</td></tr>
+<tr class="memdesc:aa76eab322cf6cc2d9f88b86a14c7d589"><td class="mdescLeft">&#160;</td><td class="mdescRight">[m/s] Approximate ground speed based on local coordinates  <br /></td></tr>
+<tr class="separator:aa76eab322cf6cc2d9f88b86a14c7d589"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2da3bf5074a7fbb8ea68e1ab6a2c0294" id="r_a2da3bf5074a7fbb8ea68e1ab6a2c0294"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2da3bf5074a7fbb8ea68e1ab6a2c0294">getLocalGndSpeed_kn</a> () const</td></tr>
+<tr class="memdesc:a2da3bf5074a7fbb8ea68e1ab6a2c0294"><td class="mdescLeft">&#160;</td><td class="mdescRight">[kn] Approximate ground speed based on local coordinates  <br /></td></tr>
+<tr class="separator:a2da3bf5074a7fbb8ea68e1ab6a2c0294"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40e4cae485af781565ec94a76732e794" id="r_a40e4cae485af781565ec94a76732e794"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a40e4cae485af781565ec94a76732e794">getLocalCoord</a> (double &amp;x, double &amp;y, double &amp;z) const</td></tr>
-<tr class="memdesc:a40e4cae485af781565ec94a76732e794"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>lat</code>/<code>lon</code>/<code>alt</code> converted to local coordinates  <br /></td></tr>
+<tr class="memdesc:a40e4cae485af781565ec94a76732e794"><td class="mdescLeft">&#160;</td><td class="mdescRight">Local coordinates (coverted from <code>lat</code>/<code>lon</code>/<code>alt</code> in older versions)  <br /></td></tr>
 <tr class="separator:a40e4cae485af781565ec94a76732e794"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
@@ -334,6 +363,41 @@ Protected Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="a8c5d6cf4dc04f8a00e85d9f35a4399e7a951f3ec863793f5f6531191d84010fda" name="a8c5d6cf4dc04f8a00e85d9f35a4399e7a951f3ec863793f5f6531191d84010fda"></a>FPH_ROLL_OUT&#160;</td><td class="fielddoc"><p>Roll-out after touch-down until reaching taxi speed or stopping. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8c5d6cf4dc04f8a00e85d9f35a4399e7a2288618385d1072740e3ef8282a83435" name="a8c5d6cf4dc04f8a00e85d9f35a4399e7a2288618385d1072740e3ef8282a83435"></a>FPH_STOPPED_ON_RWY&#160;</td><td class="fielddoc"><p>Stopped on runway because ran out of tracking data, plane will disappear soon. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="acc3118d5cdfe6b928bd8c4517528843e" name="acc3118d5cdfe6b928bd8c4517528843e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc3118d5cdfe6b928bd8c4517528843e">&#9670;&#160;</a></span>XPMPTransponderMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#acc3118d5cdfe6b928bd8c4517528843e">LTAPIAircraft::XPMPTransponderMode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>These enumerations define the way the transponder of a given plane is operating. </p>
+<dl class="section note"><dt>Note</dt><dd>as defined by dataRef <code>sim/cockpit2/tcas/targets/ssr_mode</code>: "Transponder mode: off=0, stdby=1, on (mode A)=2, alt (mode C)=3, test=4, GND (mode S)=5, ta_only (mode S)=6, ta/ra=7" </dd></dl>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acc3118d5cdfe6b928bd8c4517528843eafba40f9e6159098bd0ab9bdca82405d5" name="acc3118d5cdfe6b928bd8c4517528843eafba40f9e6159098bd0ab9bdca82405d5"></a>xpmpTransponderMode_Off&#160;</td><td class="fielddoc"><p>transponder is off not currently sending -&gt; aircraft not visible on TCAS </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc3118d5cdfe6b928bd8c4517528843ea8a93bdd43c3e9b3c65cd284290ac08a3" name="acc3118d5cdfe6b928bd8c4517528843ea8a93bdd43c3e9b3c65cd284290ac08a3"></a>xpmpTransponderMode_Standby&#160;</td><td class="fielddoc"><p>transponder is in standby, not currently sending -&gt; aircraft not visible on TCAS </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc3118d5cdfe6b928bd8c4517528843ea771c84b3c855ac290491ca0e1bb2d7a4" name="acc3118d5cdfe6b928bd8c4517528843ea771c84b3c855ac290491ca0e1bb2d7a4"></a>xpmpTransponderMode_ModeA&#160;</td><td class="fielddoc"><p>transponder is on, Mode A </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc3118d5cdfe6b928bd8c4517528843ea586c440ce1e15a863aa06db720aa6df0" name="acc3118d5cdfe6b928bd8c4517528843ea586c440ce1e15a863aa06db720aa6df0"></a>xpmpTransponderMode_ModeC&#160;</td><td class="fielddoc"><p>transponder is on, Mode C (Alt) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc3118d5cdfe6b928bd8c4517528843ead5b1bd92ad27c3527af2b8329e210877" name="acc3118d5cdfe6b928bd8c4517528843ead5b1bd92ad27c3527af2b8329e210877"></a>xpmpTransponderMode_Test&#160;</td><td class="fielddoc"><p>transponder is on, Test </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc3118d5cdfe6b928bd8c4517528843ea737b70c0101228601b79f8610f04486e" name="acc3118d5cdfe6b928bd8c4517528843ea737b70c0101228601b79f8610f04486e"></a>xpmpTransponderMode_ModeS_Gnd&#160;</td><td class="fielddoc"><p>transponder is on, Mode S (Gnd) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc3118d5cdfe6b928bd8c4517528843eac955a8d3b852ae88e446a2e00e8f63a6" name="acc3118d5cdfe6b928bd8c4517528843eac955a8d3b852ae88e446a2e00e8f63a6"></a>xpmpTransponderMode_ModeS_TAOnly&#160;</td><td class="fielddoc"><p>transponder is on, Mode S (TA-Only) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc3118d5cdfe6b928bd8c4517528843eab3a3f7b07923b1a768a7e63f5045b0fb" name="acc3118d5cdfe6b928bd8c4517528843eab3a3f7b07923b1a768a7e63f5045b0fb"></a>xpmpTransponderMode_ModeS_TARA&#160;</td><td class="fielddoc"><p>transponder is on, Mode S (TA/RA) </p>
 </td></tr>
 </table>
 
@@ -867,9 +931,6 @@ Protected Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void LTAPIAircraft::getLocalCoord </td>
@@ -887,6 +948,102 @@ Protected Attributes</h2></td></tr>
           <td class="paramtype">double &amp;</td>          <td class="paramname"><span class="paramname"><em>z</em></span>&#160;) const</td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+<p>Local coordinates (coverted from <code>lat</code>/<code>lon</code>/<code>alt</code> in older versions) </p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://developer.x-plane.com/article/screencoordinates/#3-D_Coordinate_System">https://developer.x-plane.com/article/screencoordinates/#3-D_Coordinate_System</a> </dd>
+<dd>
+<a href="https://developer.x-plane.com/sdk/XPLMGraphics/#XPLMWorldToLocal">https://developer.x-plane.com/sdk/XPLMGraphics/#XPLMWorldToLocal</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">x</td><td>Local x coordinate </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">y</td><td>Local y coordinate </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">z</td><td>Local z coordinate </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2da3bf5074a7fbb8ea68e1ab6a2c0294" name="a2da3bf5074a7fbb8ea68e1ab6a2c0294"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2da3bf5074a7fbb8ea68e1ab6a2c0294">&#9670;&#160;</a></span>getLocalGndSpeed_kn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double LTAPIAircraft::getLocalGndSpeed_kn </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>[kn] Approximate ground speed based on local coordinates </p>
+
+</div>
+</div>
+<a id="aa76eab322cf6cc2d9f88b86a14c7d589" name="aa76eab322cf6cc2d9f88b86a14c7d589"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa76eab322cf6cc2d9f88b86a14c7d589">&#9670;&#160;</a></span>getLocalGndSpeed_ms()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double LTAPIAircraft::getLocalGndSpeed_ms </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>[m/s] Approximate ground speed based on local coordinates </p>
+
+</div>
+</div>
+<a id="ace802c15e20c638c6571fd1a4d3b17be" name="ace802c15e20c638c6571fd1a4d3b17be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace802c15e20c638c6571fd1a4d3b17be">&#9670;&#160;</a></span>getLocalVelocities()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LTAPIAircraft::getLocalVelocities </td>
+          <td>(</td>
+          <td class="paramtype">double &amp;</td>          <td class="paramname"><span class="paramname"><em>v_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;</td>          <td class="paramname"><span class="paramname"><em>v_y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;</td>          <td class="paramname"><span class="paramname"><em>v_z</em></span>&#160;) const</td>
+        </tr>
+      </table>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
@@ -895,12 +1052,12 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p><code>lat</code>/<code>lon</code>/<code>alt</code> converted to local coordinates </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://developer.x-plane.com/sdk/XPLMGraphics/#XPLMWorldToLocal">https://developer.x-plane.com/sdk/XPLMGraphics/#XPLMWorldToLocal</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a href="https://developer.x-plane.com/article/screencoordinates/#3-D_Coordinate_System">https://developer.x-plane.com/article/screencoordinates/#3-D_Coordinate_System</a> </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">x</td><td>Local x coordinate </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">y</td><td>Local y coordinate </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">z</td><td>Local z coordinate </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">v_x</td><td>[m/s] Local cartesian velocity on the x axis of the local coordinate system (roughly "east") </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">v_y</td><td>[m/s] Local cartesian velocity on the y axis of the local coordinate system (roughly "up") </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">v_z</td><td>[m/s] Local cartesian velocity on the z axis of the local coordinate system (roughly "south") </td></tr>
   </table>
   </dd>
 </dl>
@@ -1409,6 +1566,52 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>name of channel deliverying the underlying tracking data </p>
+
+</div>
+</div>
+<a id="abdddd1c63cbb21aee248d289846ea432" name="abdddd1c63cbb21aee248d289846ea432"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdddd1c63cbb21aee248d289846ea432">&#9670;&#160;</a></span>getTrspMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#acc3118d5cdfe6b928bd8c4517528843e">XPMPTransponderMode</a> LTAPIAircraft::getTrspMode </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>&lt; Transponder mode, like off, Mode_C, Mode_S_TARA </p>
+
+</div>
+</div>
+<a id="a35e2d663d5916bec81c395c5b27804db" name="a35e2d663d5916bec81c395c5b27804db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35e2d663d5916bec81c395c5b27804db">&#9670;&#160;</a></span>getTrspModeTxt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * LTAPIAircraft::getTrspModeTxt </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Transponder mode text, like "off", "Mode C", "Mode S TARA". </p>
 
 </div>
 </div>

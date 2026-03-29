@@ -148,6 +148,24 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a9b133343b13d3228c73258fa0815cb34" id="r_a9b133343b13d3228c73258fa0815cb34"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b133343b13d3228c73258fa0815cb34">alt_ft</a> = 0.0f</td></tr>
 <tr class="memdesc:a9b133343b13d3228c73258fa0815cb34"><td class="mdescLeft">&#160;</td><td class="mdescRight">[ft] altitude  <br /></td></tr>
 <tr class="separator:a9b133343b13d3228c73258fa0815cb34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b993f62b8121d40c3f8fdf4dd2373db" id="r_a3b993f62b8121d40c3f8fdf4dd2373db"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b993f62b8121d40c3f8fdf4dd2373db">x</a> = NAN</td></tr>
+<tr class="memdesc:a3b993f62b8121d40c3f8fdf4dd2373db"><td class="mdescLeft">&#160;</td><td class="mdescRight">local Cartesian X coordinate (NAN indicates to delivered by master, e.g. because older version)  <br /></td></tr>
+<tr class="separator:a3b993f62b8121d40c3f8fdf4dd2373db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af88a13c827ce6b13d3c88147440d4fc8" id="r_af88a13c827ce6b13d3c88147440d4fc8"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af88a13c827ce6b13d3c88147440d4fc8">y</a> = NAN</td></tr>
+<tr class="memdesc:af88a13c827ce6b13d3c88147440d4fc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">local Cartesian Y coordinate  <br /></td></tr>
+<tr class="separator:af88a13c827ce6b13d3c88147440d4fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a28c218f45a8a60e52bf41d07907a4f" id="r_a5a28c218f45a8a60e52bf41d07907a4f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a28c218f45a8a60e52bf41d07907a4f">z</a> = NAN</td></tr>
+<tr class="memdesc:a5a28c218f45a8a60e52bf41d07907a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">local Cartesian Z coordinate  <br /></td></tr>
+<tr class="separator:a5a28c218f45a8a60e52bf41d07907a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a878df3a39fedd62b8a37f82a2fb3736f" id="r_a878df3a39fedd62b8a37f82a2fb3736f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a878df3a39fedd62b8a37f82a2fb3736f">v_x</a> = NAN</td></tr>
+<tr class="memdesc:a878df3a39fedd62b8a37f82a2fb3736f"><td class="mdescLeft">&#160;</td><td class="mdescRight">[m/s] Cartesian velocity in X direction  <br /></td></tr>
+<tr class="separator:a878df3a39fedd62b8a37f82a2fb3736f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac51b444d9281906d31cf406c528f99b4" id="r_ac51b444d9281906d31cf406c528f99b4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac51b444d9281906d31cf406c528f99b4">v_y</a> = NAN</td></tr>
+<tr class="memdesc:ac51b444d9281906d31cf406c528f99b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">[m/s] Cartesian velocity in Y direction  <br /></td></tr>
+<tr class="separator:ac51b444d9281906d31cf406c528f99b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38d4b91094b46e48345471fb004c2f20" id="r_a38d4b91094b46e48345471fb004c2f20"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38d4b91094b46e48345471fb004c2f20">v_z</a> = NAN</td></tr>
+<tr class="memdesc:a38d4b91094b46e48345471fb004c2f20"><td class="mdescLeft">&#160;</td><td class="mdescRight">[m/s] Cartesian velocity in Z direction  <br /></td></tr>
+<tr class="separator:a38d4b91094b46e48345471fb004c2f20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Bulk data transfer structur for communication with LTAPI. </p>
@@ -181,7 +199,7 @@ is LiveTraffic's camera on this aircraft? </td></tr>
 <tr><td class="fieldtype">
 <a id="a3f8fd0ada5bd3a41990334f1f6788d4c" name="a3f8fd0ada5bd3a41990334f1f6788d4c"></a>unsigned</td>
 <td class="fieldname">
-filler2: 8</td>
+filler2: 4</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -238,6 +256,12 @@ strobe light </td></tr>
 taxi: 1</td>
 <td class="fielddoc">
 taxi lights </td></tr>
+<tr><td class="fieldtype">
+<a id="a91e5a080bb84e640e0cfa4272650887e" name="a91e5a080bb84e640e0cfa4272650887e"></a>unsigned</td>
+<td class="fieldname">
+trspMode: 4</td>
+<td class="fielddoc">
+Transponder mode, see enum XPMPTransponderMode (filled only as of LT 4.4.0) </td></tr>
 </table>
 
 </div>
@@ -591,6 +615,54 @@ taxi lights </td></tr>
 
 </div>
 </div>
+<a id="a878df3a39fedd62b8a37f82a2fb3736f" name="a878df3a39fedd62b8a37f82a2fb3736f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a878df3a39fedd62b8a37f82a2fb3736f">&#9670;&#160;</a></span>v_x</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double LTAPIAircraft::LTAPIBulkData::v_x = NAN</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[m/s] Cartesian velocity in X direction </p>
+
+</div>
+</div>
+<a id="ac51b444d9281906d31cf406c528f99b4" name="ac51b444d9281906d31cf406c528f99b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac51b444d9281906d31cf406c528f99b4">&#9670;&#160;</a></span>v_y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double LTAPIAircraft::LTAPIBulkData::v_y = NAN</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[m/s] Cartesian velocity in Y direction </p>
+
+</div>
+</div>
+<a id="a38d4b91094b46e48345471fb004c2f20" name="a38d4b91094b46e48345471fb004c2f20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38d4b91094b46e48345471fb004c2f20">&#9670;&#160;</a></span>v_z</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double LTAPIAircraft::LTAPIBulkData::v_z = NAN</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[m/s] Cartesian velocity in Z direction </p>
+
+</div>
+</div>
 <a id="a98c215be414303ec798f21553df09245" name="a98c215be414303ec798f21553df09245"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a98c215be414303ec798f21553df09245">&#9670;&#160;</a></span>vsi_ft</h2>
 
@@ -604,6 +676,54 @@ taxi lights </td></tr>
 </div><div class="memdoc">
 
 <p>[ft/minute] vertical speed, positive up </p>
+
+</div>
+</div>
+<a id="a3b993f62b8121d40c3f8fdf4dd2373db" name="a3b993f62b8121d40c3f8fdf4dd2373db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b993f62b8121d40c3f8fdf4dd2373db">&#9670;&#160;</a></span>x</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double LTAPIAircraft::LTAPIBulkData::x = NAN</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>local Cartesian X coordinate (NAN indicates to delivered by master, e.g. because older version) </p>
+
+</div>
+</div>
+<a id="af88a13c827ce6b13d3c88147440d4fc8" name="af88a13c827ce6b13d3c88147440d4fc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af88a13c827ce6b13d3c88147440d4fc8">&#9670;&#160;</a></span>y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double LTAPIAircraft::LTAPIBulkData::y = NAN</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>local Cartesian Y coordinate </p>
+
+</div>
+</div>
+<a id="a5a28c218f45a8a60e52bf41d07907a4f" name="a5a28c218f45a8a60e52bf41d07907a4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a28c218f45a8a60e52bf41d07907a4f">&#9670;&#160;</a></span>z</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double LTAPIAircraft::LTAPIBulkData::z = NAN</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>local Cartesian Z coordinate </p>
 
 </div>
 </div>

@@ -23,7 +23,7 @@ endif()
 
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
 
-project(LT_API VERSION 1.3.0 DESCRIPTION "LiveTraffic API Example Plugin")
+project(LT_API VERSION 1.4.0 DESCRIPTION "LiveTraffic API Example Plugin")
 
 set(CMAKE_CXX_STANDARD 17)
 set_property(GLOBAL PROPERTY CXX_STANDARD_REQUIRED 17)

@@ -99,7 +99,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 2640;
 			};
 			buildConfigurationList = D607B16209A5563100699BC3 /* Build configuration list for PBXProject "LTAPI" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -211,6 +211,7 @@
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SYMROOT = "build-mac";
 				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane/12";
 				XPSDK_ROOT = Lib/SDK;
@@ -292,6 +293,7 @@
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SYMROOT = "build-mac";
 				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane/12";
 				XPSDK_ROOT = Lib/SDK;
@@ -310,6 +312,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Lib/SDK/Libraries/Mac/XPLM.framework",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
@@ -325,6 +328,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Lib/SDK/Libraries/Mac/XPLM.framework",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};
