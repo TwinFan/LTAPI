@@ -108,8 +108,6 @@ set(ALL_FILES  ${Header_Files} ${Source_Files})
 
 add_library(LT_API SHARED ${ALL_FILES})
 
-target_compile_features(LT_API PUBLIC cxx_std_11)
-
 if (APPLE)
     # X-Plane supports OS X 10.10+, so this should ensure FlyWithLua can run on
     # all supported versions.

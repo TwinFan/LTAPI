@@ -36,7 +36,7 @@
 #include <list>
 #include <map>
 #include <chrono>
-#include <math.h>
+#include <cmath>
 
 #include "XPLMDataAccess.h"
 #include "XPLMGraphics.h"
@@ -551,10 +551,20 @@ protected:
 
 /// Size of original bulk structure as per LiveTraffic v1.20
 constexpr size_t LTAPIBulkData_v120 = 80;
-/// Size of current bulk structure
+/// Size of bulk structure as per LiveTraffic v1.22
+#if IBM
+constexpr size_t LTAPIBulkData_v122 = 120;
+#else
 constexpr size_t LTAPIBulkData_v122 = 104;
+#endif
+
+/// Size of current bulk structure
 constexpr size_t LTAPIBulkData_v440 = sizeof(LTAPIAircraft::LTAPIBulkData);
+#if IBM
+static_assert(LTAPIBulkData_v440 == 168, "LTAPIBulkData size is not 152 as expected");
+#else
 static_assert(LTAPIBulkData_v440 == 152, "LTAPIBulkData size is not 152 as expected");
+#endif
 
 /// Size of original bulk info structure as per previous versions of LiveTraffic
 constexpr size_t LTAPIBulkInfoTexts_v120 = 264;
