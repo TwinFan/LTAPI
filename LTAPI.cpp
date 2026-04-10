@@ -404,6 +404,13 @@ bool LTAPIConnect::doesLTControlAI ()
     RETURN_DR("livetraffic/cfg/ai_controlled",Bool);
 }
 
+// Does LiveTraffic control X-Plane's camera?
+bool LTAPIConnect::doesLTControlCamera ()
+{
+    RETURN_DR("livetraffic/camera/control",Bool);
+}
+
+
 // What's current simulated time in LiveTraffic (usually 'now' minus buffering period)?
 time_t LTAPIConnect::getLTSimTime ()
 {

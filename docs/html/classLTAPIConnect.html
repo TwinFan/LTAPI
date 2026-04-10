@@ -121,6 +121,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a55ee2ebddaca38936f84a740fc884e8b" id="r_a55ee2ebddaca38936f84a740fc884e8b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55ee2ebddaca38936f84a740fc884e8b">doesLTControlAI</a> ()</td></tr>
 <tr class="memdesc:a55ee2ebddaca38936f84a740fc884e8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does LiveTaffic control AI planes?  <br /></td></tr>
 <tr class="separator:a55ee2ebddaca38936f84a740fc884e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58fcffaa65e9b11ef3af4fb8fd82ec1b" id="r_a58fcffaa65e9b11ef3af4fb8fd82ec1b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a58fcffaa65e9b11ef3af4fb8fd82ec1b">doesLTControlCamera</a> ()</td></tr>
+<tr class="memdesc:a58fcffaa65e9b11ef3af4fb8fd82ec1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does LiveTraffic control X-Plane's camera?  <br /></td></tr>
+<tr class="separator:a58fcffaa65e9b11ef3af4fb8fd82ec1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4724797368de41df82fc05765765702" id="r_aa4724797368de41df82fc05765765702"><td class="memItemLeft" align="right" valign="top">static time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4724797368de41df82fc05765765702">getLTSimTime</a> ()</td></tr>
 <tr class="memdesc:aa4724797368de41df82fc05765765702"><td class="mdescLeft">&#160;</td><td class="mdescRight">What is current simulated time in LiveTraffic (usually 'now' minus buffering period)?  <br /></td></tr>
 <tr class="separator:aa4724797368de41df82fc05765765702"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -377,6 +380,34 @@ template&lt;class T &gt; </div>
 
 <p>Does LiveTaffic control AI planes? </p>
 <dl class="section note"><dt>Note</dt><dd>If your plugin usually deals with AI/multiplayer planes, then you don't need to check for AI/multiplayer planes <em>if</em> <a class="el" href="#a55ee2ebddaca38936f84a740fc884e8b" title="Does LiveTaffic control AI planes?">doesLTControlAI()</a> returns true: In this case the planes returned in the AI/multiplayer dataRefs are just a subset selected by LiveTraffic of what you get via <a class="el" href="#afa284f32cfc1e22bfecbb299a1d99a85" title="Main function: updates map of aircrafts and returns reference to it.">UpdateAcList()</a> anyway. Avoid duplicates, just use LTAPI if <a class="el" href="#a55ee2ebddaca38936f84a740fc884e8b" title="Does LiveTaffic control AI planes?">doesLTControlAI()</a> is <code>true</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a58fcffaa65e9b11ef3af4fb8fd82ec1b" name="a58fcffaa65e9b11ef3af4fb8fd82ec1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58fcffaa65e9b11ef3af4fb8fd82ec1b">&#9670;&#160;</a></span>doesLTControlCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool LTAPIConnect::doesLTControlCamera </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Does LiveTraffic control X-Plane's camera? </p>
+<p>LiveTraffic controls the camera if a user activates the camera view on a plane ( and no 3rd party plugin takes over immediately) </p><dl class="section note"><dt>Note</dt><dd>This can still return <code>false</code> at the time <code><a class="el" href="classLTAPIAircraft.html#a63fcc20545d8544ab2bf3ce08d2ff91e" title="Called when LiveTraffic toggles its aircraft camera, override in your class to handle event.">LTAPIAircraft::toggleCamera</a></code> is called as at that time it is not yet clear if LiveTraffic will have camera control or a 3rd party plugin. It is <code>true</code> as soon as LiveTraffic receives camera callback calls from X-Plane and is reset to <code>false</code> as soon as LiveTraffic is informed of having lost camera control, or 5 flight loop callbacks after the last camera callback (in case LiveTraffic wasn't informed of having lost camera control, e.g. because another plugin took over directly). </dd></dl>
 
 </div>
 </div>
