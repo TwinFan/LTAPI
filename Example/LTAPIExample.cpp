@@ -72,7 +72,7 @@ float LoopCBUpdateAcListSimple (float, float, int, void*);
 float LoopCBUpdateAcListEnhanced (float, float, int, void*);
 
 class EnhAircraft;
-void SetEnhWndTitle(EnhAircraft* pAcOnCam);
+void SetEnhWndTitle();
 
 //
 // MARK: Plugin Main Functions
@@ -197,7 +197,7 @@ PLUGIN_API void XPluginReceiveMessage(XPLMPluginID /*inFrom*/, int /*inMsg*/, vo
 float LoopCBOneTimeInit(float, float, int, void*)
 {
     // Make a fancy window title displaying LiveTraffic's version information
-    SetEnhWndTitle(nullptr);
+    SetEnhWndTitle();
 
     // don't call me again
     return 0.0f;
@@ -306,6 +306,9 @@ public:
         ED_OUTDATED             // remove me!
     } dispStatus = ED_NONE;
     bool bAcDeleted = false;    // has this a/c been removed from LT?
+    
+    /// What's the aircraft under the camera?
+    static const EnhAircraft* pAcOnCam;
 public:
     EnhAircraft();
     ~EnhAircraft() override;
@@ -320,6 +323,10 @@ public:
     // this creates a new EnhAircraft object
     static LTAPIAircraft* CreateNewObject() { return new EnhAircraft(); }
 };
+
+/// What's the aircraft under the camera?
+const EnhAircraft* EnhAircraft::pAcOnCam = nullptr;
+
 
 // keeps track of taken output lines
 EnhAircraft* EnhAircraft::lnTaken[MAX_LN] =
@@ -386,7 +393,8 @@ void EnhAircraft::toggleCamera (bool bCameraActive, SPtrLTAPIAircraft spPrevAc)
     XPLMDebugString(buf);
     
     // Update Window Title with this info
-    SetEnhWndTitle(bCameraActive ? this : nullptr);
+    pAcOnCam = bCameraActive ? this : nullptr;
+    SetEnhWndTitle();
 }
 
 // we move the ability to output a line into this class
@@ -515,6 +523,9 @@ float LoopCBUpdateAcListEnhanced (float, float, int, void*)
         }
     }
     
+    // Update the window's title
+    SetEnhWndTitle();
+    
     // call me again in a second
     return UPDATE_INTVL;
 }
@@ -598,10 +609,13 @@ void    draw_list_enhanced(XPLMWindowID in_window_id, void * /*in_refcon*/)
 }
 
 // Makes a nice title to the enhanced window
-void SetEnhWndTitle(EnhAircraft* pAcOnCam)
+void SetEnhWndTitle()
 {
     char szVersion[20];
     char szTitle[150];
+    
+    // Has LiveTraffic itself camera control? (And not another 3rd party plugin)
+    const bool bLTHasTheCamera = LTAPIConnect::doesLTControlCamera();
     
     // Proper semantic versioning was introduced with LT v3.0.0 only
     const int ver = LTAPIConnect::getLTVerNr();
@@ -612,13 +626,15 @@ void SetEnhWndTitle(EnhAircraft* pAcOnCam)
         snprintf(szVersion, sizeof(szVersion), "%.2f",
                  float(LTAPIConnect::getLTVerNr()) / 100.0f);
 
-    if (!pAcOnCam) {
-        snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%s %d",
-                 szVersion, LTAPIConnect::getLTVerDate());
-    } else {
-        snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%s %d viewing %s",
+    if (!EnhAircraft::pAcOnCam) {
+        snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%s %d%s",
                  szVersion, LTAPIConnect::getLTVerDate(),
-                 pAcOnCam->getDescription().c_str());
+                 bLTHasTheCamera ? " (but has Camera Control?)" : "");
+    } else {
+        snprintf(szTitle, sizeof(szTitle), "LTAPI Example: Enhanced List - LiveTraffic v%s %d viewing %s%s",
+                 szVersion, LTAPIConnect::getLTVerDate(),
+                 EnhAircraft::pAcOnCam->getDescription().c_str(),
+                 bLTHasTheCamera ? " with LT" : "");
     }
     XPLMSetWindowTitle(g_winEnhanced, szTitle);
 }
